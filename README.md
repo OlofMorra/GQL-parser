@@ -40,17 +40,36 @@ terminal (Mac) or Command Prompt (Windows) and receiving similar output
         Omitting input-filename makes rig read from stdin.
         ```
       
-Clearly, I use ANTLR v4.9.
+Clearly, I use ANTLR v4.9. Additionally, above two commands are aliases, hence, for Mac 
+users you have to add the last two lines of _Quick Start_ to your _~/.bash_profile_ which can 
+be found in your _Users/[username]_ folder. Make sure to reload your terminal afterwards.
 
 ## Creating Java project
 Go to your favorite IDE (I use IntelliJ) and open an existing project 
 from the GQL-parser folder. Make sure that your buildpath includes 
 [antlr-4.9-complete.jar](lib/antlr-4.9-complete.jar) and set the [lib](lib) 
-folder as library folder for the project.
+folder as library folder for the project. You might need to add this jar as classpath
+by executing the following shell command:
+
+```shell
+export CLASSPATH=path/to/lib/antlr-4.9-complete.jar
+```
+
 ### Add ANTLR v4 grammar plugin to IDE (optional)
 Go to your plugin library in your IDE and search for ANTLR (for IntelliJ, go to 
 _IntelliJ IDEA -> Preferences... -> plugins_ and search for _ANTLR_). Install 
 the plugin.  
+
+## Testing the GQL grammar
+In your shell, go to the folder [src](src). From there, type the following commands:
+
+```shell
+cd antlr
+antlr4 -visitor GQL.g4
+javac *.javac
+cd ../
+grun antlr.GQL prog test/GQL/test0.txt -gui &
+```
 
 ---
 ## References
