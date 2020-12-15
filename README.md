@@ -66,7 +66,7 @@ In your shell, go to the folder [src](src). From there, type the following comma
 ```shell
 cd antlr
 antlr4 -visitor GQL.g4
-javac *.javac
+javac *.java
 cd ../
 grun antlr.GQL prog test/GQL/test0.txt -gui &
 ```

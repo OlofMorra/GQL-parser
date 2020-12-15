@@ -1,4 +1,4 @@
-grammar GQLIdentifier;
+grammar GQLToken;
 
 @header{
     package antlr;
@@ -9,16 +9,16 @@ import GQLKeywords;
 /* Implementation of section 21.4 and 21.5 */
 token
     : non_delimiter_token
-    | delimiter_token                               # Token
+    | delimiter_token
     ;
 
 non_delimiter_token
     : regular_identifier
-    | parameter_name
+    //| parameter_name
     | Keyword
-    | unsigned_numeric_literal
-    | binary_string_literal
-    | MULTISET_ALTERNATION                          # NonDelimiterToken
+    //| unsigned_numeric_literal
+    //| binary_string_literal
+    | MULTISET_ALTERNATION
     ;
 
 regular_identifier
@@ -31,15 +31,17 @@ identifier_body
 
 identifier_part
     : identifier_start
-    | identifier_extend                             # IdentifierPart
+    | identifier_extend
     ;
 
+// TODO: implement correctly
 identifier_start
-    : //TODO: syntax rules                          # IdentifierStart
+    : GqlLanguageCharacter                       # IdentifierStart
     ;
 
+// TODO: implement correctly
 identifier_extend
-    : //TODO: syntax rules                          # IdentifierExtend
+    : GqlLanguageCharacter                       # IdentifierExtend
     ;
 
 delimiter_token
@@ -79,7 +81,7 @@ delimiter_token
     | DOUBLE_COLON
     | DOUBLE_MINUS_SIGN
     | DOUBLE_PERIOD
-    | character_string_literal                      # DelimiterToken
+    | character_string_literal
     ;
 
 date_string: ' '; // TODO: ADD
@@ -105,16 +107,16 @@ delimited_identifier_part
     ;
 
 separator
-    : (comment | WS)                                        # Separator
+    : (comment | WS)
     ;
 
 comment
     : simple_comment
-    | bracketed_comment                                     # Comment
+    | bracketed_comment
     ;
 
 simple_comment
-    : simple_comment_introducer (simple_comment_character)* new_line        # SimpleComment
+    : simple_comment_introducer (simple_comment_character)* NEWLINE        # SimpleComment
     ;
 
 simple_comment_introducer
@@ -122,21 +124,23 @@ simple_comment_introducer
     | DOUBLE_MINUS_SIGN                                     # SimpleCommentIntroducer
     ;
 
+// TODO: implement correctly
 simple_comment_character
-    : //TODO: see syntax rules
+    : GqlLanguageCharacter
     ;
 
 bracketed_comment
     : BRACKETED_COMMENT_INTRODUCER bracketed_comment_contents BRACKETED_COMMENT_TERMINATOR      # BracketedComment
     ;
 
+// TODO: implement correctly
 bracketed_comment_contents
-    : //TODO: see syntax rules                              # BracketedCommentContents
+    : GqlLanguageCharacter*                                 # BracketedCommentContents
     ;
 
 escaped_grave_accent
     : REVERSE_SOLIDUS GRAVE_ACCENT
-    | DOUBLED_GRAVE_ACCENT                                  # EscapedGraveAccent
+    | DOUBLED_GRAVE_ACCENT
     ;
 
 gql_terminal_character
@@ -145,7 +149,6 @@ gql_terminal_character
     ;
 
 /* TOKENS */
-fragment
 GqlLanguageCharacter
     : SimpleLatinLetter
     | Digit
@@ -199,10 +202,8 @@ OtherDigit
     : ' ' // TODO: see syntax rules
     ;
 
-fragment
 GqlSpecialCharacter
-    : SPACE
-    | AMPERSAND
+    : AMPERSAND
     | ASTERISK
     | COLON
     | EQUALS
@@ -234,9 +235,9 @@ GqlSpecialCharacter
     | TILDE
     ;
 
-fragment
+// TODO: implement correctly
 OtherLanguageCharacter
-    : //TODO: see syntax rules
+    : [a-z]
     ;
 
 // 21.4
@@ -317,10 +318,6 @@ RIGHT_PAREN: ')';
 
 // Whitespace and comments
 WS: [ \t\n]+ -> skip;
-SPACE: [\u0020];
 BRACKETED_COMMENT_INTRODUCER: '/*';
 BRACKETED_COMMENT_TERMINATOR: '*/';
-
-
-
-
+NEWLINE: [\u000A\u000D];

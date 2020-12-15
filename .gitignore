@@ -1,1 +1,5 @@
-src/antlr/expr
+/src/antlr/expr/
+/src/tests/expr/
+/src/expression/
+/gen/
+/src/expr/

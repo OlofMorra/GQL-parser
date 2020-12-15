@@ -4,7 +4,34 @@ grammar GQLLiterals;
     package antlr;
 }
 
+import GQLtoken;
+
 /* Implementation of 21.1 */
+// TODO: finish
+UnsignedInteger
+    : UnsignedDecimalInteger
+    ;
+
+UnsignedDecimalInteger
+    : Digit ((UNDERSCORE)* Digit)*
+    ;
+
+// TODO: finish
+UnsignedLiteral
+    : UnsignedNumericLiteral
+//    | GeneralLiteral
+    ;
+
+// TODO: finish
+UnsignedNumericLiteral
+    : ExactNumericLiteral
+    ;
+
+// TODO: finish
+ExactNumericLiteral
+    : UnsignedInteger
+    ;
+
 //literal
 //    : SignedNumericLiteral
 //    | GeneralLiteral

@@ -37,6 +37,8 @@ graph_keywords
     : ('PROPERTY')? ('GRAPH' | 'GRAPHS')            # GraphKeywords // 15.6.1
     ;
 
+MATCH : 'MATCH';
+
 Keyword
     : ReservedWords
     | NonReservedWords
