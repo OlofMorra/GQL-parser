@@ -3,3 +3,13 @@
 /src/expression/
 /gen/
 /src/expr/
+src/antlr/GQL.interp
+src/antlr/GQL.tokens
+src/antlr/GQLBaseListener.java
+src/antlr/GQLBaseVisitor.java
+src/antlr/GQLLexer.interp
+src/antlr/GQLLexer.java
+src/antlr/GQLLexer.tokens
+src/antlr/GQLListener.java
+src/antlr/GQLParser.java
+src/antlr/GQLVisitor.java
