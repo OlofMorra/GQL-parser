@@ -13,3 +13,4 @@ src/antlr/GQLLexer.tokens
 src/antlr/GQLListener.java
 src/antlr/GQLParser.java
 src/antlr/GQLVisitor.java
+/src/antlr/gql/

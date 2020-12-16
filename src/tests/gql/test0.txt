@@ -1,9 +1,3 @@
-FROM friends
-MATCH (a:Person)-[:TRAVELLED_TOGETHER]-(b:Person)
-WHERE a.age = b.age
-AND a.country = $country
-AND b.country = $country
-FROM census($country)
-MATCH SHORTEST (a)-[:BORN_IN|MOVED_TO*]->(p)<-[:BORN_IN|MOVED_TO*]-(b)
-MATCH (p)-[:LOCATED_IN]->(c:City)
-RETURN a.age AS age, c.name AS city, count(*) AS pairs GROUP BY age
+FROM GRAPH example
+MATCH (a:Person)-[:TRAVELLEDTOGETHER]-(b:Perso)
+RETURN GRAPH example
