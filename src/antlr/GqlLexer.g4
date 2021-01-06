@@ -30,7 +30,6 @@ LINE_COMMENT
 
 WS: [ \t\r\n]+ -> skip;
 
-
 fragment A : [aA]; // match either an 'a' or 'A'
 fragment B : [bB];
 fragment C : [cC];
@@ -62,6 +61,7 @@ fragment
 GqlLanguageCharacter
     : SimpleLatinLetter
     | Digit
+    | UNDERSCORE
     ;
 
 fragment
@@ -84,6 +84,11 @@ fragment
 HexDigit
 	:	StandardDigit | [a-fA-F]
 	;
+
+UNSIGNED_INTEGER
+    : [1-9][0-9]*
+    | [0]
+    ;
 
 // TODO: finish
 fragment
@@ -480,7 +485,6 @@ ASTERISK: '*';
 CIRCUMFLEX: '^';
 COLON: ':';
 COMMA: ',';
-fragment
 DOLLAR_SIGN: '$';
 DOUBLE_QUOTE: '"';
 EXCLAMATION_MARK: '!';
@@ -563,9 +567,5 @@ GqlSpecialCharacter
     ;
 
 ID
-    : GqlLanguageCharacter+
-    ;
-
-UnsignedInteger
-    : [1-9][0-9]*
+    : SimpleLatinLetter GqlLanguageCharacter*
     ;
