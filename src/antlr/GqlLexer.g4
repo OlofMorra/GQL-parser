@@ -569,3 +569,7 @@ GqlSpecialCharacter
 ID
     : SimpleLatinLetter GqlLanguageCharacter*
     ;
+
+WORD
+    : (QUOTE | DOUBLE_QUOTE) GqlLanguageCharacter* (QUOTE | DOUBLE_QUOTE)
+    ;

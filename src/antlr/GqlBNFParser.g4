@@ -1,4 +1,4 @@
-parser grammar GqlParser;
+parser grammar GqlBNFParser;
 
 options
 {
@@ -314,9 +314,9 @@ is_or_colon
     ;
 
 set_operator
-    : UNION ( set_operator_quantifier)?
-    | EXCEPT ( set_operator_quantifier)?
-    | INTERSECT ( set_operator_quantifier)?                         // 15.3
+    : UNION (set_operator_quantifier)?
+    | EXCEPT (set_operator_quantifier)?
+    | INTERSECT (set_operator_quantifier)?                         // 15.3
     ;
 
 // TODO: uncomment
