@@ -480,16 +480,6 @@ public interface GqlParserListener extends ParseTreeListener {
 	 */
 	void exitValue(GqlParser.ValueContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GqlParser#truthValue}.
-	 * @param ctx the parse tree
-	 */
-	void enterTruthValue(GqlParser.TruthValueContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GqlParser#truthValue}.
-	 * @param ctx the parse tree
-	 */
-	void exitTruthValue(GqlParser.TruthValueContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link GqlParser#pathVariable}.
 	 * @param ctx the parse tree
 	 */
@@ -519,14 +509,4 @@ public interface GqlParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitKey(GqlParser.KeyContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link GqlParser#identifier}.
-	 * @param ctx the parse tree
-	 */
-	void enterIdentifier(GqlParser.IdentifierContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GqlParser#identifier}.
-	 * @param ctx the parse tree
-	 */
-	void exitIdentifier(GqlParser.IdentifierContext ctx);
 }

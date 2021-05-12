@@ -10,133 +10,126 @@ options
     tokenVocab=GqlLexer;
 }
 
-file
-    : query EOF
-    ;
-
 query
-    : query_expr (query_conjunction query)?
+    : query queryConjunction query EOF
+    | queryExpr
     ;
 
-query_conjunction
-    : set_operator
+queryConjunction
+    : setOperator
     | OTHERWISE
     ;
 
-query_expr
-    : focused_query_expr
-    | ambient_query_expr
+queryExpr
+    : focusedQueryExpr
+    | ambientQueryExpr
     ;
 
-focused_query_expr
-    : (FROM graph_name match_clause+)+ return_statement
+focusedQueryExpr
+    : (FROM graphName matchClause+)+ returnStatement
     ;
 
-ambient_query_expr
-    : match_clause+ return_statement
+ambientQueryExpr
+    : matchClause+ returnStatement
     ;
 
-match_clause
-    : (OPTIONAL | MANDATORY)? MATCH path_pattern_list where_clause?
+matchClause
+    : (OPTIONAL | MANDATORY)? MATCH pathPatternList whereClause?
     ;
 
-where_clause
+whereClause
     : WHERE expr
     ;
 
-return_statement
-    : RETURN set_quantifier? (ASTERISK | return_list)
+returnStatement
+    : RETURN setQuantifier? (ASTERISK | returnList)
     ;
 
-path_pattern_list
-    : path_pattern
-    | path_pattern COMMA path_pattern_list
+pathPatternList
+    : pathPattern (COMMA pathPattern)*
     ;
 
-path_pattern
-    : (path_variable EQ)? path_pattern_prefix? path_pattern_expression
+pathPattern
+    : (pathVariable EQ)? pathPatternPrefix? pathPatternExpression
     ;
 
-path_pattern_prefix
+pathPatternPrefix
     : WALK
     | TRAIL
     | ACYCLIC
     | SIMPLE
     ;
 
-path_pattern_expression
-    : path_term
-    | path_pattern_union
+pathPatternExpression
+    : pathTerm
+    | pathPatternUnion
     ;
 
-path_pattern_union
-    : path_term (VERTICAL_BAR path_term)+
+pathPatternUnion
+    : pathTerm (VERTICAL_BAR pathTerm)+
     ;
 
-path_term
+pathTerm
     : path
-    | LEFT_PAREN path_pattern where_clause? RIGHT_PAREN len?
+    | LEFT_PAREN pathPattern whereClause? RIGHT_PAREN len?
     ;
 
 path
-    : node_pattern
-    | node_pattern edge_pattern len? path
+    : nodePattern (edgePattern len? nodePattern)*
     ;
 
-node_pattern
-    : LEFT_PAREN element_pattern_filler RIGHT_PAREN
+nodePattern
+    : LEFT_PAREN elementPatternFiller RIGHT_PAREN
     ;
 
-edge_pattern
-    : full_edge_pointing_left
-    | full_edge_undirected
-    | full_edge_pointing_right
+edgePattern
+    : fullEdgePointingLeft
+    | fullEdgeUndirected
+    | fullEdgePointingRight
     ;
 
-full_edge_pointing_left
-    : LEFT_ARROW_BRACKET element_pattern_filler RIGHT_BRACKET_MINUS
+fullEdgePointingLeft
+    : LEFT_ARROW_BRACKET elementPatternFiller RIGHT_BRACKET_MINUS
     ;
 
-full_edge_undirected
-    : TILDE_LEFT_BRACKET element_pattern_filler RIGHT_BRACKET_TILDE
+fullEdgeUndirected
+    : TILDE_LEFT_BRACKET elementPatternFiller RIGHT_BRACKET_TILDE
     ;
 
-full_edge_pointing_right
-    : MINUS_LEFT_BRACKET element_pattern_filler BRACKET_RIGHT_ARROW
+fullEdgePointingRight
+    : MINUS_LEFT_BRACKET elementPatternFiller BRACKET_RIGHT_ARROW
     ;
 
-element_pattern_filler
-    : element_variable? is_label_expr? (LEFT_BRACE property_list LEFT_BRACE)?
+elementPatternFiller
+    : elementVariable? isLabelExpr? (LEFT_BRACE propertyList LEFT_BRACE)?
     ;
 
-property_list
-    : key COLON expr
-    | key COLON expr COMMA property_list
+propertyList
+    : key COLON expr (COMMA key COLON expr)*
     ;
 
-return_list
-    : return_item
-    | return_item COMMA return_list
+returnList
+    : returnItem (COMMA returnItem)*
     ;
 
-return_item
+returnItem
     : expr (AS name)?
     ;
 
-set_operator
-    : union_operator
-    | other_set_operator
+setOperator
+    : unionOperator
+    | otherSetOperator
     ;
 
-union_operator
-    : UNION (set_quantifier | MAX)?
+unionOperator
+    : UNION (setQuantifier | MAX)?
     ;
 
-other_set_operator
-    : (EXCEPT | INTERSECT) set_quantifier?
+otherSetOperator
+    : (EXCEPT | INTERSECT) setQuantifier?
     ;
 
-set_quantifier
+setQuantifier
     : DISTINCT
     | ALL
     ;
@@ -156,50 +149,49 @@ expr
     | expr PERIOD key
     | expr comparator expr
     | NOT expr
-    | expr boolean_comparator truth_value
-    | expr comp_op expr
+    | expr booleanComparator TRUTH_VALUE
+    | expr compOp expr
     ;
 
-is_label_expr
-    : (IS | COLON) label_expression
+isLabelExpr
+    : (IS | COLON) labelExpression
     ;
 
-label_expression
-    : label_term
-    | label_expression VERTICAL_BAR label_term
+labelExpression
+    : labelTerm (VERTICAL_BAR labelTerm)*
     ;
 
-label_term
-    : label_factor
-    | label_term AMPERSAND label_factor
+labelTerm
+    : labelFactor
+    | labelTerm AMPERSAND labelFactor
     ;
 
-label_factor
-    : label_primary
-    | label_negation
+labelFactor
+    : labelPrimary
+    | labelNegation
     ;
 
-label_negation
-    : EXCLAMATION_MARK label_primary
+labelNegation
+    : EXCLAMATION_MARK labelPrimary
     ;
 
-label_primary
+labelPrimary
     : label
-    | label_wildcard
-    | parenthesized_label_expression
+    | labelWildcard
+    | parenthesizedLabelExpression
     ;
 
 label
-    : identifier
+    : ID
     ;
 
-label_wildcard
+labelWildcard
     : PERCENT
     ;
 
-parenthesized_label_expression
-    : LEFT_PAREN label_expression RIGHT_PAREN
-    | LEFT_BRACKET label_expression RIGHT_BRACKET
+parenthesizedLabelExpression
+    : LEFT_PAREN labelExpression RIGHT_PAREN
+    | LEFT_BRACKET labelExpression RIGHT_BRACKET
     ;
 
 comparator
@@ -208,11 +200,11 @@ comparator
     | XOR
     ;
 
-boolean_comparator
+booleanComparator
     : IS (NOT)?
     ;
 
-comp_op
+compOp
     : EQ
     | NEQ
     | LT
@@ -221,39 +213,28 @@ comp_op
     | GEQ
     ;
 
-graph_name
+graphName
     : name
     ;
 
 name
-    : identifier
+    : ID
     ;
 
 value
-    : truth_value
+    : TRUTH_VALUE
     | UNSIGNED_INTEGER
     | WORD
     ;
 
-truth_value
-    : TRUE
-    | FALSE
-    | UNKNOWN
-    | NULL
+pathVariable
+    : ID
     ;
 
-path_variable
-    : identifier
-    ;
-
-element_variable
-    : identifier
+elementVariable
+    : ID
     ;
 
 key
-    : identifier
-    ;
-
-identifier
     : ID
     ;

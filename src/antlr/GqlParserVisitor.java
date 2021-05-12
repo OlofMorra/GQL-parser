@@ -295,12 +295,6 @@ public interface GqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitValue(GqlParser.ValueContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GqlParser#truthValue}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTruthValue(GqlParser.TruthValueContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link GqlParser#pathVariable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -318,10 +312,4 @@ public interface GqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitKey(GqlParser.KeyContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link GqlParser#identifier}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIdentifier(GqlParser.IdentifierContext ctx);
 }

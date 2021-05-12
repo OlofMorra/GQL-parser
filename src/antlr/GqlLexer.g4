@@ -443,6 +443,13 @@ PathOrPaths
     | 'PATHS'                                                       // 16.9
     ;
 
+TRUTH_VALUE
+    : TRUE
+    | FALSE
+    | UNKNOWN
+    | NULL
+    ;
+
 // Tokens
 // 21.4
 LEFT_ARROW: '<-';

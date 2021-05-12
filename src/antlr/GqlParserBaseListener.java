@@ -582,18 +582,6 @@ public class GqlParserBaseListener implements GqlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTruthValue(GqlParser.TruthValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTruthValue(GqlParser.TruthValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterPathVariable(GqlParser.PathVariableContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -625,18 +613,6 @@ public class GqlParserBaseListener implements GqlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitKey(GqlParser.KeyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIdentifier(GqlParser.IdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIdentifier(GqlParser.IdentifierContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -1,5 +1,9 @@
 lexer grammar GqlLexer;
 
+@header {
+    package antlr;
+}
+
 tokens
 {
     ON
@@ -437,6 +441,13 @@ fragment
 PathOrPaths
     : 'PATH'
     | 'PATHS'                                                       // 16.9
+    ;
+
+TRUTH_VALUE
+    : TRUE
+    | FALSE
+    | UNKNOWN
+    | NULL
     ;
 
 // Tokens

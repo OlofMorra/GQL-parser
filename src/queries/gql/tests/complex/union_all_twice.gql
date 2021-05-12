@@ -1,0 +1,11 @@
+FROM g3
+MATCH (x:Person)
+RETURN *
+UNION ALL
+FROM g3
+MATCH (x:Professor)
+RETURN x
+UNION ALL
+FROM g3
+MATCH (x:Internship)
+RETURN x

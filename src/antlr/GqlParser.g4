@@ -156,7 +156,7 @@ expr
     | expr PERIOD key
     | expr comparator expr
     | NOT expr
-    | expr booleanComparator truthValue
+    | expr booleanComparator TRUTH_VALUE
     | expr compOp expr
     ;
 
@@ -190,7 +190,7 @@ labelPrimary
     ;
 
 label
-    : identifier
+    : ID
     ;
 
 labelWildcard
@@ -226,34 +226,23 @@ graphName
     ;
 
 name
-    : identifier
+    : ID
     ;
 
 value
-    : truthValue
+    : TRUTH_VALUE
     | UNSIGNED_INTEGER
     | WORD
     ;
 
-truthValue
-    : TRUE
-    | FALSE
-    | UNKNOWN
-    | NULL
-    ;
-
 pathVariable
-    : identifier
+    : ID
     ;
 
 elementVariable
-    : identifier
+    : ID
     ;
 
 key
-    : identifier
-    ;
-
-identifier
     : ID
     ;
