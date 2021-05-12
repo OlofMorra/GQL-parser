@@ -1,0 +1,3 @@
+// Same as example_2.4_q2, but not on specific graph
+MATCH ACYCLIC (a)~[]~(b)~[]~(c), TRAIL (x)~[]~(y)~[]~(z)
+RETURN a, b, c, x, y, z

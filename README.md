@@ -65,14 +65,29 @@ In your shell, go to the folder [src](src). From there, type the following comma
 
 ```shell
 cd antlr
+antlr4 GqlLexer.g4
 antlr4 -visitor GQL.g4
-javac *.java
+javac Gql*.java
 cd ../
-grun antlr.GQL prog test/GQL/test0.txt -gui &
+grun antlr.Gql file queries/gql/snb/short_read_1.gql -gui &
+```
+Notice that after compiling we go up one directory. This is done as we want Gql to be available 
+via the antlr package, i.e. in both [GqlParser.g4](src/antlr/GqlParser.g4) and 
+[GqlLexer.g4](src/antlr/GqlLexer.g4) @header informs that they are within the package antlr. 
+If you want to remove @header, you can run the following to obtain the same result:
+
+```shell
+cd antlr
+antlr4 GqlLexer.g4
+antlr4 -visitor GQL.g4
+javac Gql*.java
+grun Gql file queries/gql/snb/short_read_1.gql -gui &
 ```
 
 ---
 ## References
 I followed Parser Generator Tutorial from Jackie Wang called
 [EECS4302 ANTLR4 Parser Generator Tutorial](https://www.youtube.com/watch?v=6uF1Nxo2xjk)
-(starts at the first video from this link).
+(starts at the first video from this link). Additionally, I have consulted 
+[the Definitive ANTLR 4 Reference](https://pragprog.com/titles/tpantlr2/the-definitive-antlr-4-reference/),
+[ANTLR 4 GitHub](https://github.com/antlr/antlr4), and some [ANTLRv4 grammars](https://github.com/antlr/grammars-v4).

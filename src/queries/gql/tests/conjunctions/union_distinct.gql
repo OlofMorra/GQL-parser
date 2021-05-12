@@ -1,0 +1,7 @@
+FROM g3
+MATCH (x:Person)
+RETURN *
+UNION DISTINCT
+FROM g3
+MATCH (x:Professor)
+RETURN x

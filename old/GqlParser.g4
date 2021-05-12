@@ -1,4 +1,8 @@
-parser grammar GqlFormalParser;
+parser grammar GqlParser;
+
+@header {
+    package antlr;
+}
 
 options
 {
@@ -70,9 +74,13 @@ path_pattern_union
     ;
 
 path_term
-    : node_pattern
-    | node_pattern edge_pattern len? path_term
+    : path
     | LEFT_PAREN path_pattern where_clause? RIGHT_PAREN len?
+    ;
+
+path
+    : node_pattern
+    | node_pattern edge_pattern len? path
     ;
 
 node_pattern

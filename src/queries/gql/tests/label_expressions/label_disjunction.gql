@@ -1,0 +1,3 @@
+FROM g3
+MATCH (x: Professor | Internship)
+RETURN x

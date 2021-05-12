@@ -1,3 +1,0 @@
-FROM GRAPH example
-MATCH (a:Person)-[:TRAVELLEDTOGETHER]-(b:Perso)
-RETURN GRAPH example

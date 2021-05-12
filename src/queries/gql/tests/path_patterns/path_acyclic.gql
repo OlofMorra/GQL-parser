@@ -1,0 +1,3 @@
+// Same query as example_2.3_acyclic, but not on specific graph
+MATCH ACYCLIC (x)~[]~(y)~[]~(z)
+RETURN x, y, z

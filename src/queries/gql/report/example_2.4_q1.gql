@@ -1,0 +1,3 @@
+FROM g
+MATCH ACYCLIC (x)~[]~(y)~[]~(z), TRAIL (x)~[]~(y)~[]~(z)
+RETURN x, y, z

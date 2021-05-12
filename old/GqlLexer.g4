@@ -1,9 +1,5 @@
 lexer grammar GqlLexer;
 
-@header {
-    package antlr;
-}
-
 tokens
 {
     ON
