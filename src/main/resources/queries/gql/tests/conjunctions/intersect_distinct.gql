@@ -1,0 +1,9 @@
+FROM g3
+MATCH (x:Professor)
+MATCH (x)
+RETURN x
+INTERSECT DISTINCT
+FROM g3
+MATCH (x:Professor)
+MATCH (x:Person)
+RETURN *

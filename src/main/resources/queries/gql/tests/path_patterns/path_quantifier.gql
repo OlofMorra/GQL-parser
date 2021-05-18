@@ -1,0 +1,2 @@
+MATCH (x)~[]~{2,2}(y)
+RETURN x

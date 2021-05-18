@@ -64,12 +64,12 @@ the plugin.
 In your shell, go to the folder [src](src). From there, type the following commands:
 
 ```shell
-cd antlr
+cd path/to/antlr
 antlr4 GqlLexer.g4
 antlr4 -visitor GQL.g4
 javac Gql*.java
-cd ../
-grun antlr.Gql file queries/gql/snb/short_read_1.gql -gui &
+cd ../../../
+grun src.antlr.Gql file queries/gql/snb/short_read_1.gql -gui &
 ```
 Notice that after compiling we go up one directory. This is done as we want Gql to be available 
 via the antlr package, i.e. in both [GqlParser.g4](src/antlr/GqlParser.g4) and 

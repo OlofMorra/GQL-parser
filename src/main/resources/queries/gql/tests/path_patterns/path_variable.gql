@@ -1,0 +1,2 @@
+MATCH p = ()~[]~()
+RETURN p

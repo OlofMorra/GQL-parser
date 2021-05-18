@@ -1,0 +1,7 @@
+FROM g3
+MATCH (x {name: "George Fletcher"})
+RETURN x.name
+OTHERWISE
+FROM g3
+MATCH (x:Person)
+RETURN x
