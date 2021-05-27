@@ -1,3 +1,0 @@
-FROM g3
-MATCH (x IS Professor & Person)
-RETURN x

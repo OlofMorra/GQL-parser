@@ -1,3 +1,0 @@
-FROM g
-MATCH SIMPLE (x)~[]~(y)~[]~(z)
-RETURN x, y, z

@@ -1,3 +1,0 @@
-FROM g
-MATCH ACYCLIC (a)~[]~(b)~[]~(c), TRAIL (x)~[]~(y)~[]~(z)
-RETURN a, b, c, x, y, z

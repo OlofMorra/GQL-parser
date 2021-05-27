@@ -1,3 +1,0 @@
-MATCH (x)
-WHERE x = 1 IS NOT TRUE
-RETURN *

@@ -1,3 +1,0 @@
-MATCH (x)
-WHERE NOT x = 2
-RETURN *

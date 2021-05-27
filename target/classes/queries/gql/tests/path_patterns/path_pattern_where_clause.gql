@@ -1,2 +1,0 @@
-MATCH ((x) WHERE x = 1)
-RETURN x

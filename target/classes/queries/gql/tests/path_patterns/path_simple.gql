@@ -1,3 +1,0 @@
-// Same query as example_2.3_simple, but not on specific graph
-MATCH SIMPLE (x)~[]~(y)~[]~(z)
-RETURN x, y, z

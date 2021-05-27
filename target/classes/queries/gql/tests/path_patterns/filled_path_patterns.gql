@@ -1,3 +1,0 @@
-FROM g3
-MATCH (x:Person {name: "Olof Morra"})-[IS Does]->(y)
-RETURN x, x.name, y

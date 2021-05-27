@@ -1,8 +1,0 @@
-FROM g3
-MATCH (x:Professor)
-MATCH (x)
-RETURN x
-EXCEPT ALL
-FROM g3
-MATCH (x:Professor)
-RETURN *

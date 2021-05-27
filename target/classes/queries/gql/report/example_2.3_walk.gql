@@ -1,3 +1,0 @@
-FROM g
-MATCH WALK (x)~[]~(y)~[]~(z)
-RETURN x, y, z
