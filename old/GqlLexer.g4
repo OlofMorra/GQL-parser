@@ -135,7 +135,7 @@ ReservedWords
     | 'percentileCont'
     | 'percentileDist'
     | 'rTrim'
-    | 'startNode'
+    | 'startNodePattern'
     | 'stDev'
     | 'stDevP'
     | 'tail'

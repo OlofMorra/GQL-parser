@@ -1,0 +1,38 @@
+{
+  "n": {
+    "identity": 5,
+    "labels": [
+      "Internship"
+    ]
+  },
+  "n": {
+    "identity": 19,
+    "labels": [
+      "Person",
+      "Professor"
+    ],
+    "properties": {
+      "name": "George Fletcher",
+      "employer": "TU/e"
+    }
+  },
+  "n": {
+    "identity": 29,
+    "labels": [
+      "Person"
+    ],
+    "properties": {
+      "name": "Michael Schmidt",
+      "employer": "Amazon"
+    }
+  },
+  "n": {
+    "identity": 85,
+    "labels": [
+      "Person"
+    ],
+    "properties": {
+      "name": "Olof Morra",
+      "studies": "Data Science"
+    }
+  }

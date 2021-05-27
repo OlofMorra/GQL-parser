@@ -1,20 +1,20 @@
 package gql.patterns;
 
 public class PathExtension {
-    Edge edge;
+    EdgePattern edgePattern;
     int quantifier;
-    Node node;
+    NodePattern nodePattern;
 
-    public PathExtension(Edge edge,
+    public PathExtension(EdgePattern edgePattern,
                          int quantifier,
-                         Node node) {
-        this.edge = edge;
+                         NodePattern nodePattern) {
+        this.edgePattern = edgePattern;
         this.quantifier = quantifier;
-        this.node = node;
+        this.nodePattern = nodePattern;
     }
 
     @Override
     public String toString() {
-        return edge.toString() + quantifier + node.toString();
+        return edgePattern.toString() + quantifier + nodePattern.toString();
     }
 }

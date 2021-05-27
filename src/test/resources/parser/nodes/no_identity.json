@@ -1,0 +1,12 @@
+{
+  "n": {
+    "labels": [
+      "Person",
+      "Professor"
+    ],
+    "properties": {
+      "name": "George Fletcher",
+      "employer": "TU/e"
+    }
+  }
+}

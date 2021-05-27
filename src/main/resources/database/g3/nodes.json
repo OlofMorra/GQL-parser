@@ -1,4 +1,4 @@
-[{
+{
   "n": {
     "identity": 5,
     "labels": [
@@ -8,7 +8,8 @@
   "n": {
     "identity": 19,
     "labels": [
-      "Person"
+      "Person",
+      "Professor"
     ],
     "properties": {
       "name": "George Fletcher",
@@ -35,4 +36,4 @@
       "studies": "Data Science"
     }
   }
-}]
+}

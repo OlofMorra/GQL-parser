@@ -1,9 +1,9 @@
 package gql.patterns;
 
-public abstract class Edge {
+public abstract class EdgePattern {
     ElementPatternFiller elementPatternFiller;
 
-    public Edge(ElementPatternFiller elementPatternFiller) {
+    public EdgePattern(ElementPatternFiller elementPatternFiller) {
         this.elementPatternFiller = elementPatternFiller;
     }
 

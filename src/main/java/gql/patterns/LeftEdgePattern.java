@@ -1,7 +1,7 @@
 package gql.patterns;
 
-public class LeftEdge extends Edge {
-    public LeftEdge(ElementPatternFiller elementPatternFiller) {
+public class LeftEdgePattern extends EdgePattern {
+    public LeftEdgePattern(ElementPatternFiller elementPatternFiller) {
         super(elementPatternFiller);
     }
 

@@ -10,6 +10,10 @@
 
     <name>GQL-parser</name>
 
+    <build>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>com.tinkerpop.gremlin</groupId>
@@ -35,6 +39,22 @@
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
             <version>4.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.12.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.3</version>
         </dependency>
     </dependencies>
 

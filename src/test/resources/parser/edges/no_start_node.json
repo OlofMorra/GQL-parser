@@ -1,0 +1,19 @@
+{
+  "e": {
+    "identity": 1,
+    "end": 2,
+    "isDirected": 0
+  },
+  "e": {
+    "identity": 2,
+    "start": 2,
+    "end": 3,
+    "isDirected": 0
+  },
+  "e": {
+    "identity": 3,
+    "start": 3,
+    "end": 3,
+    "isDirected": 0
+  }
+}

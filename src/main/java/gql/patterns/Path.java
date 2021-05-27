@@ -3,17 +3,17 @@ package gql.patterns;
 import java.util.List;
 
 public class Path extends PathPatternExpression {
-    Node startNode;
+    NodePattern startNodePattern;
     List<PathExtension> pathSequence;
 
-    public Path(Node startNode,
+    public Path(NodePattern startNodePattern,
                 List<PathExtension> pathSequence) {
-        this.startNode = startNode;
+        this.startNodePattern = startNodePattern;
         this.pathSequence = pathSequence;
     }
 
     @Override
     public String toString() {
-        return startNode.toString() + pathSequence.toString();
+        return startNodePattern.toString() + pathSequence.toString();
     }
 }
