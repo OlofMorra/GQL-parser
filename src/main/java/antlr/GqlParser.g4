@@ -45,8 +45,7 @@ returnStatement
     ;
 
 pathPatternList
-    : pathPattern
-    | pathPattern COMMA pathPatternList
+    : pathPattern (COMMA pathPattern)*
     ;
 
 pathPattern
@@ -61,12 +60,7 @@ pathPatternPrefix
     ;
 
 pathPatternExpression
-    : pathTerm
-    | pathPatternUnion
-    ;
-
-pathPatternUnion
-    : pathTerm (VERTICAL_BAR pathTerm)+
+    : pathTerm (VERTICAL_BAR pathTerm)*
     ;
 
 pathTerm
@@ -75,8 +69,7 @@ pathTerm
     ;
 
 path
-    : nodePattern
-    | nodePattern edgePattern len? path
+    : nodePattern (edgePattern len? nodePattern)*
     ;
 
 nodePattern
@@ -102,17 +95,15 @@ fullEdgePointingRight
     ;
 
 elementPatternFiller
-    : elementVariable? isLabelExpr? (LEFT_BRACE propertyList LEFT_BRACE)?
+    : elementVariable? isLabelExpr? (LEFT_BRACE propertyList RIGHT_BRACE)?
     ;
 
 propertyList
-    : key COLON expr
-    | key COLON expr COMMA propertyList
+    : key COLON expr (COMMA key COLON expr)*
     ;
 
 returnList
-    : returnItem
-    | returnItem COMMA returnList
+    : returnItem (COMMA returnItem)*
     ;
 
 returnItem
@@ -161,13 +152,11 @@ isLabelExpr
     ;
 
 labelExpression
-    : labelTerm
-    | labelExpression VERTICAL_BAR labelTerm
+    : labelTerm (VERTICAL_BAR labelTerm)*
     ;
 
 labelTerm
-    : labelFactor
-    | labelTerm AMPERSAND labelFactor
+    : labelFactor (AMPERSAND labelFactor)*
     ;
 
 labelFactor
@@ -227,7 +216,9 @@ name
 
 value
     : TRUTH_VALUE
-    | UNSIGNED_INTEGER
+    | SIGNED_INTEGER
+    | SIGNED_FIXED_POINT
+    | SIGNED_FLOAT
     | WORD
     ;
 

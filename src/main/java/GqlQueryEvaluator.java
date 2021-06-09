@@ -1,9 +1,10 @@
 import antlr.GqlLexer;
 import antlr.GqlParser;
-import gql.GqlProcessor;
 import gql.GqlVisitor;
 import gql.listeners.ErrorListener;
 import gql.queries.Query;
+import gql.queries.QueryExpression;
+import gql.tables.BindingTable;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -59,12 +60,12 @@ public class GqlQueryEvaluator {
     private void visitParseTree(ParseTree antlrAST) {
         // Create a visitor for converting the parse tree into Query objects
         GqlVisitor gqlVisitor = new GqlVisitor();
-        Query query = gqlVisitor.visit(antlrAST);
+        BindingTable output = gqlVisitor.visit(antlrAST);
 
         if (hasSemanticErrors(gqlVisitor)) {
-            outputSemanticErrors(gqlVisitor.semanticErrors);
+            outputSemanticErrors(gqlVisitor);
         } else {
-            outputQueryEvaluation(query);
+            output.printToConsole();
         }
     }
 
@@ -72,17 +73,9 @@ public class GqlQueryEvaluator {
         return !gqlVisitor.semanticErrors.isEmpty();
     }
 
-    private void outputSemanticErrors(List<String> semanticErrors) {
-        for (String err : semanticErrors) {
+    private void outputSemanticErrors(GqlVisitor gqlVisitor) {
+        for (String err : gqlVisitor.semanticErrors) {
             System.err.println(err);
-        }
-    }
-
-    private void outputQueryEvaluation(Query query) {
-        GqlProcessor gqlProcessor = new GqlProcessor(query.queryExpressions);
-
-        for (String evaluation : gqlProcessor.getEvaluationResults()) {
-            System.out.println(evaluation);
         }
     }
 }

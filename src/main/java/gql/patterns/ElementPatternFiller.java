@@ -1,7 +1,7 @@
 package gql.patterns;
 
-import gql.expr.LabelExpression;
-import gql.expr.Value;
+import gql.expressions.unnecessary.LabelExpression;
+import gql.expressions.Value;
 
 import java.util.Map;
 

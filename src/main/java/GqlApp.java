@@ -1,3 +1,5 @@
+import gql.graphs.GremlinGraph;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -11,13 +13,14 @@ public class GqlApp
 //        executeQuery(queryFilePath);
 
         String[] queryFilePaths = new String[]{"src/test/resources/queries/gql/tests/comparison_operators/equals_op.gql",
-                "src/test/resources/queries/gql/report/example_2.3_acyclic.gql",
+                "src/test/resources/queries/gql/tests/complex/union_all_twice.gql",
                 "src/test/resources/queries/gql/tests/syntax_errors/AND.gql"};
 
         for (String filePath: queryFilePaths) {
             System.out.println("");
             System.out.println("New query:");
             executeQuery(filePath);
+            GremlinGraph.getInstance().printGraphName();
         }
     }
 
@@ -44,7 +47,7 @@ public class GqlApp
     }
 
     private static void executeQuery(String queryFilePath) {
-        GqlQueryEvaluator gqlQueryProcessor = new GqlQueryEvaluator(queryFilePath);
-        gqlQueryProcessor.execute();
+        GqlQueryEvaluator gqlQueryEvaluator = new GqlQueryEvaluator(queryFilePath);
+        gqlQueryEvaluator.execute();
     }
 }

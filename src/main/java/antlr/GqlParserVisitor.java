@@ -85,12 +85,6 @@ public interface GqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPathPatternExpression(GqlParser.PathPatternExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GqlParser#pathPatternUnion}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPathPatternUnion(GqlParser.PathPatternUnionContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link GqlParser#pathTerm}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

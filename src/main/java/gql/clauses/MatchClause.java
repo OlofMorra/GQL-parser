@@ -20,6 +20,6 @@ public class MatchClause {
 
     @Override
     public String toString() {
-        return statementMode + " MATCH " + pathPatternList.toString() + whereClause.toString();
+        return statementMode + " MATCH " + pathPatternList.toString() + "\n"+ whereClause.toString();
     }
 }

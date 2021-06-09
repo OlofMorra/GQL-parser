@@ -89,12 +89,29 @@ HexDigit
 	:	StandardDigit | [a-fA-F]
 	;
 
-UNSIGNED_INTEGER
-    : [1-9][0-9]*
+SIGNED_INTEGER
+    : Sign? Digit+
     | [0]
     ;
 
-// TODO: finish
+UNSIGNED_INTEGER
+    : Digit+
+    ;
+
+SIGNED_FIXED_POINT
+    : Sign? Digit+ '.' Digit*
+    | Sign? '.' Digit+
+    ;
+
+SIGNED_FLOAT
+    : (SIGNED_INTEGER | SIGNED_FIXED_POINT) 'E' SIGNED_INTEGER
+    ;
+
+fragment
+Sign
+    : MINUS_SIGN | PLUS_SIGN
+    ;
+
 fragment
 Digit
     : StandardDigit
@@ -570,6 +587,8 @@ ID
     : SimpleLatinLetter GqlLanguageCharacter*
     ;
 
-WORD
-    : (QUOTE | DOUBLE_QUOTE) GqlLanguageCharacter* (QUOTE | DOUBLE_QUOTE)
-    ;
+WORD :  '"' (ESC | ~["\\])* '"' ;
+
+fragment ESC :   '\\' (["\\/bfnrt] | UNICODE) ;
+fragment UNICODE : 'u' HEX HEX HEX HEX ;
+fragment HEX : [0-9a-fA-F] ;

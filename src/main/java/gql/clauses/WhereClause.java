@@ -1,6 +1,6 @@
 package gql.clauses;
 
-import gql.expr.Expression;
+import gql.expressions.unnecessary.Expression;
 
 public class WhereClause {
     Expression expr;

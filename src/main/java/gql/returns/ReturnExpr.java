@@ -1,6 +1,6 @@
 package gql.returns;
 
-import gql.expr.Expression;
+import gql.expressions.unnecessary.Expression;
 
 public class ReturnExpr extends ReturnItem {
     Expression expr;

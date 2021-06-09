@@ -1,20 +1,67 @@
 package gql.visitors;
 
 import antlr.GqlParser.QueryExpressionContext;
+import antlr.GqlParser.FocusedQueryExpressionContext;
+import antlr.GqlParser.AmbientQueryExpressionContext;
 import antlr.GqlParserBaseVisitor;
-import gql.enums.SetQuantifier;
-import gql.queries.FocusedQueryExpression;
-import gql.queries.QueryExpression;
-import gql.returns.ReturnStatement;
+import exceptions.InvalidEdgeFormatException;
+import exceptions.InvalidNodeFormatException;
+import gql.graphs.GremlinGraph;
+import gql.tables.BindingTable;
 
-import java.util.Collections;
+import java.io.FileNotFoundException;
 
-public class QueryExpressionVisitor extends GqlParserBaseVisitor<QueryExpression> {
+public class QueryExpressionVisitor extends GqlParserBaseVisitor<BindingTable> {
     @Override
-    public QueryExpression visitQueryExpression(QueryExpressionContext ctx) {
+    public BindingTable visitQueryExpression(QueryExpressionContext ctx) {
+        BindingTable output = new BindingTable(true, true, new String[]{});
 
-        System.out.println("Query expr:" + ctx.getChild(0).getChild(0).getText());
+        if (ctx.getChild(0) instanceof FocusedQueryExpressionContext) {
+            output = visitFocusedQueryExpression(ctx.focusedQueryExpression());
+        } else if (ctx.getChild(0) instanceof AmbientQueryExpressionContext) {
+            output = visitAmbientQueryExpression(ctx.ambientQueryExpression());
+        }
 
-        return new FocusedQueryExpression(Collections.emptyList(), new ReturnStatement(SetQuantifier.ALL, Collections.emptyList()));
+        return output;
+    }
+
+    @Override
+    public BindingTable visitFocusedQueryExpression(FocusedQueryExpressionContext ctx) {
+        BindingTable output = new BindingTable(true, true, new String[]{});
+
+        for (int i = 0; i < ctx.getChildCount(); i++) {
+            System.out.println(i + ": " + ctx.getChild(i).getText());
+        }
+
+        String graphName = ctx.getChild(1).getText();
+
+        try {
+            GremlinGraph.getInstance().setLocalGraph(graphName);
+        } catch (FileNotFoundException | InvalidEdgeFormatException | InvalidNodeFormatException exception) {
+            exception.printStackTrace();
+        }
+
+        MatchClauseVisitor matchClauseVisitor = new MatchClauseVisitor();
+
+        for (int i = 2; i < ctx.getChildCount()-1; i++) {
+            System.out.println(i + ": " + ctx.getChild(i).getText());
+            output = matchClauseVisitor.visit(ctx.matchClause(i-2));
+        }
+
+        return output;
+    }
+
+    @Override
+    public BindingTable visitAmbientQueryExpression(AmbientQueryExpressionContext ctx) {
+        BindingTable output = new BindingTable(true, true, new String[]{});
+
+        MatchClauseVisitor matchClauseVisitor = new MatchClauseVisitor();
+
+        for (int i = 0; i < ctx.getChildCount()-1; i++) {
+            System.out.println(i + ": " + ctx.getChild(i).getText());
+            output = matchClauseVisitor.visit(ctx.matchClause(i));
+        }
+
+        return output;
     }
 }

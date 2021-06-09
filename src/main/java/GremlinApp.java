@@ -32,7 +32,7 @@ public class GremlinApp
         // This gets the vertices, only.
         Iterator<Property<Object>> list = g.E().hasLabel("Edge Label").toList().get(0).properties();
         list.forEachRemaining(e -> System.out.println(e.toString()));
-        GraphTraversal<Vertex, Map<Object, Object>> t = g.V().limit(3).elementMap();
+        GraphTraversal<Vertex, Map<Object, Object>> t = g.V("CustomId1").limit(3).elementMap();
         t.forEachRemaining(e -> System.out.println(t.toList()));
         t.close();
     }

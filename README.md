@@ -66,7 +66,7 @@ In your shell, go to the folder [src](src). From there, type the following comma
 ```shell
 cd path/to/antlr
 antlr4 GqlLexer.g4
-antlr4 -visitor GQL.g4
+antlr4 -visitor GqlParser.g4
 javac Gql*.java
 cd ../../../
 grun src.antlr.Gql file queries/gql/snb/short_read_1.gql -gui &

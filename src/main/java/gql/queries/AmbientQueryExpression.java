@@ -17,6 +17,6 @@ public class AmbientQueryExpression extends QueryExpression {
 
     @Override
     public String toString() {
-        return matchClauses.toString() + returnStatement.toString();
+        return matchClauses.toString() + "\n" + returnStatement.toString();
     }
 }

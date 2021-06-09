@@ -1,22 +1,22 @@
 package gql.queries;
 
-import gql.clauses.FocusedMatchClauses;
+import gql.clauses.FocusedMatchClause;
 import gql.returns.ReturnStatement;
 
 import java.util.List;
 
 public class FocusedQueryExpression extends QueryExpression {
-    List<FocusedMatchClauses> focusedMatchClausesList;
+    List<FocusedMatchClause> focusedMatchClauseList;
     ReturnStatement returnStatement;
 
-    public FocusedQueryExpression(List<FocusedMatchClauses> focusedMatchClausesList,
+    public FocusedQueryExpression(List<FocusedMatchClause> focusedMatchClauseList,
                                   ReturnStatement returnStatement) {
-        this.focusedMatchClausesList = focusedMatchClausesList;
+        this.focusedMatchClauseList = focusedMatchClauseList;
         this.returnStatement = returnStatement;
     }
 
     @Override
     public String toString() {
-        return "FROM" +  focusedMatchClausesList.toString() + returnStatement.toString();
+        return focusedMatchClauseList.toString() + returnStatement.toString();
     }
 }

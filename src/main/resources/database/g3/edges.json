@@ -1,8 +1,8 @@
 {
   "e": {
-    "identity": 2,
-    "start": 85,
-    "end": 5,
+    "identity": "e2",
+    "start": "n85",
+    "end": "n5",
     "labels": [
       "Does"
     ],
@@ -12,36 +12,36 @@
     "isDirected": 1
   },
   "e": {
-    "identity": 3,
-    "start": 85,
-    "end": 19,
+    "identity": "e3",
+    "start": "n85",
+    "end": "n19",
     "labels": [
       "LearnsFrom"
     ],
     "isDirected": 1
   },
   "e": {
-    "identity": 12,
-    "start": 19,
-    "end": 85,
+    "identity": "e12",
+    "start": "n19",
+    "end": "n85",
     "labels": [
       "Teaches"
     ],
     "isDirected": 1
   },
   "e": {
-    "identity": 21,
-    "start": 29,
-    "end": 19,
+    "identity": "e21",
+    "start": "n29",
+    "end": "n19",
     "labels": [
       "AreColleagues"
     ],
     "isDirected": 0
   },
   "e": {
-    "identity": 86,
-    "start": 19,
-    "end": 5,
+    "identity": "e86",
+    "start": "n19",
+    "end": "n5",
     "labels": [
       "Supervises"
     ],
