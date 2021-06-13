@@ -29,7 +29,7 @@ public class LabelTest {
         GqlId id6 = new GqlId("Test1");
         Label label6 = new Label(id6);
 
-        GqlId id7 = new GqlId("Test1");
+        GqlId id7 = new GqlId("Test2");
         Label label7 = new Label(id7);
 
         assertEquals(label5, label6);
@@ -41,7 +41,7 @@ public class LabelTest {
         GqlId id = new GqlId("Test");
         Label testLabel = new Label(id);
 
-        WildcardLabel wildcardLabel = new WildcardLabel(new GqlId(""));
+        WildcardLabel wildcardLabel = new WildcardLabel();
 
         assertTrue(testLabel.equals(wildcardLabel));
     }

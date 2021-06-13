@@ -1,21 +1,21 @@
 [{
   "e": {
-    "identity": 1,
-    "start": 1,
-    "end": 2,
+    "identity": "n1",
+    "start": "n1",
+    "end": "n2",
     "isDirected": 0,
-    "properties": {""}
+    "properties": {"id": ""}
   },
   "e": {
-    "identity": 2,
-    "start": 2,
-    "end": 3,
+    "identity": "n2",
+    "start": "n2",
+    "end": "n3",
     "isDirected": 0
   },
   "e": {
-    "identity": 3,
-    "start": 3,
-    "end": 3,
+    "identity": "n3",
+    "start": "n3",
+    "end": "n3",
     "isDirected": 0
   }
 }]

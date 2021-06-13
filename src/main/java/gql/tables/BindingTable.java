@@ -1,26 +1,29 @@
 package gql.tables;
 
 import org.apache.commons.lang.StringUtils;
+import com.google.common.collect.Multiset;
+import com.google.common.collect.HashMultiset;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class BindingTable {
     boolean isOrdered;
     boolean hasDuplicates;
     String[] columnNames;
-    List<Record> records = new ArrayList<Record>();
-
+    HashMultiset<Record> records;
 
     public BindingTable(boolean isOrdered, boolean hasDuplicates, String[] columnNames) {
         this.isOrdered = isOrdered;
         this.hasDuplicates = hasDuplicates;
         this.columnNames = columnNames;
+        this.records = HashMultiset.create();
     }
 
     public void addRecord(Record record) {
         if (record.values.length != columnNames.length) {
             throw new IllegalArgumentException("Record does not have the same amount of values as there are column names.");
+        } else if (!Arrays.equals(record.columnNames, this.columnNames)) {
+            throw new IllegalArgumentException("Record does not have the same column names as the the binding table.");
         }
 
         records.add(record);
@@ -109,5 +112,20 @@ public class BindingTable {
                 maxColumnWidths[i] = columnWidths[i];
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BindingTable that = (BindingTable) o;
+        return isOrdered == that.isOrdered && hasDuplicates == that.hasDuplicates && Arrays.equals(columnNames, that.columnNames) && records.equals(that.records);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(isOrdered, hasDuplicates, records);
+        result = 31 * result + Arrays.hashCode(columnNames);
+        return result;
     }
 }

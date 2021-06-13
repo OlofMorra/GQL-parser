@@ -15,7 +15,6 @@ import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -23,50 +22,11 @@ import java.util.*;
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
 import static org.junit.Assert.*;
 
-public class GremlinGraphTest {
-    protected GremlinGraph gremlinGraph;
-    private final Boolean DIRECTED = true;
-    private final Boolean UNDIRECTED = false;
-
+public class GremlinGraphTest extends GraphTest {
     @Before
-    public void setUp() {
+    public void setUpGremlingGraph() {
         this.gremlinGraph = GremlinGraph.getInstance();
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testSetLocalGraphToNotExistingGraph() throws IllegalArgumentException, FileNotFoundException, InvalidEdgeFormatException, InvalidNodeFormatException {
-        this.gremlinGraph.setToTestDirectory();
-        this.gremlinGraph.setLocalGraph("notExistingGraph");
-    }
-
-    @Test(expected = FileNotFoundException.class)
-    public void testSetLocalGraphToEmptyGraph() throws FileNotFoundException, InvalidEdgeFormatException, InvalidNodeFormatException {
-        this.gremlinGraph.setToTestDirectory();
-        this.gremlinGraph.setLocalGraph("graphEmpty");
-    }
-
-    @Test(expected = FileNotFoundException.class)
-    public void testSetLocalGraphWithoutEdges() throws FileNotFoundException, InvalidEdgeFormatException, InvalidNodeFormatException {
-        this.gremlinGraph.setToTestDirectory();
-        this.gremlinGraph.setLocalGraph("graphWithoutEdges");
-    }
-
-    @Test(expected = FileNotFoundException.class)
-    public void testSetLocalGraphWithoutNodes() throws FileNotFoundException, InvalidEdgeFormatException, InvalidNodeFormatException {
-        this.gremlinGraph.setToTestDirectory();
-        this.gremlinGraph.setLocalGraph("graphWithoutNodes");
-    }
-
-    @Test(expected = InvalidEdgeFormatException.class)
-    public void testSetLocalGraphWithEdgeWithNotExistingStartNode() throws FileNotFoundException, InvalidEdgeFormatException, InvalidNodeFormatException {
-        this.gremlinGraph.setToTestDirectory();
-        this.gremlinGraph.setLocalGraph("edgeWithNotExistingStartNode");
-    }
-
-    @Test(expected = InvalidEdgeFormatException.class)
-    public void testSetLocalGraphWithEdgeWithNotExistingEndNode() throws FileNotFoundException, InvalidEdgeFormatException, InvalidNodeFormatException {
-        this.gremlinGraph.setToTestDirectory();
-        this.gremlinGraph.setLocalGraph("edgeWithNotExistingEndNode");
+        this.graph = this.gremlinGraph;
     }
 
     @Test
@@ -80,21 +40,21 @@ public class GremlinGraphTest {
     }
 
     @Test
-    public void testSetWorkingGraphToG1() throws InvalidEdgeFormatException, InvalidNodeFormatException {
+    public void testSetGremlinGraphToG1() throws InvalidEdgeFormatException, InvalidNodeFormatException {
         this.gremlinGraph.setToMainDirectory();
-        testSetWorkingGraph(getGraphG1(), "g1");
+        testSetGremlinGraph(getGraphG1(), "g1");
     }
 
     @Test
-    public void testSetWorkingGraphToG2() throws InvalidEdgeFormatException, InvalidNodeFormatException {
+    public void testSetGremlinGraphToG2() throws InvalidEdgeFormatException, InvalidNodeFormatException {
         this.gremlinGraph.setToMainDirectory();
-        testSetWorkingGraph(getGraphG2(), "g2");
+        testSetGremlinGraph(getGraphG2(), "g2");
     }
 
     @Test
-    public void testSetWorkingGraphToG3() throws InvalidEdgeFormatException, InvalidNodeFormatException {
+    public void testSetGremlinGraphToG3() throws InvalidEdgeFormatException, InvalidNodeFormatException {
         this.gremlinGraph.setToMainDirectory();
-        testSetWorkingGraph(getGraphG3(), "g3");
+        testSetGremlinGraph(getGraphG3(), "g3");
     }
 
     @Test
@@ -104,7 +64,7 @@ public class GremlinGraphTest {
         initializeNodesAccessor("g1");
 
         GraphTraversalSource testGraph = getEmptyGraph();
-        addNodesG1(testGraph);
+        addNodesToGraph(testGraph, getNodesG1());
 
         isEqualGraph(this.gremlinGraph.currentGraph, testGraph);
     }
@@ -113,15 +73,15 @@ public class GremlinGraphTest {
     public void testUnequalGraphs() throws InvalidEdgeFormatException, InvalidNodeFormatException {
         this.gremlinGraph.setToMainDirectory();
 
-        setWorkingGraph("g1");
+        setGraph("g1");
         assertFalse("g1 is equal to g2.", isEqualGraph(this.gremlinGraph.currentGraph, getGraphG2()));
         assertFalse("g1 is equal to g3.", isEqualGraph(this.gremlinGraph.currentGraph, getGraphG3()));
 
-        setWorkingGraph("g2");
+        setGraph("g2");
         assertFalse("g2 is equal to g1.", isEqualGraph(this.gremlinGraph.currentGraph, getGraphG1()));
         assertFalse("g2 is equal to g3.", isEqualGraph(this.gremlinGraph.currentGraph, getGraphG3()));
 
-        setWorkingGraph("g3");
+        setGraph("g3");
         assertFalse("g3 is equal to g1.", isEqualGraph(this.gremlinGraph.currentGraph, getGraphG1()));
         assertFalse("g3 is equal to g2.", isEqualGraph(this.gremlinGraph.currentGraph, getGraphG2()));
 
@@ -134,33 +94,25 @@ public class GremlinGraphTest {
         assertFalse("g3 is equal to g3 with an extra edge.", isEqualGraph(this.gremlinGraph.currentGraph, g3WithExtraEdge));
     }
 
-    private void testSetWorkingGraph(GraphTraversalSource testGraph, String graphToCompareTo) throws InvalidEdgeFormatException, InvalidNodeFormatException {
-        setWorkingGraph(graphToCompareTo);
-
-        assertTrue("Graph " + graphToCompareTo + " is not properly set as working graph.",
-                isEqualGraph(this.gremlinGraph.currentGraph, testGraph));
-    }
-
-    private void setEmptyGraphAccessor() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    @Override
+    protected void setEmptyGraphAccessor() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method setEmptyGraph = this.gremlinGraph.getClass().getDeclaredMethod("setEmptyGraph");
         setEmptyGraph.setAccessible(true);
         setEmptyGraph.invoke(this.gremlinGraph);
     }
 
-    private void initializeNodesAccessor(String graphName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    @Override
+    protected void initializeNodesAccessor(String graphName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method initializeNodes = this.gremlinGraph.getClass().getDeclaredMethod("initializeNodes", String.class);
         initializeNodes.setAccessible(true);
         initializeNodes.invoke(this.gremlinGraph, new String[]{graphName});
     }
 
-    private void setWorkingGraph(String graphToCompareTo) throws InvalidEdgeFormatException, InvalidNodeFormatException {
-        try {
-            this.gremlinGraph.setLocalGraph(graphToCompareTo);
-        } catch (FileNotFoundException exception) {
-            System.err.println("Graph " + graphToCompareTo + " was not complete, i.e. missing nodes.json or edges.json.");
-        } catch (NullPointerException exception) {
-            System.err.println(exception.getMessage());
-        }
+    private void testSetGremlinGraph(GraphTraversalSource testGraph, String graphToCompareTo) throws InvalidEdgeFormatException, InvalidNodeFormatException {
+        setGraph(graphToCompareTo);
+
+        assertTrue("Graph " + graphToCompareTo + " is not properly set as GremlinGraph.",
+                isEqualGraph(this.gremlinGraph.currentGraph, testGraph));
     }
 
     private boolean isEqualGraph(GraphTraversalSource firstGraph, GraphTraversalSource secondGraph) {
@@ -176,58 +128,17 @@ public class GremlinGraphTest {
     private GraphTraversalSource getGraphG1() {
         GraphTraversalSource testGraph = getEmptyGraph();
 
-        addNodesG1(testGraph);
-
-        Map<String, Tuple5<String, String, ArrayList, Map, Boolean>> edges = new HashMap<>();
-        edges.put("e2", new Tuple5<>("n85", "n5", null, new HashMap(), DIRECTED));
-        edges.put("e3", new Tuple5<>("n85", "n19", null, new HashMap(), DIRECTED));
-        edges.put("e12", new Tuple5<>("n19", "n85", null, new HashMap(), DIRECTED));
-        edges.put("e21", new Tuple5<>("n29", "n19", null, new HashMap(), UNDIRECTED));
-        edges.put("e86", new Tuple5<>("n19", "n5", null, new HashMap(), DIRECTED));
-
-        addEdgesToGraph(testGraph, edges);
+        addNodesToGraph(testGraph, getNodesG1());
+        addEdgesToGraph(testGraph, getEdgesG1());
 
         return testGraph;
-    }
-
-    private void addNodesG1(GraphTraversalSource testGraph) {
-        Map<String, Tuple2<ArrayList, Map>> nodes = new HashMap<>();
-        nodes.put("n5", new Tuple2<>(null, new HashMap()));
-        nodes.put("n19", new Tuple2<>(null, new HashMap()));
-        nodes.put("n29", new Tuple2<>(null, new HashMap()));
-        nodes.put("n85", new Tuple2<>(null, new HashMap()));
-
-        addNodesToGraph(testGraph, nodes);
     }
 
     private GraphTraversalSource getGraphG2() {
         GraphTraversalSource testGraph = getEmptyGraph();
 
-        ArrayList personLabel = getLabels(new String[]{"Person"});
-        ArrayList internshipLabel = getLabels(new String[]{"Internship"});
-
-        Map<String, Tuple2<ArrayList, Map>> nodes = new HashMap<>();
-        nodes.put("n5", new Tuple2<>(internshipLabel, new HashMap()));
-        nodes.put("n19", new Tuple2<>(personLabel, new HashMap()));
-        nodes.put("n29", new Tuple2<>(personLabel, new HashMap()));
-        nodes.put("n85", new Tuple2<>(personLabel, new HashMap()));
-
-        addNodesToGraph(testGraph, nodes);
-
-        ArrayList doesLabel = getLabels(new String[]{"Does"});
-        ArrayList learnsFromLabel = getLabels(new String[]{"LearnsFrom"});
-        ArrayList teachesLabel = getLabels(new String[]{"Teaches"});
-        ArrayList areColleaguesLabel = getLabels(new String[]{"AreColleagues"});
-        ArrayList supervisesLabel = getLabels(new String[]{"Supervises"});
-
-        Map<String, Tuple5<String, String, ArrayList, Map, Boolean>> edges = new HashMap<>();
-        edges.put("e2", new Tuple5<>("n85", "n5", doesLabel, new HashMap(), DIRECTED));
-        edges.put("e3", new Tuple5<>("n85", "n19", learnsFromLabel, new HashMap(), DIRECTED));
-        edges.put("e12", new Tuple5<>("n19", "n85", teachesLabel, new HashMap(), DIRECTED));
-        edges.put("e21", new Tuple5<>("n29", "n19", areColleaguesLabel, new HashMap(), UNDIRECTED));
-        edges.put("e86", new Tuple5<>("n19", "n5", supervisesLabel, new HashMap(), DIRECTED));
-
-        addEdgesToGraph(testGraph, edges);
+        addNodesToGraph(testGraph, getNodesG2());
+        addEdgesToGraph(testGraph, getEdgesG2());
 
         return testGraph;
     }
@@ -235,54 +146,8 @@ public class GremlinGraphTest {
     private GraphTraversalSource getGraphG3() {
         GraphTraversalSource testGraph = getEmptyGraph();
 
-        ArrayList personLabel = getLabels(new String[]{"Person"});
-        ArrayList professorLabel = getLabels(new String[]{"Person", "Professor"});
-        ArrayList internshipLabel = getLabels(new String[]{"Internship"});
-        Map georgeProperties = new HashMap() {
-            {
-                put("name", "George Fletcher");
-                put("employer", "TU/e");
-            }
-        };
-        Map michaelProperties = new HashMap() {
-            {
-                put("name", "Michael Schmidt");
-                put("employer", "Amazon");
-            }
-        };
-        Map olofProperties = new HashMap() {
-            {
-                put("name", "Olof Morra");
-                put("studies", "Data Science");
-            }
-        };
-
-        Map<String, Tuple2<ArrayList, Map>> nodes = new HashMap<>();
-        nodes.put("n5", new Tuple2<>(internshipLabel, new HashMap()));
-        nodes.put("n19", new Tuple2<>(professorLabel, georgeProperties));
-        nodes.put("n29", new Tuple2<>(personLabel, michaelProperties));
-        nodes.put("n85", new Tuple2<>(personLabel, olofProperties));
-
-        addNodesToGraph(testGraph, nodes);
-
-        ArrayList doesLabel = getLabels(new String[]{"Does"});
-        ArrayList learnsFromLabel = getLabels(new String[]{"LearnsFrom"});
-        ArrayList teachesLabel = getLabels(new String[]{"Teaches"});
-        ArrayList areColleaguesLabel = getLabels(new String[]{"AreColleagues"});
-        ArrayList supervisesLabel = getLabels(new String[]{"Supervises"});
-        Map doesProperties = new HashMap() {
-            {
-                put("in_semester", 2);
-            }
-        };
-
-        Map<String, Tuple5<String, String, ArrayList, Map, Boolean>> edges = new HashMap<>();
-        edges.put("e2", new Tuple5<>("n85", "n5", doesLabel, doesProperties, DIRECTED));
-        edges.put("e3", new Tuple5<>("n85", "n19", learnsFromLabel, new HashMap(), DIRECTED));
-        edges.put("e12", new Tuple5<>("n19", "n85", teachesLabel, new HashMap(), DIRECTED));
-        edges.put("e21", new Tuple5<>("n29", "n19", areColleaguesLabel, new HashMap(), UNDIRECTED));
-        edges.put("e86", new Tuple5<>("n19", "n5", supervisesLabel, new HashMap(), DIRECTED));
-        addEdgesToGraph(testGraph, edges);
+        addNodesToGraph(testGraph, getNodesG3());
+        addEdgesToGraph(testGraph, getEdgesG3());
 
         return testGraph;
     }
@@ -305,7 +170,9 @@ public class GremlinGraphTest {
         pipe.property("labels", labels);
 
         Map properties = values.getSecond();
-        properties.forEach(pipe::property);
+        properties.forEach((propertyId, value) -> {
+            pipe.property(propertyId.toString(), value.toString());
+        });
 
         pipe.iterate();
     }
@@ -327,15 +194,13 @@ public class GremlinGraphTest {
         pipe.property("labels", labels);
 
         Map properties = values.getFourth();
-        properties.forEach(pipe::property);
+        properties.forEach((propertyId, value) -> {
+            pipe.property(propertyId.toString(), value.toString());
+        });
 
         Boolean isDirected = values.getFifth();
         pipe.property("isDirected", isDirected);
 
         pipe.iterate();
-    }
-
-    private ArrayList getLabels(String[] labels) {
-        return new ArrayList(Arrays.asList(labels));
     }
 }

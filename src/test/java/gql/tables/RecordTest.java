@@ -34,7 +34,7 @@ public class RecordTest {
     @Test
     public void testGetNrOfCharactersPerValue() {
         Record testRecord = getValidTestRecord();
-        assertArrayEquals(new int[]{4,2}, testRecord.getNrOfCharactersPerValue());
+        assertArrayEquals(new int[]{6,1}, testRecord.getNrOfCharactersPerValue());
     }
 
     @Test

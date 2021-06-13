@@ -28,29 +28,17 @@ public class Record {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Record)) {
-            return false;
-        }
-
-        Record recordToCompareTo = (Record) obj;
-
-        if(isOfUnequalWidth(recordToCompareTo)) {
-            return false;
-        }
-
-        return hasEqualColumns(recordToCompareTo) && hasEqualValues(recordToCompareTo);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Record record = (Record) o;
+        return Arrays.equals(columnNames, record.columnNames) && Arrays.equals(values, record.values);
     }
 
-    private boolean isOfUnequalWidth(Record recordToCompareTo) {
-        return columnNames.length != recordToCompareTo.columnNames.length || values.length != recordToCompareTo.values.length;
-    }
-
-    private boolean hasEqualColumns(Record recordToCompareTo) {
-        return Arrays.equals(columnNames, recordToCompareTo.columnNames);
-    }
-
-    private boolean hasEqualValues(Record recordToCompareTo) {
-        return Arrays.equals(values, recordToCompareTo.values);
+    @Override
+    public int hashCode() {
+        int result = Arrays.hashCode(columnNames);
+        result = 31 * result + Arrays.hashCode(values);
+        return result;
     }
 }

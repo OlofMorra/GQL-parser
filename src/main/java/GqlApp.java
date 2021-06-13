@@ -1,4 +1,5 @@
 import gql.graphs.GremlinGraph;
+import gql.graphs.WorkingGraph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +21,7 @@ public class GqlApp
             System.out.println("");
             System.out.println("New query:");
             executeQuery(filePath);
-            GremlinGraph.getInstance().printGraphName();
+            WorkingGraph.getInstance().printGraphName();
         }
     }
 

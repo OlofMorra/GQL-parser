@@ -1,6 +1,10 @@
 package gql.graphs;
 
+import exceptions.InvalidEdgeFormatException;
+import exceptions.InvalidNodeFormatException;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +15,39 @@ public abstract class Graph {
     protected static boolean isTest;
     private final String TEST_DIRECTORY = "/src/test/resources/database/";
     private final String MAIN_DIRECTORY = "/src/main/resources/database/";
+
+    public abstract void setRemoteGraph();
+    protected abstract void setEmptyGraph();
+    protected abstract void initializeNodes(String graphName) throws FileNotFoundException, InvalidNodeFormatException;
+    protected abstract void intializeEdges(String graphName) throws FileNotFoundException, InvalidEdgeFormatException;
+
+    public void setLocalGraph(String graphName) throws IllegalArgumentException, FileNotFoundException, InvalidNodeFormatException, InvalidEdgeFormatException {
+        if (graphNotExists(graphName)) {
+            throw new IllegalArgumentException("There is no graph directory \"" + graphName + "\".");
+        } else if (graphNotComplete(graphName)) {
+            throw new FileNotFoundException("Directory database/" + graphName + " needs to have a node.json and edgePattern.json file.");
+        }
+
+        setEmptyGraph();
+
+        initializeNodes(graphName);
+        intializeEdges(graphName);
+
+        currentGraphName = graphName;
+    }
+
+    protected boolean graphNotExists(String graphName) {
+        ArrayList<String> graphDirectories = getAvailableGraphNames();
+
+        return !graphDirectories.contains(graphName);
+    }
+
+    protected boolean graphNotComplete(String graphName) {
+        File graphDirectory = getGraphDirectory(graphName);
+        ArrayList<String> graphFileNames = new ArrayList<>(Arrays.asList(graphDirectory.list()));
+
+        return !(graphFileNames.contains("nodes.json") && graphFileNames.contains("edges.json"));
+    }
 
     public void setToTestDirectory() {
         isTest = true;

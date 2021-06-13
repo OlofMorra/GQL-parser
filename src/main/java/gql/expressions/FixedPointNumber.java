@@ -1,7 +1,5 @@
 package gql.expressions;
 
-// TODO: Look if floats and integers are handled the same, then this class is fine
-//  otherwise add float class.
 public class FixedPointNumber extends Value {
     private final int digitsBeforeRadixPoint;
     private final String digitsAfterRadixPoint;
@@ -124,6 +122,10 @@ public class FixedPointNumber extends Value {
 
     @Override
     public String toString() {
+        if (this.digitsAfterRadixPoint.equals("")) {
+            return String.valueOf(this.digitsBeforeRadixPoint);
+        }
+
         return this.digitsBeforeRadixPoint + "." + this.digitsAfterRadixPoint;
     }
 }

@@ -171,7 +171,7 @@ labelNegation
 labelPrimary
     : label
     | labelWildcard
-    | parenthesizedLabelExpression
+    | parenthesizedLabelExpression // TODO: Probably just remove for simplicity
     ;
 
 label

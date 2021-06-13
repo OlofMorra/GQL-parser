@@ -132,11 +132,6 @@ BinaryDigit
     : [01]
     ;
 
-fragment
-OtherDigit
-    : ' ' // TODO: see syntax rules
-    ;
-
 // Keywords
 KEYWORD
     : ReservedWords

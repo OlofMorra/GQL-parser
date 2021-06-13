@@ -11,8 +11,6 @@ public class Label {
 
     // TODO: When label is equal to %, all labels are valid
     //  At least one label must exist
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

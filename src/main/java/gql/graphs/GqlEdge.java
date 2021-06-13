@@ -6,6 +6,7 @@ import gql.expressions.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class GqlEdge {
@@ -16,63 +17,6 @@ public class GqlEdge {
     private ArrayList<Label> labels;
     private HashMap<GqlId, Value> properties;
 
-
-    public GqlEdge(GqlId id, GqlId startNodeId,
-                   GqlId endNodeId) {
-        this.id = id;
-        this.startNodeId = startNodeId;
-        this.endNodeId = endNodeId;
-    }
-
-    public GqlEdge(GqlId id, GqlId startNodeId,
-                   GqlId endNodeId,
-                   boolean isDirected) {
-        this.id = id;
-        this.startNodeId = startNodeId;
-        this.endNodeId = endNodeId;
-        this.isDirected = isDirected;
-    }
-
-    public GqlEdge(GqlId id, GqlId startNodeId, GqlId endNodeId, ArrayList<Label> labels) {
-        this.id = id;
-        this.labels = labels;
-        this.startNodeId = startNodeId;
-        this.endNodeId = endNodeId;
-    }
-
-    public GqlEdge(GqlId id, GqlId startNodeId, GqlId endNodeId, boolean isDirected, ArrayList<Label> labels) {
-        this.id = id;
-        this.labels = labels;
-        this.startNodeId = startNodeId;
-        this.endNodeId = endNodeId;
-        this.isDirected = isDirected;
-    }
-
-
-    public GqlEdge(GqlId id, GqlId startNodeId, GqlId endNodeId, HashMap<GqlId, Value> properties) {
-        this.id = id;
-        this.properties = properties;
-        this.startNodeId = startNodeId;
-        this.endNodeId = endNodeId;
-    }
-
-    public GqlEdge(GqlId id, GqlId startNodeId, GqlId endNodeId, boolean isDirected, HashMap<GqlId, Value> properties) {
-        this.id = id;
-        this.properties = properties;
-        this.startNodeId = startNodeId;
-        this.endNodeId = endNodeId;
-        this.isDirected = isDirected;
-    }
-
-    public GqlEdge(GqlId id, GqlId startNodeId, GqlId endNodeId, ArrayList<Label> labels,
-                   HashMap<GqlId, Value> properties) {
-        this.id = id;
-        this.labels = labels;
-        this.properties = properties;
-        this.startNodeId = startNodeId;
-        this.endNodeId = endNodeId;
-    }
-
     public GqlEdge(GqlId id, GqlId startNodeId, GqlId endNodeId, boolean isDirected, ArrayList<Label> labels,
                    HashMap<GqlId, Value> properties) {
         this.id = id;
@@ -81,6 +25,30 @@ public class GqlEdge {
         this.startNodeId = startNodeId;
         this.endNodeId = endNodeId;
         this.isDirected = isDirected;
+    }
+
+    public GqlId getId() {
+        return id;
+    }
+
+    public GqlId getStartNodeId() {
+        return startNodeId;
+    }
+
+    public GqlId getEndNodeId() {
+        return endNodeId;
+    }
+
+    public boolean isDirected() {
+        return isDirected;
+    }
+
+    public ArrayList<Label> getLabels() {
+        return labels;
+    }
+
+    public HashMap<GqlId, Value> getProperties() {
+        return properties;
     }
 
     @Override

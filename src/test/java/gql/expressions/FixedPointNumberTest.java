@@ -19,7 +19,7 @@ public class FixedPointNumberTest {
     @Test
     public void testLengthOnSingleDigitInteger() {
         FixedPointNumber testFixedPointNumber = new FixedPointNumber("1");
-        assertEquals("Length of " + testFixedPointNumber.toString() + " was not equal to 2.", 2, testFixedPointNumber.length());
+        assertEquals("Length of " + testFixedPointNumber.toString() + " was not equal to 1.", 1, testFixedPointNumber.length());
     }
 
     @Test

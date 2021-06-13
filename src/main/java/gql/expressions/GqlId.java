@@ -3,15 +3,15 @@ package gql.expressions;
 import java.text.Normalizer;
 import java.util.Objects;
 
-public class GqlId {
-    private String id;
+public class GqlId extends Value{
+    private GqlString id;
 
     public GqlId(String id) {
-        this.id = Normalizer.normalize(id, Normalizer.Form.NFKC);
+        this.id = new GqlString(Normalizer.normalize(id, Normalizer.Form.NFKC));
     }
 
     public String getId() {
-        return id;
+        return id.gqlString;
     }
 
     @Override
@@ -25,5 +25,24 @@ public class GqlId {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public TruthValue isEqualTo(Value valueToCompareTo) {
+        return new TruthValue(this.equals(valueToCompareTo));
+    }
+
+    @Override
+    public TruthValue isSmallerThan(Value valueToCompareTo) {
+        return new TruthValue(null);
+    }
+
+    @Override
+    public String toString() {
+        if (this.id == null) {
+            return "nil";
+        }
+
+        return this.id.gqlString;
     }
 }

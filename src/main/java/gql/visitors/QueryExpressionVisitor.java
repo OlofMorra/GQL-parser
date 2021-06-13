@@ -7,6 +7,7 @@ import antlr.GqlParserBaseVisitor;
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
 import gql.graphs.GremlinGraph;
+import gql.graphs.WorkingGraph;
 import gql.tables.BindingTable;
 
 import java.io.FileNotFoundException;
@@ -36,7 +37,7 @@ public class QueryExpressionVisitor extends GqlParserBaseVisitor<BindingTable> {
         String graphName = ctx.getChild(1).getText();
 
         try {
-            GremlinGraph.getInstance().setLocalGraph(graphName);
+            WorkingGraph.getInstance().setLocalGraph(graphName);
         } catch (FileNotFoundException | InvalidEdgeFormatException | InvalidNodeFormatException exception) {
             exception.printStackTrace();
         }

@@ -1,20 +1,20 @@
 {
   "e": {
-    "identity": 1,
-    "start": 1,
-    "end": 2,
+    "identity": "e1",
+    "start": "n1",
+    "end": "n2",
     "isDirected": 0
   },
   "e": {
-    "identity": 2,
-    "start": 2,
-    "end": 3,
+    "identity": "e2",
+    "start": "n2",
+    "end": "n3",
     "isDirected": 0
   },
   "e": {
-    "identity": 3,
-    "start": 85,
-    "end": 3,
+    "identity": "e3",
+    "start": "n85",
+    "end": "n3",
     "isDirected": 0
   }
 }

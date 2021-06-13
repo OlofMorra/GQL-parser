@@ -1,4 +1,4 @@
-parser grammar JsonEdgeParser;
+parser grammar JsonGraphParser;
 
 @header {
     package antlr;
@@ -10,13 +10,31 @@ options
     tokenVocab=GqlLexer;
 }
 
+jsonFile
+    : jsonNodeFile
+    | jsonEdgeFile
+    ;
+
+jsonNodeFile
+    : LEFT_BRACE node (COMMA node)* RIGHT_BRACE EOF
+    | LEFT_BRACE RIGHT_BRACE EOF
+    ;
+
 jsonEdgeFile
     : LEFT_BRACE edge (COMMA edge)* RIGHT_BRACE EOF
     | LEFT_BRACE RIGHT_BRACE EOF
     ;
 
+node
+    : WORD COLON LEFT_BRACE nodeFiller RIGHT_BRACE
+    ;
+
 edge
     : WORD COLON LEFT_BRACE edgeFiller RIGHT_BRACE
+    ;
+
+nodeFiller
+    : WORD COLON identity (COMMA labels)? (COMMA properties)?
     ;
 
 edgeFiller

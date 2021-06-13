@@ -2,6 +2,7 @@ package gql.expressions;
 
 import java.text.Collator;
 import java.util.Locale;
+import java.util.Objects;
 
 public class GqlString extends Value {
     String gqlString;
@@ -35,6 +36,20 @@ public class GqlString extends Value {
 
     @Override
     public String toString() {
-        return gqlString;
+        return "\"" + gqlString + "\"";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        GqlString gqlString1 = (GqlString) o;
+        return gqlString.equals(gqlString1.gqlString) && collator.equals(gqlString1.collator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(gqlString, collator);
     }
 }

@@ -14,12 +14,8 @@ import org.apache.tinkerpop.gremlin.structure.T;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Map;
 
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
@@ -48,44 +44,19 @@ public class GremlinGraph extends gql.graphs.Graph {
         return instance;
     }
 
-    public void setLocalGraph(String graphName) throws IllegalArgumentException, FileNotFoundException, InvalidNodeFormatException, InvalidEdgeFormatException {
-        if (graphNotExists(graphName)) {
-            throw new IllegalArgumentException("There is no graph directory \"" + graphName + "\".");
-        } else if (graphNotComplete(graphName)) {
-            throw new FileNotFoundException("Directory database/" + graphName + " needs to have a node.json and edgePattern.json file.");
-        }
-
-        setEmptyGraph();
-
-        initializeNodes(graphName);
-        intializeEdges(graphName);
-
-        currentGraphName = graphName;
-    }
-
+    @Override
     public void setRemoteGraph() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    private void setEmptyGraph() {
+    @Override
+    protected void setEmptyGraph() {
         Graph graph = TinkerGraph.open();
         this.currentGraph = traversal().withEmbedded(graph);
     }
 
-    private boolean graphNotExists(String graphName) {
-        ArrayList<String> graphDirectories = getAvailableGraphNames();
-
-        return !graphDirectories.contains(graphName);
-    }
-
-    private boolean graphNotComplete(String graphName) {
-        File graphDirectory = getGraphDirectory(graphName);
-        ArrayList<String> graphFileNames = new ArrayList<>(Arrays.asList(graphDirectory.list()));
-
-        return !(graphFileNames.contains("nodes.json") && graphFileNames.contains("edges.json"));
-    }
-
-    private void initializeNodes(String graphName) throws InvalidNodeFormatException, FileNotFoundException {
+    @Override
+    protected void initializeNodes(String graphName) throws FileNotFoundException, InvalidNodeFormatException {
         NodeParser nodeParser = new NodeParser(getGraphDirectory(graphName) + "/nodes.json");
         ArrayList<JsonNode> jsonNodes = nodeParser.getNodes();
 
@@ -94,7 +65,8 @@ public class GremlinGraph extends gql.graphs.Graph {
         }
     }
 
-    private void intializeEdges(String graphName) throws FileNotFoundException, InvalidEdgeFormatException {
+    @Override
+    protected void intializeEdges(String graphName) throws FileNotFoundException, InvalidEdgeFormatException {
         EdgeParser edgeParser = new EdgeParser(getGraphDirectory(graphName) + "/edges.json");
         ArrayList<JsonEdge> jsonEdges = edgeParser.getEdges();
 

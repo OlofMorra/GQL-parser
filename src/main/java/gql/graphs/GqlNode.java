@@ -13,24 +13,22 @@ public class GqlNode {
     private ArrayList<Label> labels;
     private HashMap<GqlId, Value> properties;
 
-    public GqlNode(GqlId id) {
-        this.id = id;
-    }
-
-    public GqlNode(GqlId id, ArrayList<Label> labels) {
-        this.id = id;
-        this.labels = labels;
-    }
-
-    public GqlNode(GqlId id, HashMap<GqlId, Value> properties) {
-        this.id = id;
-        this.properties = properties;
-    }
-
     public GqlNode(GqlId id, ArrayList<Label> labels, HashMap<GqlId, Value> properties) {
         this.id = id;
         this.labels = labels;
         this.properties = properties;
+    }
+
+    public GqlId getId() {
+        return id;
+    }
+
+    public ArrayList<Label> getLabels() {
+        return labels;
+    }
+
+    public HashMap<GqlId, Value> getProperties() {
+        return properties;
     }
 
     @Override
