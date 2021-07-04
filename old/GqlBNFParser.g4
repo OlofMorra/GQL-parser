@@ -184,7 +184,7 @@ graph_pattern_where_clause                                          // 16.7
     : WHERE search_condition
     ;
 
-// TODO: add path pattern prefix
+// TODO: add pathPattern pattern prefix
 path_pattern                                                        // 16.7
     : (path_variable EQ)? path_pattern_expression
     ;

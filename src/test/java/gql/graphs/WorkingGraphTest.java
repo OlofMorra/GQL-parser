@@ -2,12 +2,11 @@ package gql.graphs;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
-import gql.expressions.GqlId;
+import gql.expressions.GqlIdentifier;
 import gql.expressions.Label;
 import gql.expressions.Value;
 import groovy.lang.Tuple2;
 import groovy.lang.Tuple5;
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -78,12 +77,12 @@ public class WorkingGraphTest extends GraphTest{
         assertFalse("g3 is equal to g1.", isEqualGraph(this.workingGraph, "g1", transformNodes(getNodesG1()), transformEdges(getEdgesG1())));
         assertFalse("g3 is equal to g2.", isEqualGraph(this.workingGraph, "g2", transformNodes(getNodesG2()), transformEdges(getEdgesG2())));
 
-        HashMap<GqlId, GqlNode> g3WithExtraNode = transformNodes(getNodesG3());
-        g3WithExtraNode.put(new GqlId("test"), new GqlNode(new GqlId("test"), new ArrayList<>(), new HashMap<>()));
+        HashMap<GqlIdentifier, GqlNode> g3WithExtraNode = transformNodes(getNodesG3());
+        g3WithExtraNode.put(new GqlIdentifier("test"), new GqlNode(new GqlIdentifier("test"), new ArrayList<>(), new HashMap<>()));
         assertFalse("g3 is equal to g3 with an extra node.", isEqualGraph(this.workingGraph, "g3", g3WithExtraNode, transformEdges(getEdgesG3())));
 
-        HashMap<GqlId, GqlEdge> g3WithExtraEdge = transformEdges(getEdgesG3());
-        g3WithExtraEdge.put(new GqlId("test"), new GqlEdge(new GqlId("test"), new GqlId("n19"), new GqlId("n85"), true, new ArrayList<>(), new HashMap<>()));
+        HashMap<GqlIdentifier, GqlEdge> g3WithExtraEdge = transformEdges(getEdgesG3());
+        g3WithExtraEdge.put(new GqlIdentifier("test"), new GqlEdge(new GqlIdentifier("test"), new GqlIdentifier("n19"), new GqlIdentifier("n85"), true, new ArrayList<>(), new HashMap<>()));
         assertFalse("g3 is equal to g3 with an extra edge.", isEqualGraph(this.workingGraph, "g3", transformNodes(getNodesG3()), g3WithExtraEdge));
     }
 
@@ -101,16 +100,16 @@ public class WorkingGraphTest extends GraphTest{
         initializeNodes.invoke(this.workingGraph, new String[]{graphName});
     }
 
-    private boolean nodesAreEmpty(HashMap<GqlId, GqlNode> nodes) {
-        return nodes.equals(new HashMap<GqlId, GqlNode>());
+    private boolean nodesAreEmpty(HashMap<GqlIdentifier, GqlNode> nodes) {
+        return nodes.equals(new HashMap<GqlIdentifier, GqlNode>());
     }
 
-    private boolean edgesAreEmpty(HashMap<GqlId, GqlEdge> edges) {
-        return edges.equals(new HashMap<GqlId, GqlEdge>());
+    private boolean edgesAreEmpty(HashMap<GqlIdentifier, GqlEdge> edges) {
+        return edges.equals(new HashMap<GqlIdentifier, GqlEdge>());
     }
 
-    private HashMap<GqlId, GqlNode> transformNodes(Map<String, Tuple2<ArrayList, Map>> nodes) {
-         HashMap<GqlId, GqlNode> transformedNodes = new HashMap<GqlId, GqlNode>();
+    private HashMap<GqlIdentifier, GqlNode> transformNodes(Map<String, Tuple2<ArrayList, Map>> nodes) {
+         HashMap<GqlIdentifier, GqlNode> transformedNodes = new HashMap<GqlIdentifier, GqlNode>();
 
          nodes.forEach((id, values) -> {
              transformNode(transformedNodes, id, values);
@@ -119,17 +118,17 @@ public class WorkingGraphTest extends GraphTest{
          return transformedNodes;
     }
 
-    private void transformNode(HashMap<GqlId, GqlNode> transformedNodes, String id, Tuple2<ArrayList, Map> values) {
-        GqlId gqlId = new GqlId(id);
+    private void transformNode(HashMap<GqlIdentifier, GqlNode> transformedNodes, String id, Tuple2<ArrayList, Map> values) {
+        GqlIdentifier gqlIdentifier = new GqlIdentifier(id);
         ArrayList<Label> labels = transformLabels(values.getFirst());
-        HashMap<GqlId, Value> properties = (HashMap<GqlId, Value>) values.getSecond();
-        GqlNode node = new GqlNode(gqlId, labels, properties);
+        HashMap<GqlIdentifier, Value> properties = (HashMap<GqlIdentifier, Value>) values.getSecond();
+        GqlNode node = new GqlNode(gqlIdentifier, labels, properties);
 
-        transformedNodes.put(gqlId, node);
+        transformedNodes.put(gqlIdentifier, node);
     }
 
-    private HashMap<GqlId, GqlEdge> transformEdges(Map<String, Tuple5<String, String, ArrayList, Map, Boolean>> edges) {
-        HashMap<GqlId, GqlEdge> transformedEdges = new HashMap<GqlId, GqlEdge>();
+    private HashMap<GqlIdentifier, GqlEdge> transformEdges(Map<String, Tuple5<String, String, ArrayList, Map, Boolean>> edges) {
+        HashMap<GqlIdentifier, GqlEdge> transformedEdges = new HashMap<GqlIdentifier, GqlEdge>();
 
         edges.forEach((id, values) -> {
             transformEdge(transformedEdges, id, values);
@@ -138,15 +137,15 @@ public class WorkingGraphTest extends GraphTest{
         return transformedEdges;
     }
 
-    private void transformEdge(HashMap<GqlId, GqlEdge> transformedEdges, String id, Tuple5<String, String, ArrayList, Map, Boolean> values) {
-        GqlId gqlId = new GqlId(id);
-        GqlId startNode = new GqlId(values.getFirst());
-        GqlId endNode = new GqlId(values.getSecond());
+    private void transformEdge(HashMap<GqlIdentifier, GqlEdge> transformedEdges, String id, Tuple5<String, String, ArrayList, Map, Boolean> values) {
+        GqlIdentifier gqlIdentifier = new GqlIdentifier(id);
+        GqlIdentifier startNode = new GqlIdentifier(values.getFirst());
+        GqlIdentifier endNode = new GqlIdentifier(values.getSecond());
         ArrayList<Label> labels = transformLabels(values.getThird());
-        HashMap<GqlId, Value> properties = (HashMap<GqlId, Value>) values.getFourth();
-        GqlEdge edge = new GqlEdge(gqlId, startNode, endNode, values.getFifth(), labels, properties);
+        HashMap<GqlIdentifier, Value> properties = (HashMap<GqlIdentifier, Value>) values.getFourth();
+        GqlEdge edge = new GqlEdge(gqlIdentifier, startNode, endNode, values.getFifth(), labels, properties);
 
-        transformedEdges.put(gqlId, edge);
+        transformedEdges.put(gqlIdentifier, edge);
     }
 
     private ArrayList<Label> transformLabels(ArrayList labels) {
@@ -155,21 +154,21 @@ public class WorkingGraphTest extends GraphTest{
 
         if (labels != null) {
             for (Object label: labels) {
-                transformedLabels.add(new Label(new GqlId((String) label)));
+                transformedLabels.add(new Label((String) label));
             }
         }
 
         return transformedLabels;
     }
 
-    private void testSetWorkingGraph(HashMap<GqlId, GqlNode> nodes, HashMap<GqlId, GqlEdge> edges, String graphToCompareTo) throws InvalidEdgeFormatException, InvalidNodeFormatException {
+    private void testSetWorkingGraph(HashMap<GqlIdentifier, GqlNode> nodes, HashMap<GqlIdentifier, GqlEdge> edges, String graphToCompareTo) throws InvalidEdgeFormatException, InvalidNodeFormatException {
         setGraph(graphToCompareTo);
 
         assertTrue("Graph " + graphToCompareTo + " is not properly set as working graph.",
                 isEqualGraph(this.workingGraph, graphToCompareTo, nodes, edges));
     }
 
-    private boolean isEqualGraph(WorkingGraph workingGraph, String graphName, HashMap<GqlId, GqlNode> nodes, HashMap<GqlId, GqlEdge> edges) {
+    private boolean isEqualGraph(WorkingGraph workingGraph, String graphName, HashMap<GqlIdentifier, GqlNode> nodes, HashMap<GqlIdentifier, GqlEdge> edges) {
         boolean hasEqualGraphName = workingGraph.currentGraphName.equals(graphName);
         boolean hasEqualNodes = workingGraph.nodes.equals(nodes);
         boolean hasEqualEdges = workingGraph.edges.equals(edges);

@@ -1,9 +1,6 @@
 package gql.tables;
 
-import gql.expressions.GqlString;
-import gql.expressions.FixedPointNumber;
-import gql.expressions.TruthValue;
-import gql.expressions.Value;
+import gql.expressions.*;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -95,14 +92,78 @@ public class BindingTableConjuctorTest {
         testWithSameRecord("otherwise", 0, 0, 0);
     }
 
+    // Example 2.4 query 1
+    @Test
+    public void testCrossProductWithEqualColumnNames() {
+        String[] columnNames = new String[]{"x", "y", "z"};
+
+        BindingTable left = getAcyclicOutput(columnNames);
+        BindingTable right = getTrailOutput(columnNames);
+
+        BindingTable expectedResult = getAcyclicOutput(columnNames);
+
+        BindingTableConjuctor bindingTableConjuctor = new BindingTableConjuctor();
+        checkIfBindingTablesAreEqual(expectedResult, bindingTableConjuctor.crossProduct(left, right));
+    }
+
+    @Test
+    public void testCrossProductWithIntersectingColumnNames() {
+        String[] columnNamesLeft = new String[]{"x", "y", "z"};
+        String[] columnNamesRight = new String[]{"x", "y", "a"};
+        String[] expectedColumnNames = new String[]{"x", "y", "z", "a"};
+
+        BindingTable left = getAcyclicOutput(columnNamesLeft);
+        BindingTable right = getTrailOutput(columnNamesRight);
+
+        BindingTable expectedResult = new BindingTable(false, false, expectedColumnNames);
+        expectedResult.addRecord(getFourNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n3"));
+        expectedResult.addRecord(getFourNodeIdentifiersRecord(expectedColumnNames, "n3", "n2", "n1", "n1"));
+
+        BindingTableConjuctor bindingTableConjuctor = new BindingTableConjuctor();
+        checkIfBindingTablesAreEqual(expectedResult, bindingTableConjuctor.crossProduct(left, right));
+    }
+
+    // Example 2.4 query 2
+    @Test
+    public void testCrossProductWithDistinctColumnNames() {
+        String[] columnNamesLeft = new String[]{"a", "b", "c"};
+        String[] columnNamesRight = new String[]{"x", "y", "z"};
+        String[] expectedColumnNames = new String[]{"a", "b", "c", "x", "y", "z"};
+
+        BindingTable left = getAcyclicOutput(columnNamesLeft);
+        BindingTable right = getTrailOutput(columnNamesRight);
+
+        BindingTable expectedResult = new BindingTable(false, false, expectedColumnNames);
+        expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n1", "n2", "n3"));
+        expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n2", "n3", "n3"));
+        expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n3", "n2", "n1"));
+        expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n3", "n3", "n2"));
+        expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n3", "n2", "n1", "n1", "n2", "n3"));
+        expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n3", "n2", "n1", "n2", "n3", "n3"));
+        expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n3", "n2", "n1", "n3", "n2", "n1"));
+        expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n3", "n2", "n1", "n3", "n3", "n2"));
+
+        BindingTableConjuctor bindingTableConjuctor = new BindingTableConjuctor();
+        checkIfBindingTablesAreEqual(expectedResult, bindingTableConjuctor.crossProduct(left, right));
+    }
+
     @Test
     public void testDifferentSetsOfColumnNames() {
-        String[] columnNamesLeft = new String[]{"testLeft"};
-
-        String[] columnNamesRight = new String[]{"testRight"};
+        String[] columnNamesLeft = new String[]{"testLeft", "testRight"};
+        String[] columnNamesRight = new String[]{"testRight", "testRight"};
 
         BindingTableConjuctor bindingTableConjuctor = new BindingTableConjuctor();
         assertFalse(bindingTableConjuctor.haveEqualColumnNames(columnNamesLeft, columnNamesRight));
+    }
+
+    @Test
+    public void testSameSetsOfColumnNames() {
+        String[] columnNamesLeft = new String[]{"testLeft", "testRight"};
+
+        String[] columnNamesRight = new String[]{"testRight", "testLeft"};
+
+        BindingTableConjuctor bindingTableConjuctor = new BindingTableConjuctor();
+        assertTrue(bindingTableConjuctor.haveEqualColumnNames(columnNamesLeft, columnNamesRight));
     }
 
 
@@ -113,7 +174,7 @@ public class BindingTableConjuctorTest {
 
         BindingTable actualResult = getConjunction(conjunctionType, left, right);
 
-        assertEquals(expectedResult, actualResult);
+        checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
     private void testUnionWithDifferentRecords(String setOperator) {
@@ -137,7 +198,7 @@ public class BindingTableConjuctorTest {
 
         BindingTable actualResult = getConjunction("union" + setOperator, left, right);
 
-        assertEquals(expectedResult, actualResult);
+        checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
     private void testExceptWithDifferentRecords(String setOperator) {
@@ -158,7 +219,7 @@ public class BindingTableConjuctorTest {
 
         BindingTable actualResult = getConjunction("except" + setOperator, left, right);
 
-        assertEquals(expectedResult, actualResult);
+        checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
     private void testIntersectWithDifferentRecords(String setOperator) {
@@ -179,7 +240,7 @@ public class BindingTableConjuctorTest {
 
         BindingTable actualResult = getConjunction("intersect" + setOperator, left, right);
 
-        assertEquals(expectedResult, actualResult);
+        checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
     private BindingTable getConjunction(String conjunctionType, BindingTable left, BindingTable right) {
@@ -240,6 +301,41 @@ public class BindingTableConjuctorTest {
         return bindingTable;
     }
 
+    // Table 3c in report
+    private BindingTable getAcyclicOutput(String[] columnNames) {
+        BindingTable output = new BindingTable(false, false, columnNames);
+
+        output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n1", "n2", "n3"));
+        output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n3", "n2", "n1"));
+
+        return output;
+    }
+
+    // Table 3d in report
+    private BindingTable getTrailOutput(String[] columnNames) {
+        BindingTable output = new BindingTable(false, false, columnNames);
+
+        output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n1", "n2", "n3"));
+        output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n2", "n3", "n3"));
+        output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n3", "n2", "n1"));
+        output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n3", "n3", "n2"));
+
+        return output;
+    }
+
+    private Record getThreeNodeIdentifiersRecord(String[] columnNames, String id1, String id2, String id3) {
+        return new Record(columnNames, new Value[]{new GqlIdentifier(id1), new GqlIdentifier(id2), new GqlIdentifier(id3)});
+    }
+
+    private Record getFourNodeIdentifiersRecord(String[] columnNames, String id1, String id2, String id3, String id4) {
+        return new Record(columnNames, new Value[]{new GqlIdentifier(id1), new GqlIdentifier(id2), new GqlIdentifier(id3), new GqlIdentifier(id4)});
+    }
+
+    private Record getSixNodeIdentifiersRecord(String[] columnNames, String id1, String id2, String id3, String id4, String id5, String id6) {
+        return new Record(columnNames, new Value[]{new GqlIdentifier(id1), new GqlIdentifier(id2), new GqlIdentifier(id3),
+                new GqlIdentifier(id4), new GqlIdentifier(id5), new GqlIdentifier(id6)});
+    }
+
     private void addRecordsToBindingTable(BindingTable bindingTable, String[] columnNames, int numberOfSecondRecord, int numberOfThirdRecord, int numberOfFirstRecord) {
         Value[] firstValues = new Value[]{new GqlString("test value")};
         Record firstRecord = new Record(columnNames, firstValues);
@@ -253,5 +349,14 @@ public class BindingTableConjuctorTest {
         bindingTable.addRecordMultipleTimes(firstRecord, numberOfFirstRecord);
         bindingTable.addRecordMultipleTimes(secondRecord, numberOfSecondRecord);
         bindingTable.addRecordMultipleTimes(thirdRecord, numberOfThirdRecord);
+    }
+
+    private void checkIfBindingTablesAreEqual(BindingTable expectedResult, BindingTable actualResult) {
+        System.out.println("Expected:");
+        expectedResult.printToConsole();
+        System.out.println("Actual:");
+        actualResult.printToConsole();
+
+        assertEquals(expectedResult, actualResult);
     }
 }

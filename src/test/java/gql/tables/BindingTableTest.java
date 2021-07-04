@@ -7,6 +7,8 @@ import gql.expressions.GqlString;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class BindingTableTest {
@@ -43,7 +45,10 @@ public class BindingTableTest {
 
     @Test
     public void testAddRecords() {
-        bindingTable.addRecords(new Record[]{record, record});
+        ArrayList<Record> records = new ArrayList<>();
+        records.add(record);
+        records.add(record);
+        bindingTable.addRecords(records);
 
         assertTrue(bindingTable.records.contains(record));
         assertEquals(2, bindingTable.records.size());

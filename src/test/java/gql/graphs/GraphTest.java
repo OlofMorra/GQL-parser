@@ -3,7 +3,7 @@ package gql.graphs;
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
 import gql.expressions.FixedPointNumber;
-import gql.expressions.GqlId;
+import gql.expressions.GqlIdentifier;
 import gql.expressions.GqlString;
 import groovy.lang.Tuple2;
 import groovy.lang.Tuple5;
@@ -64,6 +64,7 @@ public abstract class GraphTest {
 
     protected void setGraph(String graphToCompareTo) throws InvalidEdgeFormatException, InvalidNodeFormatException {
         try {
+            this.graph.setToMainDirectory();
             this.graph.setLocalGraph(graphToCompareTo);
         } catch (FileNotFoundException exception) {
             System.err.println("Graph " + graphToCompareTo + " was not complete, i.e. missing nodes.json or edges.json.");
@@ -129,20 +130,20 @@ public abstract class GraphTest {
         ArrayList internshipLabel = getLabelsAsList(new String[]{"Internship"});
         Map georgeProperties = new HashMap() {
             {
-                put(new GqlId("name"), new GqlString("George Fletcher"));
-                put(new GqlId("employer"), new GqlString("TU/e"));
+                put(new GqlIdentifier("name"), new GqlString("George Fletcher"));
+                put(new GqlIdentifier("employer"), new GqlString("TU/e"));
             }
         };
         Map michaelProperties = new HashMap() {
             {
-                put(new GqlId("name"), new GqlString("Michael Schmidt"));
-                put(new GqlId("employer"), new GqlString("Amazon"));
+                put(new GqlIdentifier("name"), new GqlString("Michael Schmidt"));
+                put(new GqlIdentifier("employer"), new GqlString("Amazon"));
             }
         };
         Map olofProperties = new HashMap() {
             {
-                put(new GqlId("name"), new GqlString("Olof Morra"));
-                put(new GqlId("studies"), new GqlString("Data Science"));
+                put(new GqlIdentifier("name"), new GqlString("Olof Morra"));
+                put(new GqlIdentifier("studies"), new GqlString("Data Science"));
             }
         };
 
@@ -163,7 +164,7 @@ public abstract class GraphTest {
         ArrayList supervisesLabel = getLabelsAsList(new String[]{"Supervises"});
         Map doesProperties = new HashMap() {
             {
-                put(new GqlId("in_semester"), new FixedPointNumber("2"));
+                put(new GqlIdentifier("in_semester"), new FixedPointNumber("2"));
             }
         };
 

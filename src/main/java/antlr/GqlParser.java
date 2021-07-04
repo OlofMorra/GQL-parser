@@ -1969,13 +1969,86 @@ public class GqlParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public ValueContext value() {
-			return getRuleContext(ValueContext.class,0);
+		public ExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
+		@Override public int getRuleIndex() { return RULE_expr; }
+	 
+		public ExprContext() { }
+		public void copyFrom(ExprContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class BooleanComparisonContext extends ExprContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public BooleanComparatorContext booleanComparator() {
+			return getRuleContext(BooleanComparatorContext.class,0);
+		}
+		public TerminalNode TRUTH_VALUE() { return getToken(GqlParser.TRUTH_VALUE, 0); }
+		public BooleanComparisonContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GqlParserVisitor ) return ((GqlParserVisitor<? extends T>)visitor).visitBooleanComparison(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class PropertyReferenceContext extends ExprContext {
 		public NameContext name() {
 			return getRuleContext(NameContext.class,0);
 		}
-		public TerminalNode NOT() { return getToken(GqlParser.NOT, 0); }
+		public TerminalNode PERIOD() { return getToken(GqlParser.PERIOD, 0); }
+		public KeyContext key() {
+			return getRuleContext(KeyContext.class,0);
+		}
+		public PropertyReferenceContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GqlParserVisitor ) return ((GqlParserVisitor<? extends T>)visitor).visitPropertyReference(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ValueExpressionContext extends ExprContext {
+		public ValueContext value() {
+			return getRuleContext(ValueContext.class,0);
+		}
+		public ValueExpressionContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GqlParserVisitor ) return ((GqlParserVisitor<? extends T>)visitor).visitValueExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NameExpressionContext extends ExprContext {
+		public NameContext name() {
+			return getRuleContext(NameContext.class,0);
+		}
+		public NameExpressionContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GqlParserVisitor ) return ((GqlParserVisitor<? extends T>)visitor).visitNameExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ValueComparisonContext extends ExprContext {
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public CompOpContext compOp() {
+			return getRuleContext(CompOpContext.class,0);
+		}
+		public ValueComparisonContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GqlParserVisitor ) return ((GqlParserVisitor<? extends T>)visitor).visitValueComparison(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExpressionComparisonContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
@@ -1985,24 +2058,22 @@ public class GqlParser extends Parser {
 		public ComparatorContext comparator() {
 			return getRuleContext(ComparatorContext.class,0);
 		}
-		public CompOpContext compOp() {
-			return getRuleContext(CompOpContext.class,0);
-		}
-		public TerminalNode PERIOD() { return getToken(GqlParser.PERIOD, 0); }
-		public KeyContext key() {
-			return getRuleContext(KeyContext.class,0);
-		}
-		public BooleanComparatorContext booleanComparator() {
-			return getRuleContext(BooleanComparatorContext.class,0);
-		}
-		public TerminalNode TRUTH_VALUE() { return getToken(GqlParser.TRUTH_VALUE, 0); }
-		public ExprContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_expr; }
+		public ExpressionComparisonContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof GqlParserVisitor ) return ((GqlParserVisitor<? extends T>)visitor).visitExpr(this);
+			if ( visitor instanceof GqlParserVisitor ) return ((GqlParserVisitor<? extends T>)visitor).visitExpressionComparison(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class NegatedExpressionContext extends ExprContext {
+		public TerminalNode NOT() { return getToken(GqlParser.NOT, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public NegatedExpressionContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof GqlParserVisitor ) return ((GqlParserVisitor<? extends T>)visitor).visitNegatedExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2022,38 +2093,55 @@ public class GqlParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(295);
+			setState(299);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case SIGNED_INTEGER:
-			case SIGNED_FIXED_POINT:
-			case SIGNED_FLOAT:
-			case TRUTH_VALUE:
-			case WORD:
+			switch ( getInterpreter().adaptivePredict(_input,30,_ctx) ) {
+			case 1:
 				{
+				_localctx = new ValueExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+
 				setState(291);
 				value();
 				}
 				break;
-			case ID:
+			case 2:
 				{
+				_localctx = new NameExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(292);
 				name();
 				}
 				break;
-			case NOT:
+			case 3:
 				{
+				_localctx = new PropertyReferenceContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(293);
-				match(NOT);
+				name();
 				setState(294);
+				match(PERIOD);
+				setState(295);
+				key();
+				}
+				break;
+			case 4:
+				{
+				_localctx = new NegatedExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(297);
+				match(NOT);
+				setState(298);
 				expr(3);
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(314);
+			setState(315);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,32,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -2061,61 +2149,49 @@ public class GqlParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(312);
+					setState(313);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,31,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ExprContext(_parentctx, _parentState);
+						_localctx = new ExpressionComparisonContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(297);
+						setState(301);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(298);
+						setState(302);
 						comparator();
-						setState(299);
+						setState(303);
 						expr(5);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new ExprContext(_parentctx, _parentState);
+						_localctx = new ValueComparisonContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(301);
+						setState(305);
 						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-						setState(302);
+						setState(306);
 						compOp();
-						setState(303);
+						setState(307);
 						expr(2);
 						}
 						break;
 					case 3:
 						{
-						_localctx = new ExprContext(_parentctx, _parentState);
+						_localctx = new BooleanComparisonContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(305);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(306);
-						match(PERIOD);
-						setState(307);
-						key();
-						}
-						break;
-					case 4:
-						{
-						_localctx = new ExprContext(_parentctx, _parentState);
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(308);
-						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 						setState(309);
-						booleanComparator();
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 						setState(310);
+						booleanComparator();
+						setState(311);
 						match(TRUTH_VALUE);
 						}
 						break;
 					}
 					} 
 				}
-				setState(316);
+				setState(317);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,32,_ctx);
 			}
@@ -2156,7 +2232,7 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(317);
+			setState(318);
 			_la = _input.LA(1);
 			if ( !(_la==IS || _la==COLON) ) {
 			_errHandler.recoverInline(this);
@@ -2166,7 +2242,7 @@ public class GqlParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(318);
+			setState(319);
 			labelExpression();
 			}
 		}
@@ -2210,21 +2286,21 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(320);
+			setState(321);
 			labelTerm();
-			setState(325);
+			setState(326);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==VERTICAL_BAR) {
 				{
 				{
-				setState(321);
-				match(VERTICAL_BAR);
 				setState(322);
+				match(VERTICAL_BAR);
+				setState(323);
 				labelTerm();
 				}
 				}
-				setState(327);
+				setState(328);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -2270,21 +2346,21 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(328);
+			setState(329);
 			labelFactor();
-			setState(333);
+			setState(334);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==AMPERSAND) {
 				{
 				{
-				setState(329);
-				match(AMPERSAND);
 				setState(330);
+				match(AMPERSAND);
+				setState(331);
 				labelFactor();
 				}
 				}
-				setState(335);
+				setState(336);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -2323,7 +2399,7 @@ public class GqlParser extends Parser {
 		LabelFactorContext _localctx = new LabelFactorContext(_ctx, getState());
 		enterRule(_localctx, 66, RULE_labelFactor);
 		try {
-			setState(338);
+			setState(339);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case PERCENT:
@@ -2332,14 +2408,14 @@ public class GqlParser extends Parser {
 			case ID:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(336);
+				setState(337);
 				labelPrimary();
 				}
 				break;
 			case EXCLAMATION_MARK:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(337);
+				setState(338);
 				labelNegation();
 				}
 				break;
@@ -2380,9 +2456,9 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(340);
-			match(EXCLAMATION_MARK);
 			setState(341);
+			match(EXCLAMATION_MARK);
+			setState(342);
 			labelPrimary();
 			}
 		}
@@ -2422,20 +2498,20 @@ public class GqlParser extends Parser {
 		LabelPrimaryContext _localctx = new LabelPrimaryContext(_ctx, getState());
 		enterRule(_localctx, 70, RULE_labelPrimary);
 		try {
-			setState(346);
+			setState(347);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ID:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(343);
+				setState(344);
 				label();
 				}
 				break;
 			case PERCENT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(344);
+				setState(345);
 				labelWildcard();
 				}
 				break;
@@ -2443,7 +2519,7 @@ public class GqlParser extends Parser {
 			case LEFT_PAREN:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(345);
+				setState(346);
 				parenthesizedLabelExpression();
 				}
 				break;
@@ -2481,7 +2557,7 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(348);
+			setState(349);
 			match(ID);
 			}
 		}
@@ -2515,7 +2591,7 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(350);
+			setState(351);
 			match(PERCENT);
 			}
 		}
@@ -2553,28 +2629,28 @@ public class GqlParser extends Parser {
 		ParenthesizedLabelExpressionContext _localctx = new ParenthesizedLabelExpressionContext(_ctx, getState());
 		enterRule(_localctx, 76, RULE_parenthesizedLabelExpression);
 		try {
-			setState(360);
+			setState(361);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LEFT_PAREN:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(352);
-				match(LEFT_PAREN);
 				setState(353);
-				labelExpression();
+				match(LEFT_PAREN);
 				setState(354);
+				labelExpression();
+				setState(355);
 				match(RIGHT_PAREN);
 				}
 				break;
 			case LEFT_BRACKET:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(356);
-				match(LEFT_BRACKET);
 				setState(357);
-				labelExpression();
+				match(LEFT_BRACKET);
 				setState(358);
+				labelExpression();
+				setState(359);
 				match(RIGHT_BRACKET);
 				}
 				break;
@@ -2615,7 +2691,7 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(362);
+			setState(363);
 			_la = _input.LA(1);
 			if ( !(_la==AND || _la==OR || _la==XOR) ) {
 			_errHandler.recoverInline(this);
@@ -2659,14 +2735,14 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(364);
+			setState(365);
 			match(IS);
-			setState(366);
+			setState(367);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==NOT) {
 				{
-				setState(365);
+				setState(366);
 				match(NOT);
 				}
 			}
@@ -2709,7 +2785,7 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(368);
+			setState(369);
 			_la = _input.LA(1);
 			if ( !(((((_la - 324)) & ~0x3f) == 0 && ((1L << (_la - 324)) & ((1L << (GEQ - 324)) | (1L << (LEQ - 324)) | (1L << (NEQ - 324)) | (1L << (LT - 324)) | (1L << (GT - 324)) | (1L << (EQ - 324)))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -2753,7 +2829,7 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(370);
+			setState(371);
 			name();
 			}
 		}
@@ -2787,7 +2863,7 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(372);
+			setState(373);
 			match(ID);
 			}
 		}
@@ -2826,7 +2902,7 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(374);
+			setState(375);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << SIGNED_INTEGER) | (1L << SIGNED_FIXED_POINT) | (1L << SIGNED_FLOAT))) != 0) || _la==TRUTH_VALUE || _la==WORD) ) {
 			_errHandler.recoverInline(this);
@@ -2868,7 +2944,7 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(376);
+			setState(377);
 			match(ID);
 			}
 		}
@@ -2902,7 +2978,7 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(378);
+			setState(379);
 			match(ID);
 			}
 		}
@@ -2936,7 +3012,7 @@ public class GqlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(380);
+			setState(381);
 			match(ID);
 			}
 		}
@@ -2965,15 +3041,13 @@ public class GqlParser extends Parser {
 		case 1:
 			return precpred(_ctx, 1);
 		case 2:
-			return precpred(_ctx, 5);
-		case 3:
 			return precpred(_ctx, 2);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\u0156\u0181\4\2\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\u0156\u0182\4\2\t"+
 		"\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -2995,28 +3069,28 @@ public class GqlParser extends Parser {
 		"\26\3\27\3\27\3\27\7\27\u0102\n\27\f\27\16\27\u0105\13\27\3\30\3\30\3"+
 		"\30\5\30\u010a\n\30\3\31\3\31\5\31\u010e\n\31\3\32\3\32\3\32\5\32\u0113"+
 		"\n\32\3\33\3\33\5\33\u0117\n\33\3\34\3\34\3\35\3\35\3\35\3\35\3\36\3\36"+
-		"\3\36\3\36\5\36\u0123\n\36\3\37\3\37\3\37\3\37\3\37\5\37\u012a\n\37\3"+
-		"\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3"+
-		"\37\7\37\u013b\n\37\f\37\16\37\u013e\13\37\3 \3 \3 \3!\3!\3!\7!\u0146"+
-		"\n!\f!\16!\u0149\13!\3\"\3\"\3\"\7\"\u014e\n\"\f\"\16\"\u0151\13\"\3#"+
-		"\3#\5#\u0155\n#\3$\3$\3$\3%\3%\3%\5%\u015d\n%\3&\3&\3\'\3\'\3(\3(\3(\3"+
-		"(\3(\3(\3(\3(\5(\u016b\n(\3)\3)\3*\3*\5*\u0171\n*\3+\3+\3,\3,\3-\3-\3"+
+		"\3\36\3\36\5\36\u0123\n\36\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37"+
+		"\5\37\u012e\n\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37\3\37"+
+		"\3\37\7\37\u013c\n\37\f\37\16\37\u013f\13\37\3 \3 \3 \3!\3!\3!\7!\u0147"+
+		"\n!\f!\16!\u014a\13!\3\"\3\"\3\"\7\"\u014f\n\"\f\"\16\"\u0152\13\"\3#"+
+		"\3#\5#\u0156\n#\3$\3$\3$\3%\3%\3%\5%\u015e\n%\3&\3&\3\'\3\'\3(\3(\3(\3"+
+		"(\3(\3(\3(\3(\5(\u016c\n(\3)\3)\3*\3*\5*\u0172\n*\3+\3+\3,\3,\3-\3-\3"+
 		".\3.\3/\3/\3\60\3\60\3\61\3\61\3\61\2\3<\62\2\4\6\b\n\f\16\20\22\24\26"+
 		"\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJLNPRTVXZ\\^`\2\n\4\2\u0084"+
 		"\u0084\u0096\u0096\6\2\u00e0\u00e0\u0107\u0107\u010d\u010d\u0114\u0114"+
 		"\4\2TTrr\4\2\21\21II\4\2tt\u0134\u0134\5\2\22\22\u0097\u0097\u00dd\u00dd"+
-		"\3\2\u0146\u014b\6\2\7\7\t\n\u0116\u0116\u0156\u0156\2\u017d\2b\3\2\2"+
+		"\3\2\u0146\u014b\6\2\7\7\t\n\u0116\u0116\u0156\u0156\2\u017e\2b\3\2\2"+
 		"\2\4o\3\2\2\2\6s\3\2\2\2\b|\3\2\2\2\n\u0083\3\2\2\2\f\u008a\3\2\2\2\16"+
 		"\u0091\3\2\2\2\20\u0094\3\2\2\2\22\u009c\3\2\2\2\24\u00a7\3\2\2\2\26\u00ae"+
 		"\3\2\2\2\30\u00b0\3\2\2\2\32\u00c2\3\2\2\2\34\u00c4\3\2\2\2\36\u00d0\3"+
 		"\2\2\2 \u00d7\3\2\2\2\"\u00d9\3\2\2\2$\u00dd\3\2\2\2&\u00e1\3\2\2\2(\u00e6"+
 		"\3\2\2\2*\u00f1\3\2\2\2,\u00fe\3\2\2\2.\u0106\3\2\2\2\60\u010d\3\2\2\2"+
 		"\62\u010f\3\2\2\2\64\u0114\3\2\2\2\66\u0118\3\2\2\28\u011a\3\2\2\2:\u0122"+
-		"\3\2\2\2<\u0129\3\2\2\2>\u013f\3\2\2\2@\u0142\3\2\2\2B\u014a\3\2\2\2D"+
-		"\u0154\3\2\2\2F\u0156\3\2\2\2H\u015c\3\2\2\2J\u015e\3\2\2\2L\u0160\3\2"+
-		"\2\2N\u016a\3\2\2\2P\u016c\3\2\2\2R\u016e\3\2\2\2T\u0172\3\2\2\2V\u0174"+
-		"\3\2\2\2X\u0176\3\2\2\2Z\u0178\3\2\2\2\\\u017a\3\2\2\2^\u017c\3\2\2\2"+
-		"`\u017e\3\2\2\2bh\5\6\4\2cd\5\4\3\2de\5\6\4\2eg\3\2\2\2fc\3\2\2\2gj\3"+
+		"\3\2\2\2<\u012d\3\2\2\2>\u0140\3\2\2\2@\u0143\3\2\2\2B\u014b\3\2\2\2D"+
+		"\u0155\3\2\2\2F\u0157\3\2\2\2H\u015d\3\2\2\2J\u015f\3\2\2\2L\u0161\3\2"+
+		"\2\2N\u016b\3\2\2\2P\u016d\3\2\2\2R\u016f\3\2\2\2T\u0173\3\2\2\2V\u0175"+
+		"\3\2\2\2X\u0177\3\2\2\2Z\u0179\3\2\2\2\\\u017b\3\2\2\2^\u017d\3\2\2\2"+
+		"`\u017f\3\2\2\2bh\5\6\4\2cd\5\4\3\2de\5\6\4\2eg\3\2\2\2fc\3\2\2\2gj\3"+
 		"\2\2\2hf\3\2\2\2hi\3\2\2\2ik\3\2\2\2jh\3\2\2\2kl\7\2\2\3l\3\3\2\2\2mp"+
 		"\5\60\31\2np\7\u009a\2\2om\3\2\2\2on\3\2\2\2p\5\3\2\2\2qt\5\b\5\2rt\5"+
 		"\n\6\2sq\3\2\2\2sr\3\2\2\2t\7\3\2\2\2uv\7a\2\2vx\5V,\2wy\5\f\7\2xw\3\2"+
@@ -3076,38 +3150,38 @@ public class GqlParser extends Parser {
 		"\2\2\u011b\u011c\5:\36\2\u011c\u011d\7\u014d\2\2\u011d9\3\2\2\2\u011e"+
 		"\u0123\7\b\2\2\u011f\u0120\7\b\2\2\u0120\u0121\7\u0135\2\2\u0121\u0123"+
 		"\7\b\2\2\u0122\u011e\3\2\2\2\u0122\u011f\3\2\2\2\u0123;\3\2\2\2\u0124"+
-		"\u0125\b\37\1\2\u0125\u012a\5Z.\2\u0126\u012a\5X-\2\u0127\u0128\7\u008f"+
-		"\2\2\u0128\u012a\5<\37\5\u0129\u0124\3\2\2\2\u0129\u0126\3\2\2\2\u0129"+
-		"\u0127\3\2\2\2\u012a\u013c\3\2\2\2\u012b\u012c\f\6\2\2\u012c\u012d\5P"+
-		")\2\u012d\u012e\5<\37\7\u012e\u013b\3\2\2\2\u012f\u0130\f\3\2\2\u0130"+
-		"\u0131\5T+\2\u0131\u0132\5<\37\4\u0132\u013b\3\2\2\2\u0133\u0134\f\7\2"+
-		"\2\u0134\u0135\7\u013c\2\2\u0135\u013b\5`\61\2\u0136\u0137\f\4\2\2\u0137"+
-		"\u0138\5R*\2\u0138\u0139\7\u0116\2\2\u0139\u013b\3\2\2\2\u013a\u012b\3"+
-		"\2\2\2\u013a\u012f\3\2\2\2\u013a\u0133\3\2\2\2\u013a\u0136\3\2\2\2\u013b"+
-		"\u013e\3\2\2\2\u013c\u013a\3\2\2\2\u013c\u013d\3\2\2\2\u013d=\3\2\2\2"+
-		"\u013e\u013c\3\2\2\2\u013f\u0140\t\6\2\2\u0140\u0141\5@!\2\u0141?\3\2"+
-		"\2\2\u0142\u0147\5B\"\2\u0143\u0144\7\u0143\2\2\u0144\u0146\5B\"\2\u0145"+
-		"\u0143\3\2\2\2\u0146\u0149\3\2\2\2\u0147\u0145\3\2\2\2\u0147\u0148\3\2"+
-		"\2\2\u0148A\3\2\2\2\u0149\u0147\3\2\2\2\u014a\u014f\5D#\2\u014b\u014c"+
-		"\7\u0131\2\2\u014c\u014e\5D#\2\u014d\u014b\3\2\2\2\u014e\u0151\3\2\2\2"+
-		"\u014f\u014d\3\2\2\2\u014f\u0150\3\2\2\2\u0150C\3\2\2\2\u0151\u014f\3"+
-		"\2\2\2\u0152\u0155\5H%\2\u0153\u0155\5F$\2\u0154\u0152\3\2\2\2\u0154\u0153"+
-		"\3\2\2\2\u0155E\3\2\2\2\u0156\u0157\7\u0138\2\2\u0157\u0158\5H%\2\u0158"+
-		"G\3\2\2\2\u0159\u015d\5J&\2\u015a\u015d\5L\'\2\u015b\u015d\5N(\2\u015c"+
-		"\u0159\3\2\2\2\u015c\u015a\3\2\2\2\u015c\u015b\3\2\2\2\u015dI\3\2\2\2"+
-		"\u015e\u015f\7\u0155\2\2\u015fK\3\2\2\2\u0160\u0161\7\u013b\2\2\u0161"+
-		"M\3\2\2\2\u0162\u0163\7\u0152\2\2\u0163\u0164\5@!\2\u0164\u0165\7\u0153"+
-		"\2\2\u0165\u016b\3\2\2\2\u0166\u0167\7\u014e\2\2\u0167\u0168\5@!\2\u0168"+
-		"\u0169\7\u014f\2\2\u0169\u016b\3\2\2\2\u016a\u0162\3\2\2\2\u016a\u0166"+
-		"\3\2\2\2\u016bO\3\2\2\2\u016c\u016d\t\7\2\2\u016dQ\3\2\2\2\u016e\u0170"+
-		"\7t\2\2\u016f\u0171\7\u008f\2\2\u0170\u016f\3\2\2\2\u0170\u0171\3\2\2"+
-		"\2\u0171S\3\2\2\2\u0172\u0173\t\b\2\2\u0173U\3\2\2\2\u0174\u0175\5X-\2"+
-		"\u0175W\3\2\2\2\u0176\u0177\7\u0155\2\2\u0177Y\3\2\2\2\u0178\u0179\t\t"+
-		"\2\2\u0179[\3\2\2\2\u017a\u017b\7\u0155\2\2\u017b]\3\2\2\2\u017c\u017d"+
-		"\7\u0155\2\2\u017d_\3\2\2\2\u017e\u017f\7\u0155\2\2\u017fa\3\2\2\2)ho"+
+		"\u0125\b\37\1\2\u0125\u012e\5Z.\2\u0126\u012e\5X-\2\u0127\u0128\5X-\2"+
+		"\u0128\u0129\7\u013c\2\2\u0129\u012a\5`\61\2\u012a\u012e\3\2\2\2\u012b"+
+		"\u012c\7\u008f\2\2\u012c\u012e\5<\37\5\u012d\u0124\3\2\2\2\u012d\u0126"+
+		"\3\2\2\2\u012d\u0127\3\2\2\2\u012d\u012b\3\2\2\2\u012e\u013d\3\2\2\2\u012f"+
+		"\u0130\f\6\2\2\u0130\u0131\5P)\2\u0131\u0132\5<\37\7\u0132\u013c\3\2\2"+
+		"\2\u0133\u0134\f\3\2\2\u0134\u0135\5T+\2\u0135\u0136\5<\37\4\u0136\u013c"+
+		"\3\2\2\2\u0137\u0138\f\4\2\2\u0138\u0139\5R*\2\u0139\u013a\7\u0116\2\2"+
+		"\u013a\u013c\3\2\2\2\u013b\u012f\3\2\2\2\u013b\u0133\3\2\2\2\u013b\u0137"+
+		"\3\2\2\2\u013c\u013f\3\2\2\2\u013d\u013b\3\2\2\2\u013d\u013e\3\2\2\2\u013e"+
+		"=\3\2\2\2\u013f\u013d\3\2\2\2\u0140\u0141\t\6\2\2\u0141\u0142\5@!\2\u0142"+
+		"?\3\2\2\2\u0143\u0148\5B\"\2\u0144\u0145\7\u0143\2\2\u0145\u0147\5B\""+
+		"\2\u0146\u0144\3\2\2\2\u0147\u014a\3\2\2\2\u0148\u0146\3\2\2\2\u0148\u0149"+
+		"\3\2\2\2\u0149A\3\2\2\2\u014a\u0148\3\2\2\2\u014b\u0150\5D#\2\u014c\u014d"+
+		"\7\u0131\2\2\u014d\u014f\5D#\2\u014e\u014c\3\2\2\2\u014f\u0152\3\2\2\2"+
+		"\u0150\u014e\3\2\2\2\u0150\u0151\3\2\2\2\u0151C\3\2\2\2\u0152\u0150\3"+
+		"\2\2\2\u0153\u0156\5H%\2\u0154\u0156\5F$\2\u0155\u0153\3\2\2\2\u0155\u0154"+
+		"\3\2\2\2\u0156E\3\2\2\2\u0157\u0158\7\u0138\2\2\u0158\u0159\5H%\2\u0159"+
+		"G\3\2\2\2\u015a\u015e\5J&\2\u015b\u015e\5L\'\2\u015c\u015e\5N(\2\u015d"+
+		"\u015a\3\2\2\2\u015d\u015b\3\2\2\2\u015d\u015c\3\2\2\2\u015eI\3\2\2\2"+
+		"\u015f\u0160\7\u0155\2\2\u0160K\3\2\2\2\u0161\u0162\7\u013b\2\2\u0162"+
+		"M\3\2\2\2\u0163\u0164\7\u0152\2\2\u0164\u0165\5@!\2\u0165\u0166\7\u0153"+
+		"\2\2\u0166\u016c\3\2\2\2\u0167\u0168\7\u014e\2\2\u0168\u0169\5@!\2\u0169"+
+		"\u016a\7\u014f\2\2\u016a\u016c\3\2\2\2\u016b\u0163\3\2\2\2\u016b\u0167"+
+		"\3\2\2\2\u016cO\3\2\2\2\u016d\u016e\t\7\2\2\u016eQ\3\2\2\2\u016f\u0171"+
+		"\7t\2\2\u0170\u0172\7\u008f\2\2\u0171\u0170\3\2\2\2\u0171\u0172\3\2\2"+
+		"\2\u0172S\3\2\2\2\u0173\u0174\t\b\2\2\u0174U\3\2\2\2\u0175\u0176\5X-\2"+
+		"\u0176W\3\2\2\2\u0177\u0178\7\u0155\2\2\u0178Y\3\2\2\2\u0179\u017a\t\t"+
+		"\2\2\u017a[\3\2\2\2\u017b\u017c\7\u0155\2\2\u017c]\3\2\2\2\u017d\u017e"+
+		"\7\u0155\2\2\u017e_\3\2\2\2\u017f\u0180\7\u0155\2\2\u0180a\3\2\2\2)ho"+
 		"sz~\u0085\u008a\u008f\u0096\u009a\u00a1\u00a7\u00aa\u00b5\u00bc\u00c0"+
 		"\u00c2\u00c7\u00cd\u00d7\u00e6\u00e9\u00ef\u00fb\u0103\u0109\u010d\u0112"+
-		"\u0116\u0122\u0129\u013a\u013c\u0147\u014f\u0154\u015c\u016a\u0170";
+		"\u0116\u0122\u012d\u013b\u013d\u0148\u0150\u0155\u015d\u016b\u0171";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

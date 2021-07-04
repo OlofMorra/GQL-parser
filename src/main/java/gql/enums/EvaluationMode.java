@@ -1,6 +1,6 @@
 package gql.enums;
 
-public enum PathPatternPrefix {
+public enum EvaluationMode {
     WALK,
     TRAIL,
     ACYCLIC,

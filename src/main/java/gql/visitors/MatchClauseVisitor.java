@@ -28,13 +28,13 @@ public class MatchClauseVisitor extends GqlParserBaseVisitor<BindingTable> {
     public BindingTable visitPathPatternList(PathPatternListContext ctx) {
         BindingTable output = new BindingTable(true, true, new String[]{});
 
-        output = visitPathPattern(ctx.pathPattern(0));
+        output = visitPath(ctx.path(0));
 
         return output;
     }
 
     @Override
-    public BindingTable visitPathPattern(GqlParser.PathPatternContext ctx) {
+    public BindingTable visitPath(GqlParser.PathContext ctx) {
         BindingTable output = new BindingTable(true, true, new String[]{});
 
         PathPatternExpressionVisitor pathPatternExpressionVisitor = new PathPatternExpressionVisitor();

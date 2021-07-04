@@ -65,7 +65,7 @@ public class TruthValue extends Value {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TruthValue that = (TruthValue) o;
-        return truthValue == that.truthValue;
+        return this.truthValue == that.truthValue;
     }
 
     @Override

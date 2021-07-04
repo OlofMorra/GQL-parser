@@ -1,7 +1,8 @@
 package gql.tables;
 
+import gql.expressions.GqlIdentifier;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import com.google.common.collect.Multiset;
 import com.google.common.collect.HashMultiset;
 
 import java.util.*;
@@ -17,6 +18,53 @@ public class BindingTable {
         this.hasDuplicates = hasDuplicates;
         this.columnNames = columnNames;
         this.records = HashMultiset.create();
+    }
+
+    public String[] getColumnNames() {
+        return columnNames;
+    }
+
+    public void updateDomain(HashMap<Integer, GqlIdentifier> domain) {
+        ArrayList<Integer> unmappedColumnIndices = new ArrayList<>();
+
+        for (int i = 0; i < columnNames.length; i ++) {
+            if (domain.containsKey(Integer.parseInt(columnNames[i]))) {
+                columnNames[i] = domain.get(Integer.parseInt(columnNames[i])).getId();
+            } else {
+                unmappedColumnIndices.add(i);
+            }
+        }
+
+        unmappedColumnIndices.sort(Collections.reverseOrder());
+
+        for (Record record: records) {
+            record.updateColumnNames(columnNames);
+            record.removeColumns(unmappedColumnIndices);
+        }
+
+        removeColumnNames(unmappedColumnIndices);
+    }
+
+    private void removeColumnNames(ArrayList<Integer> unmappedColumnIndices) {
+        for (int idx: unmappedColumnIndices) {
+            columnNames = (String[]) ArrayUtils.remove(columnNames, idx);
+        }
+    }
+
+    public HashMultiset<Record> getRecords() {
+        return records;
+    }
+
+    public boolean isOrdered() {
+        return isOrdered;
+    }
+
+    public boolean hasDuplicates() {
+        return hasDuplicates;
+    }
+
+    public boolean hasRecords() {
+        return !this.records.isEmpty();
     }
 
     public void addRecord(Record record) {
@@ -35,7 +83,7 @@ public class BindingTable {
         }
     }
 
-    public void addRecords(Record[] records) {
+    public void addRecords(ArrayList<Record> records) {
         for (Record record: records) {
             addRecord(record);
         }

@@ -3,10 +3,10 @@ package gql.expressions;
 import java.text.Normalizer;
 import java.util.Objects;
 
-public class GqlId extends Value{
+public class GqlIdentifier extends Value{
     private GqlString id;
 
-    public GqlId(String id) {
+    public GqlIdentifier(String id) {
         this.id = new GqlString(Normalizer.normalize(id, Normalizer.Form.NFKC));
     }
 
@@ -18,8 +18,8 @@ public class GqlId extends Value{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GqlId gqlId = (GqlId) o;
-        return id.equals(gqlId.id);
+        GqlIdentifier gqlIdentifier = (GqlIdentifier) o;
+        return id.equals(gqlIdentifier.id);
     }
 
     @Override

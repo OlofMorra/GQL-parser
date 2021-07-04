@@ -138,13 +138,13 @@ quantifier
     ;
 
 expr
-    : value
-    | name
-    | expr PERIOD key
-    | expr comparator expr
-    | NOT expr
-    | expr booleanComparator TRUTH_VALUE
-    | expr compOp expr
+    : value                                 # ValueExpression
+    | name                                  # NameExpression
+    | name PERIOD key                       # PropertyReference
+    | expr comparator expr                  # ExpressionComparison
+    | NOT expr                              # NegatedExpression
+    | expr booleanComparator TRUTH_VALUE    # BooleanComparison
+    | expr compOp expr                      # ValueComparison
     ;
 
 isLabelExpr

@@ -1,24 +1,23 @@
 package gql.graphs;
 
-import gql.expressions.GqlId;
+import gql.expressions.GqlIdentifier;
 import gql.expressions.Label;
 import gql.expressions.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Objects;
 
 public class GqlEdge {
-    private final GqlId id;
-    private final GqlId startNodeId;
-    private final GqlId endNodeId;
+    private final GqlIdentifier id;
+    private final GqlIdentifier startNodeId;
+    private final GqlIdentifier endNodeId;
     private boolean isDirected = true;
     private ArrayList<Label> labels;
-    private HashMap<GqlId, Value> properties;
+    private HashMap<GqlIdentifier, Value> properties;
 
-    public GqlEdge(GqlId id, GqlId startNodeId, GqlId endNodeId, boolean isDirected, ArrayList<Label> labels,
-                   HashMap<GqlId, Value> properties) {
+    public GqlEdge(GqlIdentifier id, GqlIdentifier startNodeId, GqlIdentifier endNodeId, boolean isDirected, ArrayList<Label> labels,
+                   HashMap<GqlIdentifier, Value> properties) {
         this.id = id;
         this.labels = labels;
         this.properties = properties;
@@ -27,15 +26,15 @@ public class GqlEdge {
         this.isDirected = isDirected;
     }
 
-    public GqlId getId() {
+    public GqlIdentifier getId() {
         return id;
     }
 
-    public GqlId getStartNodeId() {
+    public GqlIdentifier getStartNodeId() {
         return startNodeId;
     }
 
-    public GqlId getEndNodeId() {
+    public GqlIdentifier getEndNodeId() {
         return endNodeId;
     }
 
@@ -47,8 +46,16 @@ public class GqlEdge {
         return labels;
     }
 
-    public HashMap<GqlId, Value> getProperties() {
+    public HashMap<GqlIdentifier, Value> getProperties() {
         return properties;
+    }
+
+    public boolean hasStartAndEndNode(GqlIdentifier startNodeId, GqlIdentifier endNodeId) {
+        return this.startNodeId.equals(startNodeId) && this.endNodeId.equals(endNodeId);
+    }
+
+    public boolean hasEndpoints(GqlIdentifier startNodeId, GqlIdentifier endNodeId) {
+        return this.hasStartAndEndNode(startNodeId, endNodeId) || this.hasStartAndEndNode(endNodeId, startNodeId);
     }
 
     @Override

@@ -87,7 +87,9 @@ public class GremlinGraph extends gql.graphs.Graph {
 
         if (!(node.properties == null)) {
             Map<String, Object> properties = node.properties;
-            properties.forEach(pipe::property);
+            properties.forEach((propertyId, value) -> {
+                pipe.property(propertyId.toString(), "\"" + value.toString() + "\"");
+            });
         }
 
         pipe.iterate();
@@ -119,7 +121,9 @@ public class GremlinGraph extends gql.graphs.Graph {
 
         if (!(edge.properties == null)) {
             Map<String, Object> properties = edge.properties;
-            properties.forEach(pipe::property);
+            properties.forEach((propertyId, value) -> {
+                pipe.property(propertyId.toString(), value.toString());
+            });
         }
 
         pipe.property("isDirected", edge.isDirected);

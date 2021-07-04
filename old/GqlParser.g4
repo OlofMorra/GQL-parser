@@ -70,11 +70,11 @@ pathPatternUnion
     ;
 
 pathTerm
-    : path
+    : pathPattern
     | LEFT_PAREN pathPattern whereClause? RIGHT_PAREN len?
     ;
 
-path
+pathPattern
     : nodePattern (edgePattern len? nodePattern)*
     ;
 

@@ -1,6 +1,6 @@
 package gql.patterns;
 
-import gql.expressions.GqlId;
+import gql.expressions.GqlIdentifier;
 import gql.expressions.Label;
 import gql.expressions.Value;
 import gql.tables.BindingTable;
@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class ElementPattern {
-    GqlId id;
+    VariableName variableName;
     ArrayList<ArrayList<Label>> labels;
-    HashMap<GqlId, Value> properties;
+    HashMap<GqlIdentifier, Value> properties;
     int patternIndex = 0;
 
-    public abstract BindingTable match(int patternIndex);
+    public abstract BindingTable match();
 
-    protected void addIdsTo(BindingTable result, ArrayList<GqlId> ids) {
-        for (GqlId id: ids) {
+    protected void addIdsTo(BindingTable result, ArrayList<GqlIdentifier> ids) {
+        for (GqlIdentifier id: ids) {
             addIdTo(result, id);
         }
     }
 
-    protected void addIdTo(BindingTable result, GqlId id) {
+    protected void addIdTo(BindingTable result, GqlIdentifier id) {
         Record record = new Record(new String[]{String.valueOf(this.patternIndex)}, new Value[]{id});
         result.addRecord(record);
     }
@@ -46,8 +46,8 @@ public abstract class ElementPattern {
         return false;
     }
 
-    protected boolean matchProperties(HashMap<GqlId, Value> properties) {
-        for (GqlId propertyIdToMatch: this.properties.keySet()) {
+    protected boolean matchProperties(HashMap<GqlIdentifier, Value> properties) {
+        for (GqlIdentifier propertyIdToMatch: this.properties.keySet()) {
             if (!containsKey(properties, propertyIdToMatch) || !hasEqualValues(properties, propertyIdToMatch)) {
                 return false;
             }
@@ -56,20 +56,20 @@ public abstract class ElementPattern {
         return true;
     }
 
-    protected boolean hasEqualValues(HashMap<GqlId, Value> properties, GqlId propertyIdToMatch) {
+    protected boolean hasEqualValues(HashMap<GqlIdentifier, Value> properties, GqlIdentifier propertyIdToMatch) {
         return properties.get(propertyIdToMatch).equals(this.properties.get(propertyIdToMatch));
     }
 
-    protected boolean containsKey(HashMap<GqlId, Value> properties, GqlId propertyIdToMatch) {
+    protected boolean containsKey(HashMap<GqlIdentifier, Value> properties, GqlIdentifier propertyIdToMatch) {
         return properties.containsKey(propertyIdToMatch);
     }
 
     protected String getIdString() {
-        if (this.id == null) {
+        if (this.variableName == null) {
             return "nil";
         }
 
-        return this.id.toString();
+        return this.variableName.toString();
     }
 
     protected String getLabelString() {
@@ -112,11 +112,15 @@ public abstract class ElementPattern {
         }
 
         propertyString = "{";
-        for (GqlId key: this.properties.keySet()) {
+        for (GqlIdentifier key: this.properties.keySet()) {
             propertyString = propertyString.concat("(" + key + ": " + this.properties.get(key).toString() + "), ");
         }
         propertyString = propertyString.substring(0, propertyString.length() - 2).concat("}");
 
         return propertyString;
+    }
+
+    public void setPatternIndex(int newPatternIndex) {
+        this.patternIndex = newPatternIndex;
     }
 }

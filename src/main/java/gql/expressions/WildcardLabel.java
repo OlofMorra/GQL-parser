@@ -4,7 +4,7 @@ import gql.expressions.unnecessary.LabelFactor;
 
 public class WildcardLabel extends Label {
     public WildcardLabel() {
-        super(new GqlId("%"));
+        super("%");
     }
 
     @Override

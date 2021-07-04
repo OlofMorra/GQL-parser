@@ -187,11 +187,54 @@ public interface GqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitQuantifier(GqlParser.QuantifierContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link GqlParser#expr}.
+	 * Visit a parse tree produced by the {@code BooleanComparison}
+	 * labeled alternative in {@link GqlParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpr(GqlParser.ExprContext ctx);
+	T visitBooleanComparison(GqlParser.BooleanComparisonContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code PropertyReference}
+	 * labeled alternative in {@link GqlParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPropertyReference(GqlParser.PropertyReferenceContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ValueExpression}
+	 * labeled alternative in {@link GqlParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueExpression(GqlParser.ValueExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NameExpression}
+	 * labeled alternative in {@link GqlParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNameExpression(GqlParser.NameExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ValueComparison}
+	 * labeled alternative in {@link GqlParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValueComparison(GqlParser.ValueComparisonContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExpressionComparison}
+	 * labeled alternative in {@link GqlParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionComparison(GqlParser.ExpressionComparisonContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code NegatedExpression}
+	 * labeled alternative in {@link GqlParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNegatedExpression(GqlParser.NegatedExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link GqlParser#isLabelExpr}.
 	 * @param ctx the parse tree

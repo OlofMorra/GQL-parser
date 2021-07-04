@@ -2,7 +2,7 @@ package gql.graphs;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
-import gql.expressions.GqlId;
+import gql.expressions.GqlIdentifier;
 import json.workinggraph.JsonGraphEvaluator;
 
 import java.io.FileNotFoundException;
@@ -10,8 +10,8 @@ import java.util.HashMap;
 
 public class WorkingGraph extends Graph {
     private static WorkingGraph instance;
-    public HashMap<GqlId, GqlNode> nodes;
-    public HashMap<GqlId, GqlEdge> edges;
+    public HashMap<GqlIdentifier, GqlNode> nodes;
+    public HashMap<GqlIdentifier, GqlEdge> edges;
 
     private WorkingGraph() {
         String graphName = getFirstGraphName();

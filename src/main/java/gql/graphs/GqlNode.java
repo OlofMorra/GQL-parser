@@ -1,6 +1,6 @@
 package gql.graphs;
 
-import gql.expressions.GqlId;
+import gql.expressions.GqlIdentifier;
 import gql.expressions.Label;
 import gql.expressions.Value;
 
@@ -9,17 +9,17 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class GqlNode {
-    private GqlId id;
+    private GqlIdentifier id;
     private ArrayList<Label> labels;
-    private HashMap<GqlId, Value> properties;
+    private HashMap<GqlIdentifier, Value> properties;
 
-    public GqlNode(GqlId id, ArrayList<Label> labels, HashMap<GqlId, Value> properties) {
+    public GqlNode(GqlIdentifier id, ArrayList<Label> labels, HashMap<GqlIdentifier, Value> properties) {
         this.id = id;
         this.labels = labels;
         this.properties = properties;
     }
 
-    public GqlId getId() {
+    public GqlIdentifier getId() {
         return id;
     }
 
@@ -27,7 +27,7 @@ public class GqlNode {
         return labels;
     }
 
-    public HashMap<GqlId, Value> getProperties() {
+    public HashMap<GqlIdentifier, Value> getProperties() {
         return properties;
     }
 

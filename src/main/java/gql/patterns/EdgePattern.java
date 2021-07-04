@@ -1,7 +1,7 @@
 package gql.patterns;
 
 import gql.enums.Direction;
-import gql.expressions.GqlId;
+import gql.expressions.GqlIdentifier;
 import gql.expressions.Label;
 import gql.expressions.Value;
 import gql.graphs.GqlEdge;
@@ -15,26 +15,30 @@ public class EdgePattern extends ElementPattern {
     Direction direction;
     int quantifier;
 
-    public EdgePattern(GqlId id, ArrayList<ArrayList<Label>> labels, HashMap<GqlId, Value> properties, Direction direction, int quantifier) {
-        this.id = id;
+    public EdgePattern(VariableName id, ArrayList<ArrayList<Label>> labels, HashMap<GqlIdentifier, Value> properties, Direction direction, int quantifier) {
+        this.variableName = id;
         this.labels = labels;
         this.properties = properties;
         this.direction = direction;
         this.quantifier = quantifier;
+        this.patternIndex = 1;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 
     @Override
-    public BindingTable match(int patternIndex) {
-        this.patternIndex = patternIndex;
+    public BindingTable match() {
         BindingTable result = new BindingTable(false, true, new String[]{String.valueOf(this.patternIndex)});
-        HashMap<GqlId, GqlEdge> possibleMatches = WorkingGraph.getInstance().edges;
+        HashMap<GqlIdentifier, GqlEdge> possibleMatches = WorkingGraph.getInstance().edges;
 
         evaluateMatchAndAddTo(result, possibleMatches);
 
         return result;
     }
 
-    private void evaluateMatchAndAddTo(BindingTable result, HashMap<GqlId, GqlEdge> possibleMatches) {
+    private void evaluateMatchAndAddTo(BindingTable result, HashMap<GqlIdentifier, GqlEdge> possibleMatches) {
         for (GqlEdge edge: possibleMatches.values()) {
             if (isMatch(edge)) {
                 addIdTo(result, edge.getId());
@@ -91,5 +95,30 @@ public class EdgePattern extends ElementPattern {
 
     private String getQuantifierString() {
         return "(" + this.quantifier + ", " + this.quantifier + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof EdgePattern)) return false;
+        EdgePattern edgePatternToCompareTo = (EdgePattern) obj;
+        if (this.variableName != edgePatternToCompareTo.variableName) return false;
+        if (this.direction != edgePatternToCompareTo.direction) return false;
+
+        if (this.hasLabels() != edgePatternToCompareTo.hasLabels()) return false;
+        if (this.hasProperties() != edgePatternToCompareTo.hasProperties()) return false;
+
+        if (this.hasLabels()) {
+            if (!this.labels.equals(edgePatternToCompareTo.labels)) return false;
+        }
+
+        if (this.hasProperties()) {
+            if (!this.properties.equals(edgePatternToCompareTo.properties)) return false;
+        }
+
+        // Quantifier does not have to be equal, that information should be kept in an edge
+        // and does not influence equality in this project.
+
+        return true;
     }
 }

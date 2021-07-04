@@ -52,7 +52,7 @@ folder as library folder for the project. You might need to add this jar as clas
 by executing the following shell command:
 
 ```shell
-export CLASSPATH=path/to/lib/antlr-4.9-complete.jar
+export CLASSPATH=pathPattern/to/lib/antlr-4.9-complete.jar
 ```
 
 ### Add ANTLR v4 grammar plugin to IDE (optional)
@@ -64,7 +64,7 @@ the plugin.
 In your shell, go to the folder [src](src). From there, type the following commands:
 
 ```shell
-cd path/to/antlr
+cd pathPattern/to/antlr
 antlr4 GqlLexer.g4
 antlr4 -visitor GqlParser.g4
 javac Gql*.java

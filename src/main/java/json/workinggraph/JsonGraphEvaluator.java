@@ -4,7 +4,7 @@ import antlr.GqlLexer;
 import antlr.JsonGraphParser;
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
-import gql.expressions.GqlId;
+import gql.expressions.GqlIdentifier;
 import gql.graphs.GqlEdge;
 import gql.graphs.GqlNode;
 import gql.listeners.ErrorListener;
@@ -29,12 +29,12 @@ public class JsonGraphEvaluator {
         this.databaseDirectory = databaseDirectory;
     }
 
-    public HashMap<GqlId, GqlNode> getNodes() throws InvalidNodeFormatException {
+    public HashMap<GqlIdentifier, GqlNode> getNodes() throws InvalidNodeFormatException {
         JsonGraphParser nodeParser = getNodeParser();
         return parseNodeFile(nodeParser);
     }
 
-    public HashMap<GqlId, GqlEdge> getEdges(HashMap<GqlId, GqlNode> nodes) throws InvalidEdgeFormatException {
+    public HashMap<GqlIdentifier, GqlEdge> getEdges(HashMap<GqlIdentifier, GqlNode> nodes) throws InvalidEdgeFormatException {
         JsonGraphParser edgeParser = getEdgeParser();
         return parseEdgeFile(edgeParser, nodes);
     }
@@ -62,7 +62,7 @@ public class JsonGraphEvaluator {
         return parser;
     }
 
-    private HashMap<GqlId, GqlNode> parseNodeFile(JsonGraphParser parser) throws InvalidNodeFormatException {
+    private HashMap<GqlIdentifier, GqlNode> parseNodeFile(JsonGraphParser parser) throws InvalidNodeFormatException {
         // Tell ANTLR to build a parse tree from start symbol 'query'
         ParseTree antlrAST = parser.jsonNodeFile();
 
@@ -73,10 +73,10 @@ public class JsonGraphEvaluator {
         }
     }
 
-    private HashMap<GqlId, GqlNode> visitNodeParseTree(ParseTree antlrAST) throws InvalidNodeFormatException {
+    private HashMap<GqlIdentifier, GqlNode> visitNodeParseTree(ParseTree antlrAST) throws InvalidNodeFormatException {
         // Create a visitor for converting the parse tree into Query objects
         JsonGraphVisitor jsonGraphVisitor = new JsonGraphVisitor();
-        HashMap<GqlId, GqlNode> nodes = (HashMap<GqlId, GqlNode>) jsonGraphVisitor.visit(antlrAST);
+        HashMap<GqlIdentifier, GqlNode> nodes = (HashMap<GqlIdentifier, GqlNode>) jsonGraphVisitor.visit(antlrAST);
 
         if (hasSemanticErrors(jsonGraphVisitor)) {
             outputSemanticErrors(jsonGraphVisitor);
@@ -86,7 +86,7 @@ public class JsonGraphEvaluator {
         return nodes;
     }
 
-    private HashMap<GqlId, GqlEdge> parseEdgeFile(JsonGraphParser parser, HashMap<GqlId, GqlNode> nodes) throws InvalidEdgeFormatException {
+    private HashMap<GqlIdentifier, GqlEdge> parseEdgeFile(JsonGraphParser parser, HashMap<GqlIdentifier, GqlNode> nodes) throws InvalidEdgeFormatException {
         // Tell ANTLR to build a parse tree from start symbol 'query'
         ParseTree antlrAST = parser.jsonEdgeFile();
 
@@ -97,10 +97,10 @@ public class JsonGraphEvaluator {
         }
     }
 
-    private HashMap<GqlId, GqlEdge> visitEdgeParseTree(ParseTree antlrAST, HashMap<GqlId, GqlNode> nodes) throws InvalidEdgeFormatException {
+    private HashMap<GqlIdentifier, GqlEdge> visitEdgeParseTree(ParseTree antlrAST, HashMap<GqlIdentifier, GqlNode> nodes) throws InvalidEdgeFormatException {
         // Create a visitor for converting the parse tree into Query objects
         JsonGraphVisitor jsonGraphVisitor = new JsonGraphVisitor(nodes);
-        HashMap<GqlId, GqlEdge> edges = (HashMap<GqlId, GqlEdge>) jsonGraphVisitor.visit(antlrAST);
+        HashMap<GqlIdentifier, GqlEdge> edges = (HashMap<GqlIdentifier, GqlEdge>) jsonGraphVisitor.visit(antlrAST);
 
         if (hasSemanticErrors(jsonGraphVisitor)) {
             outputSemanticErrors(jsonGraphVisitor);

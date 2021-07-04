@@ -17,19 +17,19 @@ import java.util.regex.Pattern;
 
 public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
     public List<String> semanticErrors = new ArrayList<>();
-    private HashMap<GqlId, GqlNode> nodes = new HashMap<>();
+    private HashMap<GqlIdentifier, GqlNode> nodes = new HashMap<>();
 
     public JsonGraphVisitor() {
 
     }
 
-    public JsonGraphVisitor(HashMap<GqlId, GqlNode> nodes) {
+    public JsonGraphVisitor(HashMap<GqlIdentifier, GqlNode> nodes) {
         this.nodes = nodes;
     }
 
     @Override
-    public HashMap<GqlId, GqlNode> visitJsonNodeFile(JsonNodeFileContext ctx) {
-        HashMap<GqlId, GqlNode> nodes = new HashMap<>();
+    public HashMap<GqlIdentifier, GqlNode> visitJsonNodeFile(JsonNodeFileContext ctx) {
+        HashMap<GqlIdentifier, GqlNode> nodes = new HashMap<>();
 
         for (int i = 0; i < ctx.getChildCount(); i++) {
             if (ctx.getChild(i) instanceof NodeContext) {
@@ -41,8 +41,8 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
     }
 
     @Override
-    public HashMap<GqlId, GqlEdge> visitJsonEdgeFile(JsonEdgeFileContext ctx) {
-        HashMap<GqlId, GqlEdge> edges = new HashMap<>();
+    public HashMap<GqlIdentifier, GqlEdge> visitJsonEdgeFile(JsonEdgeFileContext ctx) {
+        HashMap<GqlIdentifier, GqlEdge> edges = new HashMap<>();
 
         for (int i = 0; i < ctx.getChildCount(); i++) {
             if (ctx.getChild(i) instanceof EdgeContext) {
@@ -53,16 +53,16 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
         return edges;
     }
 
-    public void addNodeTo(HashMap<GqlId, GqlNode> nodes, NodeContext nodeContext) {
+    public void addNodeTo(HashMap<GqlIdentifier, GqlNode> nodes, NodeContext nodeContext) {
         try {
             NodeFillerContext nodeFillerContext = nodeContext.nodeFiller();
 
-            GqlId id = visitIdentity(nodeFillerContext.identity());
+            GqlIdentifier id = visitIdentity(nodeFillerContext.identity());
             throwExceptionIfNodeIdAlreadyExists(nodes, id);
 
             ArrayList<Label> labels = getLabels(nodeFillerContext.labels());
 
-            HashMap<GqlId, Value> properties = getProperties(nodeFillerContext.properties());
+            HashMap<GqlIdentifier, Value> properties = getProperties(nodeFillerContext.properties());
 
             GqlNode node = new GqlNode(id, labels, properties);
 
@@ -72,26 +72,26 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
         }
     }
 
-    private void throwExceptionIfNodeIdAlreadyExists(HashMap<GqlId, GqlNode> nodes, GqlId id) throws InvalidNodeFormatException {
+    private void throwExceptionIfNodeIdAlreadyExists(HashMap<GqlIdentifier, GqlNode> nodes, GqlIdentifier id) throws InvalidNodeFormatException {
         if (nodes.containsKey(id)) {
             throw new InvalidNodeFormatException("Id " + id + " is already used for another node.");
         }
     }
 
-    public void addEdgeTo(HashMap<GqlId, GqlEdge> edges, EdgeContext edgeContext) {
+    public void addEdgeTo(HashMap<GqlIdentifier, GqlEdge> edges, EdgeContext edgeContext) {
         try {
             EdgeFillerContext edgeFillerContext = edgeContext.edgeFiller();
 
-            GqlId id = visitIdentity(edgeFillerContext.identity());
+            GqlIdentifier id = visitIdentity(edgeFillerContext.identity());
             throwExceptionIfEdgeIdAlreadyExists(edges, id);
 
-            GqlId startNode = visitStartNode(edgeFillerContext.startNode());
-            GqlId endNode = visitEndNode(edgeFillerContext.endNode());
+            GqlIdentifier startNode = visitStartNode(edgeFillerContext.startNode());
+            GqlIdentifier endNode = visitEndNode(edgeFillerContext.endNode());
             throwExceptionIfIdDoesNotExist(startNode, endNode);
 
             boolean isDirected = getIsDirected(edgeFillerContext.isDirected());
             ArrayList<Label> labels = getLabels(edgeFillerContext.labels());
-            HashMap<GqlId, Value> properties = getProperties(edgeFillerContext.properties());
+            HashMap<GqlIdentifier, Value> properties = getProperties(edgeFillerContext.properties());
 
             GqlEdge edge = new GqlEdge(id, startNode, endNode, isDirected, labels, properties);
             edges.put(id, edge);
@@ -100,7 +100,7 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
         }
     }
 
-    private void throwExceptionIfEdgeIdAlreadyExists(HashMap<GqlId, GqlEdge> edges, GqlId id) throws InvalidEdgeFormatException {
+    private void throwExceptionIfEdgeIdAlreadyExists(HashMap<GqlIdentifier, GqlEdge> edges, GqlIdentifier id) throws InvalidEdgeFormatException {
         if (nodes.containsKey(id)) {
             throw new InvalidEdgeFormatException("Id " + id + " is already used for a node.");
         } else if (edges.containsKey(id)) {
@@ -108,7 +108,7 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
         }
     }
 
-    private void throwExceptionIfIdDoesNotExist(GqlId startNode, GqlId endNode) throws InvalidEdgeFormatException {
+    private void throwExceptionIfIdDoesNotExist(GqlIdentifier startNode, GqlIdentifier endNode) throws InvalidEdgeFormatException {
         if (!nodes.containsKey(startNode)) {
             throw new InvalidEdgeFormatException("Start node with id " + startNode + " does not exist.");
         } else if (!nodes.containsKey(endNode)) {
@@ -117,17 +117,17 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
     }
 
     @Override
-    public GqlId visitIdentity(IdentityContext ctx) {
+    public GqlIdentifier visitIdentity(IdentityContext ctx) {
         return visitQuotedId(ctx.quotedId());
     }
 
     @Override
-    public GqlId visitStartNode(StartNodeContext ctx) {
+    public GqlIdentifier visitStartNode(StartNodeContext ctx) {
         return visitQuotedId(ctx.quotedId());
     }
 
     @Override
-    public GqlId visitEndNode(EndNodeContext ctx) {
+    public GqlIdentifier visitEndNode(EndNodeContext ctx) {
         return visitQuotedId(ctx.quotedId());
     }
 
@@ -174,17 +174,17 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
     }
 
     private void addLabel(LabelsContext ctx, ArrayList<Label> labels) {
-        GqlId labelId = visitQuotedId(ctx.quotedId(labels.size()));
+        GqlIdentifier labelId = visitQuotedId(ctx.quotedId(labels.size()));
 
         if (labels.contains(labelId)) {
             semanticErrors.add("Label " + labelId + " exists twice in a node or edge.");
         } else {
-            labels.add(new Label(labelId));
+            labels.add(new Label(labelId.getId()));
         }
     }
 
-    private HashMap<GqlId, Value> getProperties(PropertiesContext ctx) {
-        HashMap<GqlId, Value> properties = new HashMap<>();
+    private HashMap<GqlIdentifier, Value> getProperties(PropertiesContext ctx) {
+        HashMap<GqlIdentifier, Value> properties = new HashMap<>();
 
         if (!(ctx == null)) {
             properties = visitProperties(ctx);
@@ -194,8 +194,8 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
     }
 
     @Override
-    public HashMap<GqlId, Value> visitProperties(PropertiesContext ctx) {
-        HashMap<GqlId, Value> properties = new HashMap<>();
+    public HashMap<GqlIdentifier, Value> visitProperties(PropertiesContext ctx) {
+        HashMap<GqlIdentifier, Value> properties = new HashMap<>();
 
         for (int i = 0; i < ctx.getChildCount(); i++) {
             if (ctx.getChild(i) instanceof PairContext) {
@@ -206,8 +206,8 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
         return properties;
     }
 
-    private void addProperty(PropertiesContext ctx, HashMap<GqlId, Value> properties) {
-        GqlId propertyId = visitQuotedId(ctx.pair(properties.size()).quotedId());
+    private void addProperty(PropertiesContext ctx, HashMap<GqlIdentifier, Value> properties) {
+        GqlIdentifier propertyId = visitQuotedId(ctx.pair(properties.size()).quotedId());
         Value value = visitValue(ctx.pair(properties.size()).value());
 
         if (properties.containsKey(propertyId)) {
@@ -218,7 +218,7 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
     }
 
     @Override
-    public GqlId visitQuotedId(QuotedIdContext ctx) {
+    public GqlIdentifier visitQuotedId(QuotedIdContext ctx) {
         String id = ctx.getText().replace("\"", "");
 
         Pattern pattern = Pattern.compile("[a-z][a-z0-9_]*", Pattern.CASE_INSENSITIVE);
@@ -226,13 +226,13 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
         boolean isValidGqlId = matcher.find();
 
         if(isValidGqlId) {
-            return new GqlId(id);
+            return new GqlIdentifier(id);
         } else {
             semanticErrors.add("The identifier \"" + id + "\" is not a valid GQL identifier (node id, label, property key). " +
                     "A GQL identifier should start with a letter and only contain letters and numbers.");
         }
 
-        return new GqlId("Invalid id");
+        return new GqlIdentifier("Invalid id");
     }
 
     @Override

@@ -1,27 +1,28 @@
 package gql.patterns;
 
-import gql.expressions.GqlId;
+import gql.expressions.GqlIdentifier;
 import gql.expressions.Label;
 import gql.expressions.Value;
 import gql.graphs.GqlNode;
 import gql.graphs.WorkingGraph;
 import gql.tables.BindingTable;
 
+import javax.xml.soap.Node;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NodePattern extends ElementPattern {
-    public NodePattern(GqlId id, ArrayList<ArrayList<Label>> labels, HashMap<GqlId, Value> properties) {
-        this.id = id;
+    public NodePattern(VariableName variableName, ArrayList<ArrayList<Label>> labels, HashMap<GqlIdentifier, Value> properties) {
+        this.variableName = variableName;
         this.labels = labels;
         this.properties = properties;
+        this.patternIndex = 0;
     }
 
     @Override
-    public BindingTable match(int patternIndex) {
-        this.patternIndex = patternIndex;
+    public BindingTable match() {
         BindingTable result = new BindingTable(false, true, new String[]{String.valueOf(this.patternIndex)});
-        HashMap<GqlId, GqlNode> possibleMatches = WorkingGraph.getInstance().nodes;
+        HashMap<GqlIdentifier, GqlNode> possibleMatches = WorkingGraph.getInstance().nodes;
 
         if (isEmptyNodePattern()) {
             addIdsTo(result, new ArrayList<>(possibleMatches.keySet()));
@@ -36,7 +37,7 @@ public class NodePattern extends ElementPattern {
         return !hasLabels() && !hasProperties();
     }
 
-    private void evaluateMatchAndAddTo(BindingTable result, HashMap<GqlId, GqlNode> possibleMatches) {
+    private void evaluateMatchAndAddTo(BindingTable result, HashMap<GqlIdentifier, GqlNode> possibleMatches) {
         for (GqlNode node: possibleMatches.values()) {
             if (isMatch(node)) {
                 addIdTo(result, node.getId());
@@ -66,5 +67,26 @@ public class NodePattern extends ElementPattern {
         String properties = getPropertyString();
 
         return "(" + id + ", " + labels + ", " + properties + ")";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof NodePattern)) return false;
+        NodePattern nodePatternToCompareTo = (NodePattern) obj;
+        if (this.variableName != nodePatternToCompareTo.variableName) return false;
+
+        if (this.hasLabels() != nodePatternToCompareTo.hasLabels()) return false;
+        if (this.hasProperties() != nodePatternToCompareTo.hasProperties()) return false;
+
+        if (this.hasLabels()) {
+            if (!this.labels.equals(nodePatternToCompareTo.labels)) return false;
+        }
+
+        if (this.hasProperties()) {
+            if (!this.properties.equals(nodePatternToCompareTo.properties)) return false;
+        }
+
+        return true;
     }
 }
