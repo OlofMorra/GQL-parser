@@ -5,7 +5,7 @@ import antlr.JsonGraphParser;
 import antlr.JsonGraphParser.*;
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
-import gql.expressions.*;
+import gql.expressions.values.*;
 import gql.graphs.GqlEdge;
 import gql.graphs.GqlNode;
 
@@ -239,7 +239,13 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
     public Value visitValue(ValueContext ctx) {
         switch (ctx.start.getType()) {
             case JsonGraphParser.WORD:
-                return new GqlString(ctx.getText().replace("\"", ""));
+                String word = ctx.getText().replace("\"", "");
+                if (word.matches("[Tt][Rr][Uu][Ee]")) return new TruthValue(true);
+                if (word.matches("[Ff][Aa][Ll][Ss][Ee]")) return new TruthValue(false);
+                if (word.matches("[Uu][Nn][Kk][Nn][Oo][Ww][Nn]") ||
+                        word.matches("[Nn][Uu][Ll][Ll]")) return new TruthValue(null);
+
+                return new GqlString(word);
             case JsonGraphParser.TRUTH_VALUE:
                 return getTruthValue(ctx);
             case JsonGraphParser.SIGNED_INTEGER:

@@ -1,23 +1,81 @@
 package gql.tables;
 
-import gql.expressions.GqlIdentifier;
+import com.google.common.collect.HashMultiset;
+import gql.expressions.Expression;
+import gql.expressions.filters.ComparisonExpression;
+import gql.expressions.references.PropertyReference;
+import gql.expressions.values.GqlIdentifier;
+import gql.expressions.values.TruthValue;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import com.google.common.collect.HashMultiset;
 
 import java.util.*;
 
 public class BindingTable {
-    boolean isOrdered;
-    boolean hasDuplicates;
-    String[] columnNames;
-    HashMultiset<Record> records;
+    private boolean isOrdered;
+    private boolean hasDuplicates;
+    private String[] columnNames;
+    private HashMultiset<Record> records;
 
     public BindingTable(boolean isOrdered, boolean hasDuplicates, String[] columnNames) {
         this.isOrdered = isOrdered;
         this.hasDuplicates = hasDuplicates;
         this.columnNames = columnNames;
         this.records = HashMultiset.create();
+    }
+
+    public void filter(Expression expression) {
+        if (expression instanceof TruthValue) {
+            filterWithTruthValue((TruthValue) expression);
+            return;
+        } else if (expression instanceof ComparisonExpression) {
+            filterWithComparison((ComparisonExpression) expression);
+            return;
+        } else if (expression instanceof PropertyReference) {
+            filterWithPropertyReference((PropertyReference) expression);
+            return;
+        }
+
+        throw new IllegalArgumentException("Expression is not valid");
+    }
+
+    private void filterWithTruthValue(TruthValue expression) {
+        if (!expression.equals(new TruthValue(true))) {
+            this.records = HashMultiset.create();
+        }
+    }
+
+    private void filterWithPropertyReference(PropertyReference expression) {
+        HashMultiset<Record> newRecords = HashMultiset.create();
+
+        for (Record record: this.records) {
+            if (propertyReferenceEvaluatesToTrue(expression, record)) {
+                newRecords.add(record);
+            }
+        }
+
+        this.records = newRecords;
+    }
+
+    private void filterWithComparison(ComparisonExpression expression) {
+        HashMultiset<Record> newRecords = HashMultiset.create();
+    
+        for (Record record: this.records) {
+            if (expressionEvaluatesToTrue(expression, record)) {
+                newRecords.add(record);
+            }
+        }
+    
+        this.records = newRecords;
+    }
+
+    private boolean propertyReferenceEvaluatesToTrue(PropertyReference expression, Record record) {
+        return expression.getValueFrom(record).equals(new TruthValue(true));
+    }
+
+    private boolean expressionEvaluatesToTrue(ComparisonExpression expression, Record record) {
+        TruthValue evaluationResult = expression.evaluateOn(record);
+        return evaluationResult.equals(new TruthValue(true));
     }
 
     public String[] getColumnNames() {
@@ -52,7 +110,7 @@ public class BindingTable {
     }
 
     public HashMultiset<Record> getRecords() {
-        return records;
+        return this.records;
     }
 
     public boolean isOrdered() {
@@ -67,6 +125,10 @@ public class BindingTable {
         return !this.records.isEmpty();
     }
 
+    private void removeRecords(ArrayList<Record> recordsToRemove) {
+        records.removeAll(recordsToRemove);
+    }
+
     public void addRecord(Record record) {
         if (record.values.length != columnNames.length) {
             throw new IllegalArgumentException("Record does not have the same amount of values as there are column names.");
@@ -74,7 +136,7 @@ public class BindingTable {
             throw new IllegalArgumentException("Record does not have the same column names as the the binding table.");
         }
 
-        records.add(record);
+        this.records.add(record);
     }
 
     public void addRecordMultipleTimes(Record record, int numberOfTimes) {

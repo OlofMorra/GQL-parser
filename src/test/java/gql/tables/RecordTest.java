@@ -1,8 +1,8 @@
 package gql.tables;
 
-import gql.expressions.GqlString;
-import gql.expressions.FixedPointNumber;
-import gql.expressions.Value;
+import gql.expressions.values.GqlString;
+import gql.expressions.values.FixedPointNumber;
+import gql.expressions.values.Value;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -76,8 +76,8 @@ quotedId
     ;
 
 value
-    : WORD
-    | TRUTH_VALUE
+    : TRUTH_VALUE
+    | WORD
     | SIGNED_INTEGER
     | SIGNED_FIXED_POINT
     | SIGNED_FLOAT

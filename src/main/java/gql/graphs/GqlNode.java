@@ -1,34 +1,29 @@
 package gql.graphs;
 
-import gql.expressions.GqlIdentifier;
-import gql.expressions.Label;
-import gql.expressions.Value;
+import gql.expressions.values.GqlIdentifier;
+import gql.expressions.values.Label;
+import gql.expressions.values.TruthValue;
+import gql.expressions.values.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class GqlNode {
-    private GqlIdentifier id;
-    private ArrayList<Label> labels;
-    private HashMap<GqlIdentifier, Value> properties;
-
+public class GqlNode extends GqlGraphElement{
     public GqlNode(GqlIdentifier id, ArrayList<Label> labels, HashMap<GqlIdentifier, Value> properties) {
         this.id = id;
         this.labels = labels;
         this.properties = properties;
     }
 
-    public GqlIdentifier getId() {
-        return id;
+    @Override
+    public TruthValue isEqualTo(Value valueToCompareTo) {
+        return new TruthValue(this.equals(valueToCompareTo));
     }
 
-    public ArrayList<Label> getLabels() {
-        return labels;
-    }
-
-    public HashMap<GqlIdentifier, Value> getProperties() {
-        return properties;
+    @Override
+    public TruthValue isSmallerThan(Value valueToCompareTo) {
+        throw new IllegalArgumentException("Invalid comparison: nodes cannot be used in an inequality.");
     }
 
     @Override
@@ -42,5 +37,10 @@ public class GqlNode {
     @Override
     public int hashCode() {
         return Objects.hash(labels, properties);
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 }

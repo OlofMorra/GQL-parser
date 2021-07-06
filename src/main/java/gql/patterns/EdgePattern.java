@@ -1,9 +1,9 @@
 package gql.patterns;
 
 import gql.enums.Direction;
-import gql.expressions.GqlIdentifier;
-import gql.expressions.Label;
-import gql.expressions.Value;
+import gql.expressions.values.GqlIdentifier;
+import gql.expressions.values.Label;
+import gql.expressions.values.Value;
 import gql.graphs.GqlEdge;
 import gql.graphs.WorkingGraph;
 import gql.tables.BindingTable;

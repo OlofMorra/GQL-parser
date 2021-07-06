@@ -25,7 +25,7 @@ public class PathPatternExpressionVisitor extends GqlParserBaseVisitor {
     }
 
     @Override
-    public Object visitPathPattern(GqlParser.PathPatternContext ctx) {
+    public Object visitPath(GqlParser.PathContext ctx) {
         visitNodePattern(ctx.nodePattern(0));
 
         return null;

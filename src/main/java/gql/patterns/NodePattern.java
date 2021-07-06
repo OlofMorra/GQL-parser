@@ -1,13 +1,12 @@
 package gql.patterns;
 
-import gql.expressions.GqlIdentifier;
-import gql.expressions.Label;
-import gql.expressions.Value;
+import gql.expressions.values.GqlIdentifier;
+import gql.expressions.values.Label;
+import gql.expressions.values.Value;
 import gql.graphs.GqlNode;
 import gql.graphs.WorkingGraph;
 import gql.tables.BindingTable;
 
-import javax.xml.soap.Node;
 import java.util.ArrayList;
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package gql.expressions;
+package gql.expressions.values;
 
 public class FloatingPointNumber extends Value {
     final double floatingPointNumber;

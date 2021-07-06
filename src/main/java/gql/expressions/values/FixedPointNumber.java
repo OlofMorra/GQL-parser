@@ -1,4 +1,4 @@
-package gql.expressions;
+package gql.expressions.values;
 
 public class FixedPointNumber extends Value {
     private final int digitsBeforeRadixPoint;

@@ -1,6 +1,6 @@
-package gql.expressions;
+package gql.expressions.values;
 
-import gql.expressions.unnecessary.Expression;
+import gql.expressions.Expression;
 
 public abstract class Value extends Expression {
     /**
@@ -12,9 +12,6 @@ public abstract class Value extends Expression {
      */
     public abstract TruthValue isEqualTo(Value valueToCompareTo);
     public abstract TruthValue isSmallerThan(Value valueToCompareTo);
-
-    @Override
-    public abstract String toString();
 
     // Base on defined implementation of isEqualTo and isSmallerThan of Value type
     public TruthValue isSmallerOrEqualThan(Value valueToCompareTo) {

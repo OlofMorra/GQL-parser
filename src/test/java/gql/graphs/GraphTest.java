@@ -2,9 +2,9 @@ package gql.graphs;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
-import gql.expressions.FixedPointNumber;
-import gql.expressions.GqlIdentifier;
-import gql.expressions.GqlString;
+import gql.expressions.values.FixedPointNumber;
+import gql.expressions.values.GqlIdentifier;
+import gql.expressions.values.GqlString;
 import groovy.lang.Tuple2;
 import groovy.lang.Tuple5;
 import org.junit.Test;

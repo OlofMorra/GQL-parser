@@ -1,5 +1,6 @@
-package gql.expressions;
+package gql.expressions.values;
 
+import gql.expressions.values.TruthValue;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -2,9 +2,9 @@ package gql.graphs;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
-import gql.expressions.GqlIdentifier;
-import gql.expressions.Label;
-import gql.expressions.Value;
+import gql.expressions.values.GqlIdentifier;
+import gql.expressions.values.Label;
+import gql.expressions.values.Value;
 import groovy.lang.Tuple2;
 import groovy.lang.Tuple5;
 import org.junit.Before;

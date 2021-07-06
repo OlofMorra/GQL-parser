@@ -1,6 +1,4 @@
-package gql.expressions;
-
-import gql.expressions.unnecessary.LabelFactor;
+package gql.expressions.values;
 
 public class WildcardLabel extends Label {
     public WildcardLabel() {

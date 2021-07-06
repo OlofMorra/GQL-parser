@@ -1,4 +1,4 @@
-package gql.expressions;
+package gql.expressions.values;
 
 import java.text.Normalizer;
 import java.util.Objects;

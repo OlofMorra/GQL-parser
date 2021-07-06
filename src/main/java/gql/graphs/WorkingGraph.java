@@ -2,7 +2,7 @@ package gql.graphs;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
-import gql.expressions.GqlIdentifier;
+import gql.expressions.values.GqlIdentifier;
 import json.workinggraph.JsonGraphEvaluator;
 
 import java.io.FileNotFoundException;

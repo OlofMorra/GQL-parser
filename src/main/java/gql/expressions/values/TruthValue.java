@@ -1,4 +1,4 @@
-package gql.expressions;
+package gql.expressions.values;
 
 import gql.enums.TruthValueEnum;
 

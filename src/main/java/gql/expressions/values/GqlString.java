@@ -1,4 +1,4 @@
-package gql.expressions;
+package gql.expressions.values;
 
 import java.text.Collator;
 import java.util.Locale;

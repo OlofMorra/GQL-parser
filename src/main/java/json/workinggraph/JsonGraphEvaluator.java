@@ -4,7 +4,7 @@ import antlr.GqlLexer;
 import antlr.JsonGraphParser;
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
-import gql.expressions.GqlIdentifier;
+import gql.expressions.values.GqlIdentifier;
 import gql.graphs.GqlEdge;
 import gql.graphs.GqlNode;
 import gql.listeners.ErrorListener;

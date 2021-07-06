@@ -1,8 +1,8 @@
 package gql.tables;
 
 import gql.enums.EvaluationMode;
-import gql.expressions.GqlIdentifier;
-import gql.expressions.Value;
+import gql.expressions.values.GqlIdentifier;
+import gql.expressions.values.Value;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.ArrayList;

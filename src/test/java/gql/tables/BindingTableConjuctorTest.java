@@ -1,6 +1,6 @@
 package gql.tables;
 
-import gql.expressions.*;
+import gql.expressions.values.*;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,5 +1,7 @@
-package gql.expressions;
+package gql.expressions.values;
 
+import gql.expressions.values.Label;
+import gql.expressions.values.WildcardLabel;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

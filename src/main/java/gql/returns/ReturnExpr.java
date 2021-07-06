@@ -1,12 +1,12 @@
 package gql.returns;
 
-import gql.expressions.unnecessary.Expression;
+import gql.expressions.filters.ComparisonExpression;
 
 public class ReturnExpr extends ReturnItem {
-    Expression expr;
+    ComparisonExpression expr;
     String name;
 
-    public ReturnExpr(Expression expr,
+    public ReturnExpr(ComparisonExpression expr,
                       String name) {
         this.expr = expr;
         this.name = name;

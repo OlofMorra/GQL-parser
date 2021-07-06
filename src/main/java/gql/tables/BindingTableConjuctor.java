@@ -1,6 +1,6 @@
 package gql.tables;
 
-import gql.expressions.Value;
+import gql.expressions.values.Value;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.ArrayList;

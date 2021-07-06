@@ -1,0 +1,21 @@
+{
+  "n": {
+    "identity": "n1",
+    "properties": {
+      "true": "TRUE"
+    }
+  },
+  "n": {
+    "identity": "n2",
+    "properties": {
+      "name": "Olof Morra",
+      "age": 25
+    }
+  },
+  "n": {
+    "identity": "n3",
+    "properties": {
+      "approximate": 3E3
+    }
+  }
+}

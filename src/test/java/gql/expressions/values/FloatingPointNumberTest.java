@@ -1,5 +1,7 @@
-package gql.expressions;
+package gql.expressions.values;
 
+import gql.expressions.values.FloatingPointNumber;
+import gql.expressions.values.TruthValue;
 import org.junit.Before;
 import org.junit.Test;
 

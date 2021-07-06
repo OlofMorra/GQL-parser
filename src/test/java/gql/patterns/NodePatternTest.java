@@ -1,6 +1,6 @@
 package gql.patterns;
 
-import gql.expressions.*;
+import gql.expressions.values.*;
 import gql.graphs.WorkingGraph;
 import gql.tables.BindingTable;
 import gql.tables.Record;

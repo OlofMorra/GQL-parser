@@ -1,11 +1,11 @@
 package gql.clauses;
 
-import gql.expressions.unnecessary.Expression;
+import gql.expressions.filters.ComparisonExpression;
 
 public class WhereClause {
-    Expression expr;
+    ComparisonExpression expr;
 
-    public WhereClause(Expression expr) {
+    public WhereClause(ComparisonExpression expr) {
         this.expr = expr;
     }
 

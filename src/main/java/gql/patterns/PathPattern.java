@@ -3,7 +3,7 @@ package gql.patterns;
 import com.google.common.collect.HashMultiset;
 import gql.enums.Direction;
 import gql.enums.EvaluationMode;
-import gql.expressions.GqlIdentifier;
+import gql.expressions.values.GqlIdentifier;
 import gql.graphs.WorkingGraph;
 import gql.tables.BindingTable;
 import gql.tables.Record;

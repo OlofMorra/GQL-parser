@@ -1,20 +1,18 @@
 package gql.graphs;
 
-import gql.expressions.GqlIdentifier;
-import gql.expressions.Label;
-import gql.expressions.Value;
+import gql.expressions.values.GqlIdentifier;
+import gql.expressions.values.Label;
+import gql.expressions.values.TruthValue;
+import gql.expressions.values.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class GqlEdge {
-    private final GqlIdentifier id;
+public class GqlEdge extends GqlGraphElement {
     private final GqlIdentifier startNodeId;
     private final GqlIdentifier endNodeId;
     private boolean isDirected = true;
-    private ArrayList<Label> labels;
-    private HashMap<GqlIdentifier, Value> properties;
 
     public GqlEdge(GqlIdentifier id, GqlIdentifier startNodeId, GqlIdentifier endNodeId, boolean isDirected, ArrayList<Label> labels,
                    HashMap<GqlIdentifier, Value> properties) {
@@ -26,8 +24,14 @@ public class GqlEdge {
         this.isDirected = isDirected;
     }
 
-    public GqlIdentifier getId() {
-        return id;
+    @Override
+    public TruthValue isEqualTo(Value valueToCompareTo) {
+        return new TruthValue(this.equals(valueToCompareTo));
+    }
+
+    @Override
+    public TruthValue isSmallerThan(Value valueToCompareTo) {
+        throw new IllegalArgumentException("Invalid comparison: nodes cannot be used in an inequality.");
     }
 
     public GqlIdentifier getStartNodeId() {
@@ -40,14 +44,6 @@ public class GqlEdge {
 
     public boolean isDirected() {
         return isDirected;
-    }
-
-    public ArrayList<Label> getLabels() {
-        return labels;
-    }
-
-    public HashMap<GqlIdentifier, Value> getProperties() {
-        return properties;
     }
 
     public boolean hasStartAndEndNode(GqlIdentifier startNodeId, GqlIdentifier endNodeId) {
@@ -71,5 +67,10 @@ public class GqlEdge {
     @Override
     public int hashCode() {
         return Objects.hash(id, startNodeId, endNodeId, isDirected, labels, properties);
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 }
