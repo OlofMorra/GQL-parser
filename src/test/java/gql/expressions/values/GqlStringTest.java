@@ -1,11 +1,8 @@
 package gql.expressions.values;
 
-import gql.expressions.values.FixedPointNumber;
-import gql.expressions.values.GqlString;
-import gql.expressions.values.TruthValue;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class GqlStringTest {
     private final TruthValue TRUE = new TruthValue(true);

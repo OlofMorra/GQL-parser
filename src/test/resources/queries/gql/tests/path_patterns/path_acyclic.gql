@@ -1,3 +1,4 @@
-// Same query as example_2.3_acyclic, but not on specific graph
+// Same query as example_2.3_acyclic
+FROM g
 MATCH ACYCLIC (x)~[]~(y)~[]~(z)
 RETURN x, y, z

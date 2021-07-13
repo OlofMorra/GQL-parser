@@ -2,7 +2,7 @@
   "n": {
     "identity": "n1",
     "properties": {
-      "true": "TRUE"
+      "booleanTest": "TRUE"
     }
   },
   "n": {

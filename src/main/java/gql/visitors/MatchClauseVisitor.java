@@ -1,46 +1,75 @@
 package gql.visitors;
 
-import antlr.GqlParser;
-import antlr.GqlParserBaseVisitor;
 import antlr.GqlParser.MatchClauseContext;
+import antlr.GqlParser.PathPatternContext;
 import antlr.GqlParser.PathPatternListContext;
+import antlr.GqlParser.PathPatternPrefixContext;
+import antlr.GqlParserBaseVisitor;
+import gql.enums.EvaluationMode;
+import gql.expressions.Expression;
 import gql.patterns.PathPattern;
 import gql.tables.BindingTable;
-import org.apache.tinkerpop.gremlin.structure.Vertex;
+import gql.tables.BindingTableConjuctor;
+
+import java.util.List;
 
 
 public class MatchClauseVisitor extends GqlParserBaseVisitor<BindingTable> {
+    private final BindingTableConjuctor conjunctor = new BindingTableConjuctor();
+    private final WhereClauseVisitior whereClauseVisitior = new WhereClauseVisitior();
+    private final PathPatternExpressionVisitor pathPatternExpressionVisitor = new PathPatternExpressionVisitor();
+
+
+
     @Override
     public BindingTable visitMatchClause(MatchClauseContext ctx) {
-        BindingTable output = new BindingTable(true, true, new String[]{});
+        BindingTable matches = visitPathPatternList(ctx.pathPatternList());
 
-        System.out.println("Match clause:");
-        for (int i = 0; i < ctx.getChildCount(); i++) {
-            System.out.println(i + ": " + ctx.getChild(i).getText());
+        if (ctx.MANDATORY() != null) {
+            matches.isMandatory();
+        } else if (ctx.OPTIONAL() != null) {
+            matches.isMandatory();
         }
 
-        output = visitPathPatternList(ctx.pathPatternList());
+        if (ctx.whereClause() != null) {
+            Expression whereClauseExpression = whereClauseVisitior.visitWhereClause(ctx.whereClause());
+            matches.filter(whereClauseExpression);
+        }
 
-        return output;
+        return matches;
     }
 
     @Override
     public BindingTable visitPathPatternList(PathPatternListContext ctx) {
-        BindingTable output = new BindingTable(true, true, new String[]{});
+        List<PathPatternContext> pathPatterns = ctx.pathPattern();
 
-        output = visitPathPattern(ctx.pathPattern(0));
+        BindingTable matches = visitPathPattern(pathPatterns.get(0));
 
-        return output;
+        for (int i = 1; i < pathPatterns.size(); i++) {
+            matches = conjunctor.crossProduct(matches, visitPathPattern(pathPatterns.get(i)));
+        }
+
+        return matches;
     }
 
     @Override
-    public BindingTable visitPathPattern(GqlParser.PathPatternContext ctx) {
-        BindingTable output = new BindingTable(true, true, new String[]{});
+    public BindingTable visitPathPattern(PathPatternContext ctx) {
+        // TODO: implement path variables correctly
+        PathPattern pathPattern = pathPatternExpressionVisitor.visitPathPatternExpression(ctx.pathPatternExpression());
+        return pathPattern.match(getEvaluationMode(ctx.pathPatternPrefix()));
+    }
 
-        PathPatternExpressionVisitor pathPatternExpressionVisitor = new PathPatternExpressionVisitor();
+    private EvaluationMode getEvaluationMode(PathPatternPrefixContext ctx) {
+        if (ctx == null) return EvaluationMode.WALK;
 
-        pathPatternExpressionVisitor.visitPathPatternExpression(ctx.pathPatternExpression());
+        if (ctx.ACYCLIC() != null) {
+            return EvaluationMode.ACYCLIC;
+        } else if (ctx.TRAIL() != null) {
+            return EvaluationMode.TRAIL;
+        } else if (ctx.SIMPLE() != null) {
+            return EvaluationMode.SIMPLE;
+        }
 
-        return output;
+        return EvaluationMode.WALK;
     }
 }

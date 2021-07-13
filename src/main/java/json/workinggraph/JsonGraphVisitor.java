@@ -8,6 +8,7 @@ import exceptions.InvalidNodeFormatException;
 import gql.expressions.values.*;
 import gql.graphs.GqlEdge;
 import gql.graphs.GqlNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -143,7 +144,7 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
 
     @Override
     public Boolean visitIsDirected(IsDirectedContext ctx) {
-        if (Integer.parseInt(ctx.SIGNED_INTEGER().getText()) == 0) {
+        if (Integer.parseInt(ctx.UNSIGNED_INTEGER().getText()) == 0) {
             return false;
         }
 
@@ -237,7 +238,7 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
 
     @Override
     public Value visitValue(ValueContext ctx) {
-        switch (ctx.start.getType()) {
+        switch (ctx.getStart().getType()) {
             case JsonGraphParser.WORD:
                 String word = ctx.getText().replace("\"", "");
                 if (word.matches("[Tt][Rr][Uu][Ee]")) return new TruthValue(true);
@@ -247,7 +248,8 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
 
                 return new GqlString(word);
             case JsonGraphParser.TRUTH_VALUE:
-                return getTruthValue(ctx);
+                return getTruthValue(ctx.TRUTH_VALUE());
+            case JsonGraphParser.UNSIGNED_INTEGER:
             case JsonGraphParser.SIGNED_INTEGER:
             case JsonGraphParser.SIGNED_FIXED_POINT:
                 return new FixedPointNumber(ctx.getText().replace("\"", ""));
@@ -256,8 +258,8 @@ public class JsonGraphVisitor extends JsonGraphParserBaseVisitor {
         }
     }
 
-    private TruthValue getTruthValue(ValueContext ctx) {
-        switch (ctx.TRUTH_VALUE().getText()) {
+    private TruthValue getTruthValue(TerminalNode truthValue) {
+        switch (truthValue.getText()) {
             case "TRUE":
                 return new TruthValue(true);
             case "FALSE":

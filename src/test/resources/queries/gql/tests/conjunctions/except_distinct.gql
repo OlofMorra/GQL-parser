@@ -1,6 +1,5 @@
 FROM g3
-MATCH (x:Professor)
-MATCH (x)
+MATCH (x)-[]->()
 RETURN x
 EXCEPT DISTINCT
 FROM g3

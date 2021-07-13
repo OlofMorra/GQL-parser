@@ -89,13 +89,13 @@ HexDigit
 	:	StandardDigit | [a-fA-F]
 	;
 
+UNSIGNED_INTEGER
+    : Digit+
+    ;
+
 SIGNED_INTEGER
     : Sign? Digit+
     | [0]
-    ;
-
-UNSIGNED_INTEGER
-    : Digit+
     ;
 
 SIGNED_FIXED_POINT
@@ -158,6 +158,13 @@ ReservedWords
 fragment
 CaseInsensitiveReservedWord
     : ABS
+    ;
+
+TRUTH_VALUE
+    : TRUE
+    | FALSE
+    | UNKNOWN
+    | NULL
     ;
 
 ABS         : A B S;
@@ -453,13 +460,6 @@ fragment
 PathOrPaths
     : 'PATH'
     | 'PATHS'                                                       // 16.9
-    ;
-
-TRUTH_VALUE
-    : TRUE
-    | FALSE
-    | UNKNOWN
-    | NULL
     ;
 
 // Tokens

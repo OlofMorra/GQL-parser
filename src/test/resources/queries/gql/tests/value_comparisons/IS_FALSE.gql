@@ -1,3 +1,3 @@
 MATCH (x)
-WHERE x = 1 IS FALSE
+WHERE x.booleanTest IS FALSE
 RETURN *

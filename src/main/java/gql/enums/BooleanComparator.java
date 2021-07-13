@@ -5,5 +5,10 @@ public enum BooleanComparator {
     XOR,
     AND,
     IS,
-    IS_NOT
+    IS_NOT {
+        @Override
+        public String toString() {
+            return "IS NOT";
+        }
+    }
 }

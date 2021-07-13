@@ -2,6 +2,7 @@ package gql.expressions.filters;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
+import exceptions.SemanticErrorException;
 import gql.expressions.references.PropertyReference;
 import gql.expressions.values.GqlIdentifier;
 import gql.expressions.values.GqlString;
@@ -31,7 +32,7 @@ public class NegatedExpressionTest {
         assertEquals(UNKNOWN, notUnknown.evaluateOn(new Record(new String[]{}, new Value[]{})));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testExpressionNotBooleanExpression() {
         new NegatedExpression(new GqlString("test"));
     }
@@ -46,7 +47,7 @@ public class NegatedExpressionTest {
         }
 
         Record record = new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n1")});
-        PropertyReference propertyReference = new PropertyReference("x", "true");
+        PropertyReference propertyReference = new PropertyReference("x", "booleanTest");
         NegatedExpression negatedExpression = new NegatedExpression(propertyReference);
         assertEquals(FALSE, negatedExpression.evaluateOn(record));
     }

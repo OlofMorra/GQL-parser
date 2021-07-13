@@ -26,6 +26,8 @@ public abstract class Graph {
             throw new IllegalArgumentException("There is no graph directory \"" + graphName + "\".");
         } else if (graphNotComplete(graphName)) {
             throw new FileNotFoundException("Directory database/" + graphName + " needs to have a node.json and edgePattern.json file.");
+        } else if (graphName.equals(currentGraphName)) {
+            return;
         }
 
         setEmptyGraph();

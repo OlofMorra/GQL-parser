@@ -19,10 +19,12 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class BindingTableTest {
+public class BindingTableTest implements BindingTableComparator {
     private BindingTable bindingTable;
     private Record record;
     private Record secondRecord;
+    private String[] columnNames = new String[]{"col1", "col2", "col3"};
+
 
     TruthValue TRUE = new TruthValue(true);
     TruthValue FALSE = new TruthValue(false);
@@ -30,13 +32,82 @@ public class BindingTableTest {
 
     @Before
     public void setUp() {
-        String[] columnNames = new String[]{"col1", "col2", "col3"};
-        bindingTable = new BindingTable(false, false, columnNames);
+        bindingTable = new BindingTable(false, true, columnNames);
 
         Value[] values = new Value[]{new GqlString("Tries"), new FixedPointNumber("1"), new TruthValue(true)};
         record = new Record(columnNames, values);
         values = new Value[]{new FloatingPointNumber("3E3"), new FixedPointNumber("1"), new TruthValue(false)};
         secondRecord = new Record(columnNames, values);
+    }
+
+    @Test
+    public void testIsOptionalWithEmptyTable() {
+        BindingTable expectedResult = new BindingTable(false, true, columnNames);
+        expectedResult.addRecord(new Record(columnNames, new Value[]{new TruthValue(null), new TruthValue(null), new TruthValue(null)}));
+
+        bindingTable.isOptional();
+
+        checkIfBindingTablesAreEqual(expectedResult, bindingTable);
+    }
+
+    @Test
+    public void testIsOptionalWithTableWithRecords() {
+        BindingTable expectedResult = new BindingTable(false, true, columnNames);
+        expectedResult.addRecord(record);
+
+        bindingTable.addRecord(record);
+        bindingTable.isOptional();
+
+        checkIfBindingTablesAreEqual(expectedResult, bindingTable);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testIsMandatoryWithEmptyTable() {
+        bindingTable.isMandatory();
+    }
+
+    @Test
+    public void testIsMandatoryWithTableWithRecords() {
+        BindingTable expectedResult = new BindingTable(false, true, columnNames);
+        expectedResult.addRecord(record);
+
+        bindingTable.addRecord(record);
+        bindingTable.isMandatory();
+
+        checkIfBindingTablesAreEqual(expectedResult, bindingTable);
+    }
+
+    @Test
+    public void testMakeDistinctWithoutDuplicates() {
+        BindingTable expectedResult = new BindingTable(false, false, columnNames);
+        expectedResult.addRecord(record);
+        expectedResult.addRecord(secondRecord);
+
+        bindingTable.addRecord(record);
+        bindingTable.addRecord(secondRecord);
+        bindingTable.makeDistinct();
+
+        checkIfBindingTablesAreEqual(expectedResult, bindingTable);
+    }
+
+    @Test
+    public void testMakeDistinctWithDuplicates() {
+        BindingTable expectedResult = new BindingTable(false, false, columnNames);
+        expectedResult.addRecord(record);
+        expectedResult.addRecord(secondRecord);
+
+        bindingTable.addRecord(record);
+        bindingTable.addRecord(record);
+        bindingTable.addRecord(record);
+        bindingTable.addRecord(record);
+        bindingTable.addRecord(record);
+        bindingTable.addRecord(record);
+        bindingTable.addRecord(secondRecord);
+        bindingTable.addRecord(secondRecord);
+        bindingTable.addRecord(secondRecord);
+        bindingTable.makeDistinct();
+
+        checkIfBindingTablesAreEqual(expectedResult, bindingTable);
     }
 
     @Test
@@ -98,7 +169,7 @@ public class BindingTableTest {
 
         BooleanExpressionComparison comparison = new BooleanExpressionComparison(TRUE, BooleanComparator.IS_NOT, FALSE);
         table.filter(comparison);
-        bindingTablesAreEqual(expectedResult, table);
+        checkIfBindingTablesAreEqual(expectedResult, table);
     }
 
     @Test
@@ -118,7 +189,7 @@ public class BindingTableTest {
         PropertyReference reference = new PropertyReference("x", "name");
         ValueComparison valueComparison = new ValueComparison(reference, ValueComparator.EQ, new GqlString("Olof Morra"));
         table.filter(valueComparison);
-        bindingTablesAreEqual(expectedResult, table);
+        checkIfBindingTablesAreEqual(expectedResult, table);
     }
 
     @Test
@@ -135,7 +206,7 @@ public class BindingTableTest {
 
         assertTrue(bindingTable.getRecords().contains(record));
         assertEquals(2, bindingTable.getRecords().size());
-        bindingTable.getRecords().remove(record);
+        bindingTable.removeRecord(record);
         assertTrue(bindingTable.getRecords().contains(record));
         assertEquals(1, bindingTable.getRecords().size());
     }
@@ -149,7 +220,7 @@ public class BindingTableTest {
 
         assertTrue(bindingTable.getRecords().contains(record));
         assertEquals(2, bindingTable.getRecords().size());
-        bindingTable.getRecords().remove(record);
+        bindingTable.removeRecord(record);
         assertTrue(bindingTable.getRecords().contains(record));
         assertEquals(1, bindingTable.getRecords().size());
     }
@@ -185,14 +256,5 @@ public class BindingTableTest {
         } catch (FileNotFoundException | InvalidNodeFormatException | InvalidEdgeFormatException exception) {
             exception.printStackTrace();
         }
-    }
-
-    private void bindingTablesAreEqual(BindingTable expectedResult, BindingTable actualResult) {
-        System.out.println("Expected:");
-        expectedResult.printToConsole();
-        System.out.println("Actual:");
-        actualResult.printToConsole();
-
-        assertEquals(expectedResult, actualResult);
     }
 }

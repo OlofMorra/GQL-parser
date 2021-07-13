@@ -1,5 +1,6 @@
 package gql.tables;
 
+import com.google.common.collect.HashMultiset;
 import gql.expressions.values.Value;
 import org.apache.commons.lang.ArrayUtils;
 
@@ -8,50 +9,79 @@ import java.util.Arrays;
 
 public class BindingTableConjuctor {
     public BindingTable unionDistinct(BindingTable left, BindingTable right) {
-
-        return new BindingTable(false, false, new String[]{});
+        BindingTable conjunction = unionAll(left, right);
+        conjunction.makeDistinct();
+        return conjunction;
     }
 
     public BindingTable unionAll(BindingTable left, BindingTable right) {
+        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new IllegalArgumentException("It is not possible to conjunct two tables with different sets of columnnames.");
 
-        return new BindingTable(false, false, new String[]{});
+        BindingTable output = left.clone();
+        output.addRecords(right.getRecords());
+
+        return output;
     }
 
     public BindingTable unionMax(BindingTable left, BindingTable right) {
+        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new IllegalArgumentException("It is not possible to conjunct two tables with different sets of columnnames.");
 
-        return new BindingTable(false, false, new String[]{});
+        BindingTable unionAll = unionAll(left, right);
+        BindingTable intersectAll = intersectAll(left, right);
+
+        return bagDifference(unionAll, intersectAll);
     }
 
     public BindingTable exceptDistinct(BindingTable left, BindingTable right) {
+        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new IllegalArgumentException("It is not possible to conjunct two tables with different sets of columnnames.");
 
-        return new BindingTable(false, false, new String[]{});
+        BindingTable output = left.clone();
+        output.makeDistinct();
+        return bagDifference(output, right);
     }
 
     public BindingTable exceptAll(BindingTable left, BindingTable right) {
+        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new IllegalArgumentException("It is not possible to conjunct two tables with different sets of columnnames.");
 
-        return new BindingTable(false, false, new String[]{});
+        return bagDifference(left, right);
     }
 
     public BindingTable intersectDistinct(BindingTable left, BindingTable right) {
-
-        return new BindingTable(false, false, new String[]{});
+        BindingTable conjunction = intersectAll(left, right);
+        conjunction.makeDistinct();
+        return conjunction;
     }
 
     public BindingTable intersectAll(BindingTable left, BindingTable right) {
+        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new IllegalArgumentException("It is not possible to conjunct two tables with different sets of columnnames.");
 
-        return new BindingTable(false, false, new String[]{});
+        BindingTable conjunction = new BindingTable(false, true, left.getColumnNames());
+        HashMultiset<Record> newRecords = HashMultiset.create();
+        HashMultiset<Record> rightRecords = right.getRecords();
+
+        for (Record leftRecord: left.getRecords()) {
+            if (rightRecords.contains(leftRecord)) {
+                newRecords.add(leftRecord);
+                rightRecords.remove(leftRecord);
+            }
+        }
+
+        conjunction.setRecords(newRecords);
+
+        return conjunction;
     }
 
     public BindingTable otherwise(BindingTable left, BindingTable right) {
+        if (left.getRecords().size() > 0) return left;
 
-        return new BindingTable(false, false, new String[]{});
+        return right;
     }
 
     public BindingTable crossProduct(BindingTable left, BindingTable right) {
         String[] intersectingColumnNames = getIntersectingColumnNames(left.getColumnNames(), right.getColumnNames());
         String[] distinctColumnNames = getDistinctColumnNames(left.getColumnNames(), right.getColumnNames());
         String[] resultColumnNames = (String[]) ArrayUtils.addAll(intersectingColumnNames, distinctColumnNames);
-        BindingTable crossProduct = new BindingTable(false, false, resultColumnNames);
+        BindingTable crossProduct = new BindingTable(false, true, resultColumnNames);
 
         for (Record leftRecord: left.getRecords()) {
             for (Record rightRecord: right.getRecords()) {
@@ -69,6 +99,24 @@ public class BindingTableConjuctor {
         Arrays.sort(rightColumnNames);
 
         return Arrays.equals(leftColumnNames, rightColumnNames);
+    }
+
+    private BindingTable bagDifference(BindingTable left, BindingTable right) {
+        BindingTable bagDifference = new BindingTable(false, left.hasDuplicates(), left.getColumnNames());
+        HashMultiset<Record> newRecords = HashMultiset.create();
+        HashMultiset<Record> rightRecords = right.getRecords();
+
+        for (Record leftRecord: left.getRecords()) {
+            if (rightRecords.contains(leftRecord)) {
+                rightRecords.remove(leftRecord);
+            } else {
+                newRecords.add(leftRecord);
+            }
+        }
+
+        bagDifference.setRecords(newRecords);
+
+        return bagDifference;
     }
 
     private String[] getIntersectingColumnNames(String[] left, String[] right) {

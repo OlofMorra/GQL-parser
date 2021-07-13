@@ -9,8 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class GqlNode extends GqlGraphElement{
+public class GqlNode extends GqlGraphElement {
     public GqlNode(GqlIdentifier id, ArrayList<Label> labels, HashMap<GqlIdentifier, Value> properties) {
+        if (id == null) throw new NullPointerException("Argument id cannot be null");
+        if (labels == null) throw new NullPointerException("Argument labels cannot be null");
+        if (properties == null) throw new NullPointerException("Argument properties cannot be null");
+
         this.id = id;
         this.labels = labels;
         this.properties = properties;
@@ -31,7 +35,7 @@ public class GqlNode extends GqlGraphElement{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GqlNode gqlNode = (GqlNode) o;
-        return Objects.equals(labels, gqlNode.labels) && Objects.equals(properties, gqlNode.properties);
+        return id.isEqualTo(gqlNode.getId()).equals(new TruthValue(true)) && labels.equals(gqlNode.getLabels()) && properties.equals(gqlNode.getProperties());
     }
 
     @Override
@@ -41,6 +45,6 @@ public class GqlNode extends GqlGraphElement{
 
     @Override
     public String toString() {
-        return "";
+        return "{\"identity\": \"" + this.id + "\"" + getLabelString() + getPropertiesString() + "}";
     }
 }

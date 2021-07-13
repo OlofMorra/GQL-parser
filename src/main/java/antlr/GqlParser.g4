@@ -25,11 +25,15 @@ queryExpression
     ;
 
 focusedQueryExpression
-    : (FROM graphName matchClause+)+ returnStatement
+    : (focusedMatchClause)+ returnStatement
     ;
 
 ambientQueryExpression
     : matchClause+ returnStatement
+    ;
+
+focusedMatchClause
+    : FROM graphName matchClause+
     ;
 
 matchClause
@@ -69,7 +73,7 @@ pathTerm
     ;
 
 path
-    : nodePattern (edgePattern len? nodePattern)*
+    : nodePattern (edgePattern nodePattern)*
     ;
 
 nodePattern
@@ -77,9 +81,7 @@ nodePattern
     ;
 
 edgePattern
-    : fullEdgePointingLeft
-    | fullEdgeUndirected
-    | fullEdgePointingRight
+    : (fullEdgePointingLeft | fullEdgeUndirected | fullEdgePointingRight) len?
     ;
 
 fullEdgePointingLeft
@@ -133,8 +135,8 @@ len
     ;
 
 quantifier
-    : UNSIGNED_INTEGER
-    | UNSIGNED_INTEGER COMMA UNSIGNED_INTEGER
+    : UNSIGNED_INTEGER COMMA UNSIGNED_INTEGER
+    | UNSIGNED_INTEGER
     ;
 
 expr
@@ -216,6 +218,7 @@ name
 
 value
     : TRUTH_VALUE
+    | UNSIGNED_INTEGER
     | SIGNED_INTEGER
     | SIGNED_FIXED_POINT
     | SIGNED_FLOAT

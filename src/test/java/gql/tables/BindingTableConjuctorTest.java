@@ -5,21 +5,21 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class BindingTableConjuctorTest {
+public class BindingTableConjuctorTest implements BindingTableComparator {
 
     @Test
     public void testUnionDistinctWithSameRecord() {
-        testWithSameRecord("uniondistinct", 5, 2, 1);
+        testWithSameRecord("uniondistinct", 5, 2, 1, false);
     }
 
     @Test
     public void testUnionAllWithSameRecord() {
-        testWithSameRecord("unionall", 5, 2, 7);
+        testWithSameRecord("unionall", 5, 2, 7, true);
     }
 
     @Test
     public void testUnionMaxWithSameRecord() {
-        testWithSameRecord("unionmax", 5,2,5);
+        testWithSameRecord("unionmax", 5,2,5, true);
     }
 
     @Test
@@ -39,12 +39,12 @@ public class BindingTableConjuctorTest {
 
     @Test
     public void testExceptDistinctWithSameRecord() {
-        testWithSameRecord("exceptdistinct", 4, 2, 0);
+        testWithSameRecord("exceptdistinct", 4, 2, 0, false);
     }
 
     @Test
     public void testExceptAllWithSameRecord() {
-        testWithSameRecord("exceptall", 4, 2, 1);
+        testWithSameRecord("exceptall", 4, 2, 2, true);
     }
 
     @Test
@@ -59,12 +59,12 @@ public class BindingTableConjuctorTest {
 
     @Test
     public void testIntersectDistinctWithSameRecord() {
-        testWithSameRecord("intersectdistinct", 5,2, 1);
+        testWithSameRecord("intersectdistinct", 5,2, 1, false);
     }
 
     @Test
     public void testIntersectAllWithSameRecord() {
-        testWithSameRecord("intersectall", 5, 3, 2);
+        testWithSameRecord("intersectall", 5, 3, 3, true);
     }
 
     @Test
@@ -79,17 +79,17 @@ public class BindingTableConjuctorTest {
 
     @Test
     public void testOtherwiseWithRecordsInFirstBindingTable() {
-        testWithSameRecord("otherwise", 3, 2, 3);
+        testWithSameRecord("otherwise", 3, 2, 3, true);
     }
 
     @Test
     public void testOtherwiseWithoutRecordsInFirstBindingTable() {
-        testWithSameRecord("otherwise", 0, 2, 2);
+        testWithSameRecord("otherwise", 0, 2, 2, true);
     }
 
     @Test
     public void testOtherwiseWithoutRecords() {
-        testWithSameRecord("otherwise", 0, 0, 0);
+        testWithSameRecord("otherwise", 0, 0, 0, true);
     }
 
     // Example 2.4 query 1
@@ -115,7 +115,7 @@ public class BindingTableConjuctorTest {
         BindingTable left = getAcyclicOutput(columnNamesLeft);
         BindingTable right = getTrailOutput(columnNamesRight);
 
-        BindingTable expectedResult = new BindingTable(false, false, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(getFourNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n3"));
         expectedResult.addRecord(getFourNodeIdentifiersRecord(expectedColumnNames, "n3", "n2", "n1", "n1"));
 
@@ -133,7 +133,7 @@ public class BindingTableConjuctorTest {
         BindingTable left = getAcyclicOutput(columnNamesLeft);
         BindingTable right = getTrailOutput(columnNamesRight);
 
-        BindingTable expectedResult = new BindingTable(false, false, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n1", "n2", "n3"));
         expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n2", "n3", "n3"));
         expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n3", "n2", "n1"));
@@ -167,10 +167,10 @@ public class BindingTableConjuctorTest {
     }
 
 
-    private void testWithSameRecord(String conjunctionType, int leftNumberOfRecords, int rightNumberOfRecords, int expectedNumberOfRecords) {
-        BindingTable left = getBindingTableWithSameRecords(leftNumberOfRecords);
-        BindingTable right = getBindingTableWithSameRecords(rightNumberOfRecords);
-        BindingTable expectedResult = getBindingTableWithSameRecords(expectedNumberOfRecords);
+    private void testWithSameRecord(String conjunctionType, int leftNumberOfRecords, int rightNumberOfRecords, int expectedNumberOfRecords, boolean hasDuplicates) {
+        BindingTable left = getBindingTableWithSameRecords(leftNumberOfRecords, true);
+        BindingTable right = getBindingTableWithSameRecords(rightNumberOfRecords, true);
+        BindingTable expectedResult = getBindingTableWithSameRecords(expectedNumberOfRecords, hasDuplicates);
 
         BindingTable actualResult = getConjunction(conjunctionType, left, right);
 
@@ -178,19 +178,19 @@ public class BindingTableConjuctorTest {
     }
 
     private void testUnionWithDifferentRecords(String setOperator) {
-        BindingTable left = getBindingTableWithDifferentRecords(2,2,1);
-        BindingTable right = getBindingTableWithDifferentRecords(1,0,2);
+        BindingTable left = getBindingTableWithDifferentRecords(2,2,1, true);
+        BindingTable right = getBindingTableWithDifferentRecords(1,0,2, true);
         BindingTable expectedResult;
 
         switch (setOperator) {
             case "all":
-                expectedResult = getBindingTableWithDifferentRecords(3,2,3);
+                expectedResult = getBindingTableWithDifferentRecords(3,2,3, true);
                 break;
             case "distinct":
-                expectedResult = getBindingTableWithDifferentRecords(1,1,1);
+                expectedResult = getBindingTableWithDifferentRecords(1,1,1, false);
                 break;
             case "max":
-                expectedResult = getBindingTableWithDifferentRecords(2,2,2);
+                expectedResult = getBindingTableWithDifferentRecords(2,2,2, true);
                 break;
             default:
                 throw new IllegalArgumentException("Type was not one of all, distinct or max");
@@ -202,16 +202,16 @@ public class BindingTableConjuctorTest {
     }
 
     private void testExceptWithDifferentRecords(String setOperator) {
-        BindingTable left = getBindingTableWithDifferentRecords(2,2,1);
-        BindingTable right = getBindingTableWithDifferentRecords(1,0,2);
+        BindingTable left = getBindingTableWithDifferentRecords(2,2,1, true);
+        BindingTable right = getBindingTableWithDifferentRecords(1,0,2, true);
         BindingTable expectedResult;
 
         switch (setOperator) {
             case "all":
-                expectedResult = getBindingTableWithDifferentRecords(1,2,0);
+                expectedResult = getBindingTableWithDifferentRecords(1,2,0, true);
                 break;
             case "distinct":
-                expectedResult = getBindingTableWithDifferentRecords(0,1,0);
+                expectedResult = getBindingTableWithDifferentRecords(0,1,0, false);
                 break;
             default:
                 throw new IllegalArgumentException("Type was not one of all or distinct");
@@ -223,16 +223,16 @@ public class BindingTableConjuctorTest {
     }
 
     private void testIntersectWithDifferentRecords(String setOperator) {
-        BindingTable left = getBindingTableWithDifferentRecords(3,2,1);
-        BindingTable right = getBindingTableWithDifferentRecords(2,0,2);
+        BindingTable left = getBindingTableWithDifferentRecords(3,2,1, true);
+        BindingTable right = getBindingTableWithDifferentRecords(2,0,2, true);
         BindingTable expectedResult;
 
         switch (setOperator) {
             case "all":
-                expectedResult = getBindingTableWithDifferentRecords(2,0,1);
+                expectedResult = getBindingTableWithDifferentRecords(2,0,1, true);
                 break;
             case "distinct":
-                expectedResult = getBindingTableWithDifferentRecords(1,0,1);
+                expectedResult = getBindingTableWithDifferentRecords(1,0,1, false);
                 break;
             default:
                 throw new IllegalArgumentException("Type was not one of all or distinct");
@@ -280,21 +280,21 @@ public class BindingTableConjuctorTest {
         return actualResult;
     }
 
-    private BindingTable getBindingTableWithSameRecords(int numberOfRecords) {
+    private BindingTable getBindingTableWithSameRecords(int numberOfRecords, boolean hasDuplicates) {
         if (numberOfRecords < 0) {
             throw new IllegalArgumentException("Number of records should be 0 or higher.");
         }
 
-        return getBindingTableWithDifferentRecords(numberOfRecords, 0, 0);
+        return getBindingTableWithDifferentRecords(numberOfRecords, 0, 0, hasDuplicates);
     }
 
-    private BindingTable getBindingTableWithDifferentRecords(int numberOfFirstRecord, int numberOfSecondRecord, int numberOfThirdRecord) {
+    private BindingTable getBindingTableWithDifferentRecords(int numberOfFirstRecord, int numberOfSecondRecord, int numberOfThirdRecord, boolean hasDuplicates) {
         if (numberOfFirstRecord < 0 || numberOfSecondRecord < 0 || numberOfThirdRecord < 0) {
             throw new IllegalArgumentException("Number of records should be 0 or higher.");
         }
 
         String[] columnNames = new String[]{"firstColumn"};
-        BindingTable bindingTable = new BindingTable(false, false, columnNames);
+        BindingTable bindingTable = new BindingTable(false, hasDuplicates, columnNames);
 
         addRecordsToBindingTable(bindingTable, columnNames, numberOfSecondRecord, numberOfThirdRecord, numberOfFirstRecord);
 
@@ -303,7 +303,7 @@ public class BindingTableConjuctorTest {
 
     // Table 3c in report
     private BindingTable getAcyclicOutput(String[] columnNames) {
-        BindingTable output = new BindingTable(false, false, columnNames);
+        BindingTable output = new BindingTable(false, true, columnNames);
 
         output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n1", "n2", "n3"));
         output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n3", "n2", "n1"));
@@ -313,7 +313,7 @@ public class BindingTableConjuctorTest {
 
     // Table 3d in report
     private BindingTable getTrailOutput(String[] columnNames) {
-        BindingTable output = new BindingTable(false, false, columnNames);
+        BindingTable output = new BindingTable(false, true, columnNames);
 
         output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n1", "n2", "n3"));
         output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n2", "n3", "n3"));
@@ -351,12 +351,4 @@ public class BindingTableConjuctorTest {
         bindingTable.addRecordMultipleTimes(thirdRecord, numberOfThirdRecord);
     }
 
-    private void checkIfBindingTablesAreEqual(BindingTable expectedResult, BindingTable actualResult) {
-        System.out.println("Expected:");
-        expectedResult.printToConsole();
-        System.out.println("Actual:");
-        actualResult.printToConsole();
-
-        assertEquals(expectedResult, actualResult);
-    }
 }

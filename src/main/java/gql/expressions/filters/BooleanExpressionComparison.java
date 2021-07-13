@@ -2,9 +2,7 @@ package gql.expressions.filters;
 
 import gql.enums.BooleanComparator;
 import gql.expressions.Expression;
-import gql.expressions.references.PropertyReference;
 import gql.expressions.values.TruthValue;
-import gql.expressions.values.Value;
 import gql.tables.Record;
 
 public class BooleanExpressionComparison extends ComparisonExpression {

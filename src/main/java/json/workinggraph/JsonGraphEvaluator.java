@@ -55,6 +55,8 @@ public class JsonGraphEvaluator {
             GqlLexer lexer = new GqlLexer(input);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             parser = new JsonGraphParser(tokens);
+
+            setCustomErrorListener(parser);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,14 +64,19 @@ public class JsonGraphEvaluator {
         return parser;
     }
 
+    private void setCustomErrorListener(JsonGraphParser parser) {
+        parser.removeErrorListeners();
+        parser.addErrorListener(new ErrorListener());
+    }
+
     private HashMap<GqlIdentifier, GqlNode> parseNodeFile(JsonGraphParser parser) throws InvalidNodeFormatException {
         // Tell ANTLR to build a parse tree from start symbol 'query'
         ParseTree antlrAST = parser.jsonNodeFile();
 
-        if (!ErrorListener.hasError) {
+        if (parser.getNumberOfSyntaxErrors() == 0) {
             return visitNodeParseTree(antlrAST);
         } else {
-            throw new InvalidNodeFormatException("node.json contains a syntax error.");
+            throw new InvalidNodeFormatException("node.json contains " + parser.getNumberOfSyntaxErrors() +" syntax errors.");
         }
     }
 
@@ -90,7 +97,7 @@ public class JsonGraphEvaluator {
         // Tell ANTLR to build a parse tree from start symbol 'query'
         ParseTree antlrAST = parser.jsonEdgeFile();
 
-        if (!ErrorListener.hasError) {
+        if (parser.getNumberOfSyntaxErrors() == 0) {
             return visitEdgeParseTree(antlrAST, nodes);
         } else {
             throw new InvalidEdgeFormatException("edge.json contains a syntax error.");

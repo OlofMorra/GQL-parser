@@ -17,6 +17,18 @@ public abstract class ElementPattern {
 
     public abstract BindingTable match();
 
+    public void setVariableName(VariableName variableName) {
+        this.variableName = variableName;
+    }
+
+    public void setLabels(ArrayList<ArrayList<Label>> labels) {
+        this.labels = labels;
+    }
+
+    public void setProperties(HashMap<GqlIdentifier, Value> properties) {
+        this.properties = properties;
+    }
+
     protected void addIdsTo(BindingTable result, ArrayList<GqlIdentifier> ids) {
         for (GqlIdentifier id: ids) {
             addIdTo(result, id);

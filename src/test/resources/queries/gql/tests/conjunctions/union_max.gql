@@ -1,7 +1,7 @@
 FROM g3
-MATCH (x:Person)
+MATCH (x:Person)-[]->()
 RETURN *
 UNION MAX
 FROM g3
-MATCH (x:!Professor)
+MATCH (x:Professor)
 RETURN x

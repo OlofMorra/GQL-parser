@@ -1,8 +1,6 @@
 package json.gremlin;
 
 import exceptions.InvalidEdgeFormatException;
-import json.gremlin.EdgeParser;
-import json.gremlin.JsonEdge;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;

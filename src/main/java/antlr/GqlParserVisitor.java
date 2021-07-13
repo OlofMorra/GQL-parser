@@ -43,6 +43,12 @@ public interface GqlParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAmbientQueryExpression(GqlParser.AmbientQueryExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link GqlParser#focusedMatchClause}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFocusedMatchClause(GqlParser.FocusedMatchClauseContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GqlParser#matchClause}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

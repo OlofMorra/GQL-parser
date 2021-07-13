@@ -3,6 +3,7 @@ package gql.patterns;
 import gql.expressions.values.*;
 import gql.graphs.WorkingGraph;
 import gql.tables.BindingTable;
+import gql.tables.BindingTableComparator;
 import gql.tables.Record;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
-public class NodePatternTest {
+public class NodePatternTest implements BindingTableComparator {
     WorkingGraph graph = WorkingGraph.getInstance();
     ArrayList<Record> records = new ArrayList<>();
 
@@ -187,15 +188,6 @@ public class NodePatternTest {
 
         System.out.println(nodePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
-    }
-
-    private void checkIfBindingTablesAreEqual(BindingTable expectedResult, BindingTable actualResult) {
-        System.out.println("Expected:");
-        expectedResult.printToConsole();
-        System.out.println("Actual:");
-        actualResult.printToConsole();
-
-        assertEquals(expectedResult, actualResult);
     }
 
     // toString()

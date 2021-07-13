@@ -150,7 +150,7 @@ public class BooleanExpressionComparisonTest {
 
         TruthValue left = FALSE;
         Record record = new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n1")});
-        PropertyReference propertyReference = new PropertyReference("x", "true");
+        PropertyReference propertyReference = new PropertyReference("x", "booleanTest");
         BooleanExpressionComparison booleanExpressionComparison = new BooleanExpressionComparison(left, OR, propertyReference);
         assertEquals(TRUE, booleanExpressionComparison.evaluateOn(record));
     }

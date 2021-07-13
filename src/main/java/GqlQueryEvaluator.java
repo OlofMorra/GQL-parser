@@ -1,17 +1,18 @@
 import antlr.GqlLexer;
 import antlr.GqlParser;
-import gql.GqlVisitor;
+import exceptions.SemanticErrorException;
+import exceptions.SyntaxErrorException;
+import gql.visitors.GqlVisitor;
 import gql.listeners.ErrorListener;
-import gql.queries.Query;
-import gql.queries.QueryExpression;
 import gql.tables.BindingTable;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
+import java.nio.file.NoSuchFileException;
 
 public class GqlQueryEvaluator {
     private String filePath;
@@ -20,27 +21,40 @@ public class GqlQueryEvaluator {
         this.filePath = filePath;
     }
 
-    public void execute() {
+    public BindingTable getEvaluationResult() {
         GqlParser parser = getParser();
 
-        parseQuery(parser);
+        return parseQuery(parser);
     }
 
     private GqlParser getParser() {
         GqlParser parser = null;
 
-        try {
-            CharStream input = CharStreams.fromFileName(this.filePath);
-            GqlLexer lexer = new GqlLexer(input);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            parser = new GqlParser(tokens);
+        GqlLexer lexer = new GqlLexer(getInput());
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        parser = new GqlParser(tokens);
 
-            setCustomErrorListener(parser);
+        setCustomErrorListener(parser);
+
+        return parser;
+    }
+
+    private CharStream getInput() {
+        CharStream input = null;
+
+        try {
+            input = CharStreams.fromFileName(this.filePath);
+        } catch (NoSuchFileException exception) {
+            try {
+                input = CharStreams.fromFileName(System.getProperty("user.dir") + this.filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return parser;
+        return input;
     }
 
     private void setCustomErrorListener(GqlParser parser) {
@@ -48,24 +62,27 @@ public class GqlQueryEvaluator {
         parser.addErrorListener(new ErrorListener());
     }
 
-    private void parseQuery(GqlParser parser) {
+    private BindingTable parseQuery(GqlParser parser) {
         // Tell ANTLR to build a parse tree from start symbol 'query'
         ParseTree antlrAST = parser.query();
 
-        if (!ErrorListener.hasError) {
-            visitParseTree(antlrAST);
+        if (parser.getNumberOfSyntaxErrors() == 0) {
+            return visitParseTree(antlrAST);
+        } else {
+            throw new SyntaxErrorException("Query cannot be evaluated due to " + parser.getNumberOfSyntaxErrors() + " syntax errors.");
         }
     }
 
-    private void visitParseTree(ParseTree antlrAST) {
+    private BindingTable visitParseTree(ParseTree antlrAST) {
         // Create a visitor for converting the parse tree into Query objects
         GqlVisitor gqlVisitor = new GqlVisitor();
         BindingTable output = gqlVisitor.visit(antlrAST);
 
         if (hasSemanticErrors(gqlVisitor)) {
             outputSemanticErrors(gqlVisitor);
+            throw new SemanticErrorException("Query cannot be evaluated due to a semantic error.");
         } else {
-            output.printToConsole();
+            return output;
         }
     }
 

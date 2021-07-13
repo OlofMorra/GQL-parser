@@ -1,3 +1,4 @@
-// Same query as example_2.3_trail, but not on specific graph
+// Same query as example_2.3_trail
+FROM g
 MATCH TRAIL (x)~[]~(y)~[]~(z)
 RETURN x, y, z

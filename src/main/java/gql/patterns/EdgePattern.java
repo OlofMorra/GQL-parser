@@ -28,6 +28,10 @@ public class EdgePattern extends ElementPattern {
         return direction;
     }
 
+    public void setQuantifier(int quantifier) {
+        this.quantifier = quantifier;
+    }
+
     @Override
     public BindingTable match() {
         BindingTable result = new BindingTable(false, true, new String[]{String.valueOf(this.patternIndex)});

@@ -24,13 +24,11 @@ public class NameExpression extends Expression {
     }
 
     private GqlGraphElement getReferent(GqlIdentifier reference) {
-        if (WorkingGraph.getInstance().nodes.containsKey(reference)) {
-            return WorkingGraph.getInstance().nodes.get(reference);
-        } else if (WorkingGraph.getInstance().edges.containsKey(reference)) {
-            return WorkingGraph.getInstance().edges.get(reference);
-        }
+        return WorkingGraph.getGraphElementById(reference);
+    }
 
-        throw new IllegalArgumentException("There is no graph element with id " + reference.getId() + ".");
+    public VariableName getName() {
+        return name;
     }
 
     @Override

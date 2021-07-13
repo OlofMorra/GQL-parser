@@ -1,12 +1,21 @@
 package gql.expressions.values;
 
+import java.util.Objects;
+
 public class FixedPointNumber extends Value {
     private final int digitsBeforeRadixPoint;
     private final String digitsAfterRadixPoint;
 
-    public FixedPointNumber(String digitsBeforeRadixPoint) {
-        this.digitsBeforeRadixPoint = Integer.parseInt(digitsBeforeRadixPoint);
-        this.digitsAfterRadixPoint = "";
+    public FixedPointNumber(String digitString) {
+        String[] split = digitString.split("[.]", 0);
+
+        this.digitsBeforeRadixPoint = Integer.parseInt(split[0]);
+
+        if (split.length == 2) {
+            this.digitsAfterRadixPoint = split[1];
+        } else {
+            this.digitsAfterRadixPoint = "";
+        }
     }
 
     public FixedPointNumber(String digitsBeforeRadixPoint, String digitsAfterRadixPoint) {
@@ -127,5 +136,19 @@ public class FixedPointNumber extends Value {
         }
 
         return this.digitsBeforeRadixPoint + "." + this.digitsAfterRadixPoint;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        FixedPointNumber that = (FixedPointNumber) o;
+        return this.isEqualTo(that).equals(new TruthValue(true));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(digitsBeforeRadixPoint, digitsAfterRadixPoint);
     }
 }

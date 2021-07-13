@@ -1,5 +1,7 @@
 package gql.expressions.values;
 
+import java.util.Objects;
+
 public class FloatingPointNumber extends Value {
     final double floatingPointNumber;
 
@@ -32,5 +34,19 @@ public class FloatingPointNumber extends Value {
     @Override
     public String toString() {
         return Double.toString(floatingPointNumber);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        FloatingPointNumber that = (FloatingPointNumber) o;
+        return this.isEqualTo(that).equals(new TruthValue(true));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(floatingPointNumber);
     }
 }

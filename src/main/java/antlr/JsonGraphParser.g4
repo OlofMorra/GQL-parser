@@ -7,7 +7,7 @@ parser grammar JsonGraphParser;
 options
 {
     language=Java;
-    tokenVocab=GqlLexer;
+    tokenVocab=JsonGraphLexer;
 }
 
 jsonFile
@@ -54,7 +54,7 @@ endNode
     ;
 
 isDirected
-    : COMMA WORD COLON SIGNED_INTEGER
+    : COMMA WORD COLON UNSIGNED_INTEGER
     ;
 
 labels
@@ -78,6 +78,7 @@ quotedId
 value
     : TRUTH_VALUE
     | WORD
+    | UNSIGNED_INTEGER
     | SIGNED_INTEGER
     | SIGNED_FIXED_POINT
     | SIGNED_FLOAT

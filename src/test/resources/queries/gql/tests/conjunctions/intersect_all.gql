@@ -1,9 +1,7 @@
 FROM g3
-MATCH (x:Professor)
-MATCH (x)
+MATCH (x)-[]->()
 RETURN x
 INTERSECT ALL
 FROM g3
-MATCH (x:Professor)
-MATCH (x:Person)
+MATCH (x:Professor)-[]->()
 RETURN *

@@ -9,6 +9,7 @@ import gql.expressions.values.Label;
 import gql.expressions.values.Value;
 import gql.graphs.WorkingGraph;
 import gql.tables.BindingTable;
+import gql.tables.BindingTableComparator;
 import gql.tables.Record;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class PathPatternTest {
+public class PathPatternTest implements BindingTableComparator {
     WorkingGraph graph = WorkingGraph.getInstance();
     ArrayList<ElementPattern> pathSequence = new ArrayList<>();
     ArrayList<Record> records = new ArrayList<>();
@@ -273,18 +274,6 @@ public class PathPatternTest {
         addRecordToExpectedResult(getRecord(columnNames, new String[]{"n3","n2","n1"}));
 
         checkIfBindingTablesAreEqual(expectedResult, pathPattern.match(EvaluationMode.ACYCLIC));
-    }
-
-    private void checkIfBindingTablesAreEqual(BindingTable expectedResult, BindingTable actualResult) {
-        for (ElementPattern elementPattern: pathSequence) {
-            System.out.println(elementPattern.toString());
-        }
-        System.out.println("Expected:");
-        expectedResult.printToConsole();
-        System.out.println("Actual:");
-        actualResult.printToConsole();
-
-        assertEquals(expectedResult, actualResult);
     }
 
     private NodePattern getEmptyNodePattern(String variableName) {

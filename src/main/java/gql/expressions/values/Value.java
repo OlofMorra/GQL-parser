@@ -42,7 +42,11 @@ public abstract class Value extends Expression {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Value) {
-            return isEqualTo((Value) obj).isTrue();
+            try {
+                return isEqualTo((Value) obj).isTrue();
+            } catch (IllegalArgumentException exception) {
+                return false;
+            }
         }
 
         return false;

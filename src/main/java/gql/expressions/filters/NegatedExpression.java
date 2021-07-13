@@ -1,17 +1,16 @@
 package gql.expressions.filters;
 
+import exceptions.SemanticErrorException;
 import gql.expressions.Expression;
-import gql.expressions.references.PropertyReference;
 import gql.expressions.values.TruthValue;
-import gql.expressions.values.Value;
 import gql.tables.Record;
 
 public class NegatedExpression extends ComparisonExpression {
     Expression expression;
 
     public NegatedExpression(Expression expression) {
-        if (isNotBooleanExpression(expression)) throw new IllegalArgumentException("Invalid value type: expression should evaluate to a truth value.");
-        if (isNameExpression(expression)) throw new IllegalArgumentException("Name expression " + expression.toString() + " can never refer to a boolean value.");
+        if (isNotBooleanExpression(expression)) throw new SemanticErrorException("Invalid value type: expression should evaluate to a truth value.");
+        if (isNameExpression(expression)) throw new SemanticErrorException("Name expression " + expression.toString() + " can never refer to a boolean value.");
 
         this.expression = expression;
     }

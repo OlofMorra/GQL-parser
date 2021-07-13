@@ -4,6 +4,7 @@ import gql.enums.Direction;
 import gql.expressions.values.*;
 import gql.graphs.WorkingGraph;
 import gql.tables.BindingTable;
+import gql.tables.BindingTableComparator;
 import gql.tables.Record;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
-public class EdgePatternTest {
+public class EdgePatternTest implements BindingTableComparator {
     WorkingGraph graph = WorkingGraph.getInstance();
     Record[] records = new Record[5];
 
@@ -54,7 +55,6 @@ public class EdgePatternTest {
 
         expectedResult.addRecord(records[3]);
 
-        System.out.println(edgePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -69,7 +69,6 @@ public class EdgePatternTest {
         expectedResult.addRecord(records[2]);
         expectedResult.addRecord(records[4]);
 
-        System.out.println(edgePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -85,7 +84,6 @@ public class EdgePatternTest {
         expectedResult.addRecord(records[2]);
         expectedResult.addRecord(records[4]);
 
-        System.out.println(edgePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -100,7 +98,6 @@ public class EdgePatternTest {
 
         expectedResult.addRecord(records[0]);
 
-        System.out.println(edgePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -113,7 +110,6 @@ public class EdgePatternTest {
         BindingTable actualResult = edgePattern.match();
         BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
 
-        System.out.println(edgePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -130,7 +126,6 @@ public class EdgePatternTest {
         expectedResult.addRecord(records[0]);
         expectedResult.addRecord(records[4]);
 
-        System.out.println(edgePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -145,7 +140,6 @@ public class EdgePatternTest {
 
         expectedResult.addRecord(records[0]);
 
-        System.out.println(edgePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -179,7 +173,6 @@ public class EdgePatternTest {
 
         expectedResult.addRecord(records[0]);
 
-        System.out.println(edgePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -192,18 +185,7 @@ public class EdgePatternTest {
         BindingTable actualResult = edgePattern.match();
         BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
 
-        System.out.println(edgePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
-    }
-
-    private void checkIfBindingTablesAreEqual(BindingTable expectedResult, BindingTable actualResult) {
-
-        System.out.println("Expected:");
-        expectedResult.printToConsole();
-        System.out.println("Actual:");
-        actualResult.printToConsole();
-
-        assertEquals(expectedResult, actualResult);
     }
 
     // toString()

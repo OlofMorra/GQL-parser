@@ -1,33 +1,30 @@
-import gql.graphs.GremlinGraph;
-import gql.graphs.WorkingGraph;
+import gql.tables.BindingTable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import org.antlr.v4.runtime.TokenSource;
 
 public class GqlApp
 {
     public static void main(String[] args) throws Exception {
-        String testQueryFolder = "src/test/resources/queries/";
+        String testQueryFolder = "/src/test/resources/queries/";
 
-        // Get query file from user
-//        String queryFilePath = getFilePath(args, testQueryFolder);
-//        executeQuery(queryFilePath);
-
-        String[] queryFilePaths = new String[]{"src/test/resources/queries/gql/tests/comparison_operators/equals_op.gql",
-                "src/test/resources/queries/gql/tests/complex/union_all_twice.gql",
-                "src/test/resources/queries/gql/tests/syntax_errors/AND.gql"};
-
-        for (String filePath: queryFilePaths) {
-            System.out.println("");
-            System.out.println("New query:");
-            executeQuery(filePath);
-            WorkingGraph.getInstance().printGraphName();
+        try {
+            String queryFilePath = getFilePath(args, testQueryFolder);
+            executeQuery(queryFilePath);
+        } catch (IllegalArgumentException exception) {
+            System.err.println(exception.toString());
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     }
 
     private static String getFilePath(String[] args, String testQueryFolder)
             throws IllegalArgumentException, FileNotFoundException {
         checkForSingleInputArgument(args, testQueryFolder);
+
+        // TODO: implement -q flag for query
+
         checkIfFileExists(args[0], testQueryFolder);
 
         return testQueryFolder + args[0];
@@ -35,7 +32,7 @@ public class GqlApp
 
     private static void checkForSingleInputArgument(String[] args, String testQueryFolder) throws IllegalArgumentException {
         if (args.length != 1) {
-            throw new IllegalArgumentException("Usage: file path including file name from " +  testQueryFolder + " folder.");
+            throw new IllegalArgumentException("Usage: file path including file name from " +  testQueryFolder + " folder or the flag -q.");
         }
     }
 
@@ -49,6 +46,8 @@ public class GqlApp
 
     private static void executeQuery(String queryFilePath) {
         GqlQueryEvaluator gqlQueryEvaluator = new GqlQueryEvaluator(queryFilePath);
-        gqlQueryEvaluator.execute();
+
+        BindingTable result = gqlQueryEvaluator.getEvaluationResult();
+        result.printToConsole();
     }
 }

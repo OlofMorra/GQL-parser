@@ -54,6 +54,13 @@ public class GqlParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> impleme
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitFocusedMatchClause(GqlParser.FocusedMatchClauseContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitMatchClause(GqlParser.MatchClauseContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

@@ -5,10 +5,7 @@ import gql.expressions.values.GqlIdentifier;
 import gql.expressions.values.TruthValue;
 import gql.expressions.values.Value;
 import gql.graphs.GqlGraphElement;
-import gql.graphs.WorkingGraph;
-import gql.patterns.VariableName;
 import gql.tables.Record;
-import org.apache.commons.lang.ArrayUtils;
 
 public class PropertyReference extends Expression {
     NameExpression name;

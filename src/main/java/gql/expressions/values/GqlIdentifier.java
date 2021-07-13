@@ -7,6 +7,7 @@ public class GqlIdentifier extends Value{
     private GqlString id;
 
     public GqlIdentifier(String id) {
+        if (id.equals("")) throw new IllegalArgumentException("Id must be of size at least one.");
         this.id = new GqlString(Normalizer.normalize(id, Normalizer.Form.NFKC));
     }
 

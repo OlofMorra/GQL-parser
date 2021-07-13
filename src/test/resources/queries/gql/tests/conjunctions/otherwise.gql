@@ -1,7 +1,8 @@
 FROM g3
 MATCH (x {name: "George Fletcher"})
-RETURN x.name
+WHERE x.name <> "George Fletcher"
+RETURN x.name AS name
 OTHERWISE
 FROM g3
-MATCH (x:Person)
+MATCH (x:Internship)
 RETURN x

@@ -1,3 +1,4 @@
-// Same query as example_2.3_walk, but not on specific graph
+// Same query as example_2.3_walk
+FROM g
 MATCH WALK (x)~[]~(y)~[]~(z)
 RETURN x, y, z

@@ -6,6 +6,7 @@ import gql.expressions.filters.ComparisonExpression;
 import gql.expressions.references.PropertyReference;
 import gql.expressions.values.GqlIdentifier;
 import gql.expressions.values.TruthValue;
+import gql.expressions.values.Value;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -22,6 +23,39 @@ public class BindingTable {
         this.hasDuplicates = hasDuplicates;
         this.columnNames = columnNames;
         this.records = HashMultiset.create();
+    }
+
+    public BindingTable clone() {
+        BindingTable clone = new BindingTable(isOrdered, hasDuplicates, columnNames);
+        clone.setRecords(getRecords());
+        return clone;
+    }
+
+    public void isOptional() {
+        if (this.records.size() > 0) return;
+
+        Value[] nullValues = new Value[this.columnNames.length];
+        Arrays.fill(nullValues, new TruthValue(null));
+        this.addRecord(new Record(this.columnNames, nullValues));
+    }
+
+    public void isMandatory() {
+        if (this.records.size() < 1) throw new IllegalStateException("There is no record matching to the mandatory path pattern list.");
+    }
+
+    public void makeDistinct() {
+        if (!this.hasDuplicates) return;
+
+        this.hasDuplicates = false;
+        HashMultiset<Record> newRecords = HashMultiset.create();
+
+        for (Record record: this.records) {
+            if (!newRecords.contains(record)) {
+                newRecords.add(record);
+            }
+        }
+
+        this.records = newRecords;
     }
 
     public void filter(Expression expression) {
@@ -109,8 +143,12 @@ public class BindingTable {
         }
     }
 
+    public void setRecords(HashMultiset<Record> records) {
+        this.records = records;
+    }
+
     public HashMultiset<Record> getRecords() {
-        return this.records;
+        return HashMultiset.create(records);
     }
 
     public boolean isOrdered() {
@@ -127,6 +165,10 @@ public class BindingTable {
 
     private void removeRecords(ArrayList<Record> recordsToRemove) {
         records.removeAll(recordsToRemove);
+    }
+
+    public void removeRecord(Record record) {
+        records.remove(record);
     }
 
     public void addRecord(Record record) {
@@ -146,6 +188,12 @@ public class BindingTable {
     }
 
     public void addRecords(ArrayList<Record> records) {
+        for (Record record: records) {
+            addRecord(record);
+        }
+    }
+
+    public void addRecords(HashMultiset<Record> records) {
         for (Record record: records) {
             addRecord(record);
         }
@@ -229,7 +277,11 @@ public class BindingTable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BindingTable that = (BindingTable) o;
-        return isOrdered == that.isOrdered && hasDuplicates == that.hasDuplicates && Arrays.equals(columnNames, that.columnNames) && records.equals(that.records);
+        Object[] thisRecords = records.toArray();
+        Object[] thatRecords = records.toArray();
+
+        return isOrdered == that.isOrdered && hasDuplicates == that.hasDuplicates && Arrays.equals(columnNames, that.columnNames)
+                && Arrays.equals(thisRecords, thatRecords);
     }
 
     @Override

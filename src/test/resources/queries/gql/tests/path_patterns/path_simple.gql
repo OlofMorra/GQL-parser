@@ -1,3 +1,4 @@
-// Same query as example_2.3_simple, but not on specific graph
+// Same query as example_2.3_simple
+FROM g
 MATCH SIMPLE (x)~[]~(y)~[]~(z)
 RETURN x, y, z

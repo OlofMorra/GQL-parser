@@ -1,8 +1,6 @@
 package json.gremlin;
 
 import exceptions.InvalidNodeFormatException;
-import json.gremlin.JsonNode;
-import json.gremlin.NodeParser;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;

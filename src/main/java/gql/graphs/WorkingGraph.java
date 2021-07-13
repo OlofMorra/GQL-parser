@@ -33,6 +33,20 @@ public class WorkingGraph extends Graph {
         return instance;
     }
 
+    public static GqlGraphElement getGraphElementById(GqlIdentifier identifier) {
+        if (instance.nodes.containsKey(identifier)) {
+            return instance.nodes.get(identifier);
+        } else if (instance.edges.containsKey(identifier)) {
+            return instance.edges.get(identifier);
+        }
+
+        throw new IllegalArgumentException("There is no graph element with id " + identifier.getId() + ".");
+    }
+
+    public static String getCurrentGraphName() {
+        return instance.currentGraphName;
+    }
+
     @Override
     public void setRemoteGraph() {
         throw new UnsupportedOperationException("setRemoteGraph");

@@ -1,2 +1,4 @@
+// Same as path_walk.gql, but only with x and y
+FROM g
 MATCH (x)~[]~{2,2}(y)
-RETURN x
+RETURN x, y

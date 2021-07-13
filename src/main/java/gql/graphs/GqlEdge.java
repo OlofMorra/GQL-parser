@@ -16,6 +16,12 @@ public class GqlEdge extends GqlGraphElement {
 
     public GqlEdge(GqlIdentifier id, GqlIdentifier startNodeId, GqlIdentifier endNodeId, boolean isDirected, ArrayList<Label> labels,
                    HashMap<GqlIdentifier, Value> properties) {
+        if (id == null) throw new NullPointerException("Argument id cannot be null");
+        if (labels == null) throw new NullPointerException("Argument labels cannot be null");
+        if (properties == null) throw new NullPointerException("Argument properties cannot be null");
+        if (startNodeId == null) throw new NullPointerException("Argument startNodeId cannot be null");
+        if (endNodeId == null) throw new NullPointerException("Argument endNodeId cannot be null");
+
         this.id = id;
         this.labels = labels;
         this.properties = properties;
@@ -59,8 +65,21 @@ public class GqlEdge extends GqlGraphElement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GqlEdge gqlEdge = (GqlEdge) o;
-        return isDirected == gqlEdge.isDirected && id.equals(gqlEdge.id) && startNodeId.equals(gqlEdge.startNodeId)
-                && endNodeId.equals(gqlEdge.endNodeId) && Objects.equals(labels, gqlEdge.labels)
+        if (isDirected) return equalsDirectedEdge(gqlEdge);
+        return equalsUndirectedEdge(gqlEdge);
+    }
+
+    private boolean equalsDirectedEdge(GqlEdge gqlEdge) {
+        return isDirected == gqlEdge.isDirected && id.equals(gqlEdge.id)
+                && this.hasStartAndEndNode(gqlEdge.getStartNodeId(), gqlEdge.getEndNodeId())
+                && Objects.equals(labels, gqlEdge.labels)
+                && Objects.equals(properties, gqlEdge.properties);
+    }
+
+    private boolean equalsUndirectedEdge(GqlEdge gqlEdge) {
+        return isDirected == gqlEdge.isDirected && id.equals(gqlEdge.id)
+                && this.hasEndpoints(gqlEdge.getStartNodeId(), gqlEdge.getEndNodeId())
+                && Objects.equals(labels, gqlEdge.labels)
                 && Objects.equals(properties, gqlEdge.properties);
     }
 
@@ -71,6 +90,21 @@ public class GqlEdge extends GqlGraphElement {
 
     @Override
     public String toString() {
-        return "";
+        return "{\"identity\": \"" + this.id + "\", \"start\": \"" + this.startNodeId.toString() + "\", \"end\": \"" +
+                this.endNodeId.toString() + "\"" + getLabelString() + getPropertiesString() + ", \"isDirected\": " +
+                ((this.isDirected) ? 1 : 0) + "}";
+    }
+
+    private String getEndpointsString() {
+        if (isDirected) return getDirectedEndpointsString();
+        return getUndirectedEndpointsString();
+    }
+
+    private String getDirectedEndpointsString() {
+        return "From[" + this.startNodeId.toString() + "] To[" + this.endNodeId.toString() + "]";
+    }
+
+    private String getUndirectedEndpointsString() {
+        return "Endpoints{" + this.startNodeId.toString() + ", " + this.endNodeId.toString() + "}";
     }
 }
