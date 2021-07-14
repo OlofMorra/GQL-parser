@@ -52,7 +52,7 @@ public class NegatedExpressionTest {
         assertEquals(FALSE, negatedExpression.evaluateOn(record));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testWithPropertyReferenceToGqlString() {
         try {
             WorkingGraph.getInstance().setToTestDirectory();

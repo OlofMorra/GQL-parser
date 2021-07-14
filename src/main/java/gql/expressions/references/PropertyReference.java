@@ -24,6 +24,7 @@ public class PropertyReference extends Expression {
     private Value getPropertyFrom(GqlGraphElement referent) {
         if (referent == null) return new TruthValue(null);
         if (referent.getProperties().containsKey(key)) return referent.getProperties().get(key);
+        if (key.equals(new GqlIdentifier("id"))) return referent.getId();
         return new TruthValue(null);
     }
 

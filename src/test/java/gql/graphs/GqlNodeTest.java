@@ -1,5 +1,6 @@
 package gql.graphs;
 
+import exceptions.SemanticErrorException;
 import gql.expressions.values.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,17 +35,17 @@ public class GqlNodeTest {
         nodeWithLabelsAndProperties.properties = properties;
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testIsSmallerOrEqualThan() {
         nodeWithProperties.isSmallerOrEqualThan(nodeWithLabels);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testIsLargerThan() {
         nodeWithProperties.isLargerThan(nodeWithLabels);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testIsLargerOrEqualThan() {
         nodeWithProperties.isLargerOrEqualThan(nodeWithLabels);
     }
@@ -57,7 +58,7 @@ public class GqlNodeTest {
         assertEquals(new TruthValue(false), nodeWithoutLabelsAndProperties.isEqualTo(nodeWithLabelsAndProperties));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testIsSmallerThan() {
         nodeWithProperties.isSmallerThan(nodeWithLabels);
     }

@@ -1,5 +1,6 @@
 package gql.expressions.filters;
 
+import exceptions.SemanticErrorException;
 import gql.enums.BooleanComparator;
 import gql.expressions.Expression;
 import gql.expressions.values.TruthValue;
@@ -16,10 +17,10 @@ public class BooleanExpressionComparison extends ComparisonExpression {
 
 
     public BooleanExpressionComparison(Expression left, BooleanComparator comparator, Expression right) {
-        if (isNotBooleanExpression(left)) throw new IllegalArgumentException("Invalid value type: left side should evaluate to a truth value.");
-        if (isNotBooleanExpression(right)) throw new IllegalArgumentException("Invalid value type: right side should evaluate to a truth value.");
-        if (isNameExpression(left)) throw new IllegalArgumentException("Name expression " + left.toString() + " can never refer to a boolean value.");
-        if (isNameExpression(right)) throw new IllegalArgumentException("Name expression " + right.toString() + " can never refer to a boolean value.");
+        if (isNotBooleanExpression(left)) throw new SemanticErrorException("Invalid value type: left side should evaluate to a truth value.");
+        if (isNotBooleanExpression(right)) throw new SemanticErrorException("Invalid value type: right side should evaluate to a truth value.");
+        if (isNameExpression(left)) throw new SemanticErrorException("Name expression " + left.toString() + " can never refer to a boolean value.");
+        if (isNameExpression(right)) throw new SemanticErrorException("Name expression " + right.toString() + " can never refer to a boolean value.");
 
         this.left = left;
         this.comparator = comparator;

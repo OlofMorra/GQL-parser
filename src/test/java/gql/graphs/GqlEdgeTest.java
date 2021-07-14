@@ -1,5 +1,6 @@
 package gql.graphs;
 
+import exceptions.SemanticErrorException;
 import gql.expressions.values.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,17 +34,17 @@ public class GqlEdgeTest {
         directedEdgeWithLabelsAndProperties.properties = properties;
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testIsSmallerOrEqualThan() {
         directedEdge.isSmallerOrEqualThan(undirectedEdge);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testIsLargerThan() {
         directedEdge.isLargerThan(undirectedEdge);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testIsLargerOrEqualThan() {
         directedEdge.isLargerOrEqualThan(undirectedEdge);
     }
@@ -54,7 +55,7 @@ public class GqlEdgeTest {
         assertEquals(new TruthValue(false), directedEdge.isEqualTo(undirectedEdge));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testIsSmallerThan() {
         directedEdge.isSmallerThan(undirectedEdge);
     }

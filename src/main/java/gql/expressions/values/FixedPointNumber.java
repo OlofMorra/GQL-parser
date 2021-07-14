@@ -1,5 +1,7 @@
 package gql.expressions.values;
 
+import exceptions.SemanticErrorException;
+
 import java.util.Objects;
 
 public class FixedPointNumber extends Value {
@@ -20,7 +22,7 @@ public class FixedPointNumber extends Value {
 
     public FixedPointNumber(String digitsBeforeRadixPoint, String digitsAfterRadixPoint) {
         if (Integer.parseInt(digitsAfterRadixPoint) < 0) {
-            throw new IllegalArgumentException("Cannot have negative numbers after the radix point.");
+            throw new SemanticErrorException("Cannot have negative numbers after the radix point.");
         }
 
         this.digitsBeforeRadixPoint = Integer.parseInt(digitsBeforeRadixPoint);
@@ -35,7 +37,7 @@ public class FixedPointNumber extends Value {
             return new TruthValue(compareTo((FixedPointNumber) valueToCompareTo));
         }
 
-        throw new IllegalArgumentException("Cannot compare type Number to type " + valueToCompareTo.getClass() + ".");
+        throw new SemanticErrorException("Cannot compare type Number to type " + valueToCompareTo.getClass() + ".");
     }
 
     private Boolean compareTo(FixedPointNumber fixedPointNumber) {
@@ -69,7 +71,7 @@ public class FixedPointNumber extends Value {
             return new TruthValue(compareIsSmallerThan((FixedPointNumber) valueToCompareTo));
         }
 
-        throw new IllegalArgumentException("Cannot compare type Number to type " + valueToCompareTo.getClass() + ".");
+        throw new SemanticErrorException("Cannot compare type Number to type " + valueToCompareTo.getClass() + ".");
     }
 
     private Boolean compareIsSmallerThan(FixedPointNumber fixedPointNumber) {

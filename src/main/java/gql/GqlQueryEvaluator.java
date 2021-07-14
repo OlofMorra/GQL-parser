@@ -1,3 +1,5 @@
+package gql;
+
 import antlr.GqlLexer;
 import antlr.GqlParser;
 import exceptions.SemanticErrorException;
@@ -10,16 +12,11 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 
-public class GqlQueryEvaluator {
-    private String filePath;
-
-    public GqlQueryEvaluator(String filePath) {
-        this.filePath = filePath;
-    }
+public abstract class GqlQueryEvaluator {
+    protected abstract GqlLexer getLexer();
 
     public BindingTable getEvaluationResult() {
         GqlParser parser = getParser();
@@ -30,31 +27,13 @@ public class GqlQueryEvaluator {
     private GqlParser getParser() {
         GqlParser parser = null;
 
-        GqlLexer lexer = new GqlLexer(getInput());
+        GqlLexer lexer = getLexer();
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         parser = new GqlParser(tokens);
 
         setCustomErrorListener(parser);
 
         return parser;
-    }
-
-    private CharStream getInput() {
-        CharStream input = null;
-
-        try {
-            input = CharStreams.fromFileName(this.filePath);
-        } catch (NoSuchFileException exception) {
-            try {
-                input = CharStreams.fromFileName(System.getProperty("user.dir") + this.filePath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return input;
     }
 
     private void setCustomErrorListener(GqlParser parser) {

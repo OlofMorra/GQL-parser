@@ -1,5 +1,5 @@
 FROM g
-MANDATORY MATCH p = SIMPLE (x :test {test:1, normal:test}) | (x:test {test:2})
+MANDATORY MATCH p = SIMPLE (x :test {test:1, normal:"test"}) | (x:test {test:2})
 WHERE x = 1
 OPTIONAL MATCH TRAIL ((y :!test & %)~[e]~{1}(z) WHERE y = 1){1,2}
 RETURN x, y

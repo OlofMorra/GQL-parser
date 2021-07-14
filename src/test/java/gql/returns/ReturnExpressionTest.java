@@ -1,5 +1,6 @@
 package gql.returns;
 
+import exceptions.SemanticErrorException;
 import gql.enums.BooleanComparator;
 import gql.enums.ValueComparator;
 import gql.expressions.filters.BooleanExpressionComparison;
@@ -14,27 +15,27 @@ import org.junit.Test;
 
 public class ReturnExpressionTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testPropertyReferenceWithoutAlias() {
         new ReturnExpression(new PropertyReference("x", "not"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testNegatedExpressionWithoutAlias() {
         new ReturnExpression(new NegatedExpression(new TruthValue(true)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testValueWithoutAlias() {
         new ReturnExpression(new FixedPointNumber("3"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testBooleanExpressionComparisonWithoutAlias() {
         new ReturnExpression(new BooleanExpressionComparison(new TruthValue(true), BooleanComparator.OR, new TruthValue(true)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testValueComparisonWithoutAlias() {
         new ReturnExpression(new ValueComparison(new GqlString("test"), ValueComparator.EQ, new GqlString("test")));
     }

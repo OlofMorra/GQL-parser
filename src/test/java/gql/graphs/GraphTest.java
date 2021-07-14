@@ -2,6 +2,7 @@ package gql.graphs;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
+import exceptions.SemanticErrorException;
 import gql.expressions.values.FixedPointNumber;
 import gql.expressions.values.GqlIdentifier;
 import gql.expressions.values.GqlString;
@@ -26,8 +27,8 @@ public abstract class GraphTest {
     protected abstract void setEmptyGraphAccessor() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;
     protected abstract void initializeNodesAccessor(String graphName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException;
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testSetLocalGraphToNotExistingGraph() throws IllegalArgumentException, FileNotFoundException, InvalidEdgeFormatException, InvalidNodeFormatException {
+    @Test(expected = SemanticErrorException.class)
+    public void testSetLocalGraphToNotExistingGraph() throws FileNotFoundException, InvalidEdgeFormatException, InvalidNodeFormatException {
         this.graph.setToTestDirectory();
         this.graph.setLocalGraph("notExistingGraph");
     }

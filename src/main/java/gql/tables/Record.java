@@ -1,5 +1,6 @@
 package gql.tables;
 
+import exceptions.SemanticErrorException;
 import gql.enums.EvaluationMode;
 import gql.expressions.values.GqlIdentifier;
 import gql.expressions.values.Value;
@@ -15,7 +16,7 @@ public class Record {
 
     public Record(String[] columnNames, Value[] values) {
         if (columnNames.length != values.length) {
-            throw new IllegalArgumentException("A record should be initialized with the same number of values as records");
+            throw new SemanticErrorException("A record should be initialized with the same number of values as records");
         }
 
         this.columnNames = columnNames;
@@ -50,14 +51,14 @@ public class Record {
             }
         }
 
-        if (index < 0) throw new IllegalArgumentException("Column name " + columnName + " does not exist in record with column names " + Arrays.toString(this.columnNames) + ".");
+        if (index < 0) throw new SemanticErrorException("Column name " + columnName + " does not exist in record with column names " + Arrays.toString(this.columnNames) + ".");
 
         return this.values[index];
     }
 
     public void updateColumnNames(String[] updatedColumnNames) {
         if (this.columnNames.length != updatedColumnNames.length) {
-            throw new IllegalArgumentException("There are " + this.columnNames.length + " in this record, hence, updatedColumnNames should have exactly that amount of new column names.");
+            throw new SemanticErrorException("There are " + this.columnNames.length + " in this record, hence, updatedColumnNames should have exactly that amount of new column names.");
         }
 
         this.columnNames = updatedColumnNames;

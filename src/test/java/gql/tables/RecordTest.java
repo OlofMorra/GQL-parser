@@ -1,5 +1,6 @@
 package gql.tables;
 
+import exceptions.SemanticErrorException;
 import gql.expressions.values.GqlString;
 import gql.expressions.values.FixedPointNumber;
 import gql.expressions.values.Value;
@@ -9,12 +10,12 @@ import static org.junit.Assert.*;
 
 public class RecordTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testInvalidInitializationWithLessColumns() {
         Record testRecord = new Record(new String[]{"Test"}, new Value[]{new GqlString("Test"), new FixedPointNumber("1")});
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testInvalidInitializationWithLessValues() {
         Record testRecord = new Record(new String[]{"Test"}, new Value[]{});
     }

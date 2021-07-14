@@ -1,5 +1,6 @@
 package gql.returns;
 
+import exceptions.SemanticErrorException;
 import gql.expressions.Expression;
 import gql.expressions.filters.ComparisonExpression;
 import gql.expressions.references.NameExpression;
@@ -13,7 +14,7 @@ public class ReturnExpression extends ReturnItem {
     VariableName name = null;
 
     public ReturnExpression(Expression expression) {
-        if (!(expression instanceof NameExpression)) throw new IllegalArgumentException("Only a variable name is allowed without alias.");
+        if (!(expression instanceof NameExpression)) throw new SemanticErrorException("Only a variable name is allowed without alias.");
 
         this.expression = expression;
     }
@@ -35,7 +36,7 @@ public class ReturnExpression extends ReturnItem {
         if (expression instanceof NameExpression) return ((NameExpression) expression).getGraphElementFrom(record);
         if (expression instanceof Value) return (Value) expression;
 
-        throw new IllegalArgumentException("Expression of invalid data type: " + expression.getClass());
+        throw new SemanticErrorException("Expression of invalid data type: " + expression.getClass());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package gql.expressions.values;
 
+import exceptions.SemanticErrorException;
+
 import java.text.Collator;
 import java.util.Locale;
 import java.util.Objects;
@@ -18,9 +20,11 @@ public class GqlString extends Value {
             return new TruthValue(null);
         } else if (valueToCompareTo instanceof GqlString) {
             return new TruthValue(collator.compare(gqlString, ((GqlString) valueToCompareTo).gqlString) == 0);
+        } else if (valueToCompareTo instanceof GqlIdentifier) {
+            return valueToCompareTo.isEqualTo(this);
         }
 
-        throw new IllegalArgumentException("Cannot compare type GqlString to type " + valueToCompareTo.getClass() + ".");
+        throw new SemanticErrorException("Cannot compare type GqlString to type " + valueToCompareTo.getClass() + ".");
     }
 
     @Override
@@ -31,7 +35,7 @@ public class GqlString extends Value {
             return new TruthValue(collator.compare(gqlString, ((GqlString) valueToCompareTo).gqlString) < 0);
         }
 
-        throw new IllegalArgumentException("Cannot compare type GqlString to type " + valueToCompareTo.getClass() + ".");
+        throw new SemanticErrorException("Cannot compare type GqlString to type " + valueToCompareTo.getClass() + ".");
     }
 
     @Override

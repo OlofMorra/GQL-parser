@@ -2,6 +2,7 @@ package gql.expressions.filters;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
+import exceptions.SemanticErrorException;
 import gql.enums.ValueComparator;
 import gql.expressions.references.NameExpression;
 import gql.expressions.references.PropertyReference;
@@ -39,42 +40,42 @@ public class ValueComparisonTest {
 
     @Test
     public void testInitializationWithGqlStringAndFixedPointNumber() {
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(SemanticErrorException.class);
         thrown.expectMessage(containsString("Invalid comparison"));
         new ValueComparison(new GqlString("test"), EQ, THREE).evaluateOn(new Record(new String[]{}, new Value[]{}));
     }
 
     @Test
     public void testInitializationWithGqlStringAndFloatingPointNumber() {
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(SemanticErrorException.class);
         thrown.expectMessage(containsString("Invalid comparison"));
         new ValueComparison(new GqlString("test"), EQ, new FloatingPointNumber("3E3")).evaluateOn(new Record(new String[]{}, new Value[]{}));
     }
 
     @Test
     public void testInitializationWithFloatingPointNumberAndFixedPointNumber() {
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(SemanticErrorException.class);
         thrown.expectMessage(containsString("Invalid comparison"));
         new ValueComparison(new FloatingPointNumber("3E3"), EQ, THREE).evaluateOn(new Record(new String[]{}, new Value[]{}));
     }
 
     @Test
     public void testInitializationWithGqlStringAndTruthValue() {
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(SemanticErrorException.class);
         thrown.expectMessage(containsString("Invalid comparison"));
         new ValueComparison(new GqlString("TRUE"), EQ, TRUE).evaluateOn(new Record(new String[]{}, new Value[]{}));
     }
 
     @Test
     public void testInitializationWithTruthValueAndFloatingPointNumber() {
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(SemanticErrorException.class);
         thrown.expectMessage(containsString("Invalid comparison"));
         new ValueComparison(TRUE, EQ, new FloatingPointNumber("3E3")).evaluateOn(new Record(new String[]{}, new Value[]{}));
     }
 
     @Test
     public void testInitializationWithTruthValueAndFixedPointNumber() {
-        thrown.expect(IllegalArgumentException.class);
+        thrown.expect(SemanticErrorException.class);
         thrown.expectMessage(containsString("Invalid comparison"));
         new ValueComparison(TRUE, EQ, ONE).evaluateOn(new Record(new String[]{}, new Value[]{}));
     }
@@ -169,7 +170,7 @@ public class ValueComparisonTest {
         assertEquals(TRUE, valueComparison.evaluateOn(record));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testWithPropertyReferenceToNonExistingId() {
         try {
             WorkingGraph.getInstance().setToTestDirectory();

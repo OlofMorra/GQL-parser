@@ -1,5 +1,6 @@
 package gql.expressions.filters;
 
+import exceptions.SemanticErrorException;
 import gql.expressions.Expression;
 import gql.expressions.references.PropertyReference;
 import gql.expressions.values.TruthValue;
@@ -15,10 +16,10 @@ public abstract class ComparisonExpression extends Expression {
 
         if (isPropertyReference(expression)) {
             Value expressionValue = ((PropertyReference) expression).getValueFrom(record);
-            if (!isTruthValue(expressionValue)) throw new IllegalArgumentException("Property reference " + expression.toString() + " does not refer to a boolean value.");
+            if (!isTruthValue(expressionValue)) throw new SemanticErrorException("Property reference " + expression.toString() + " does not refer to a boolean value.");
             return (TruthValue) expressionValue;
         }
 
-        throw new IllegalArgumentException("Expression " + expression.toString() + " cannot be evaluated to a boolean value.");
+        throw new SemanticErrorException("Expression " + expression.toString() + " cannot be evaluated to a boolean value.");
     }
 }

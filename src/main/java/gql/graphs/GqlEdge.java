@@ -1,5 +1,6 @@
 package gql.graphs;
 
+import exceptions.SemanticErrorException;
 import gql.expressions.values.GqlIdentifier;
 import gql.expressions.values.Label;
 import gql.expressions.values.TruthValue;
@@ -37,7 +38,7 @@ public class GqlEdge extends GqlGraphElement {
 
     @Override
     public TruthValue isSmallerThan(Value valueToCompareTo) {
-        throw new IllegalArgumentException("Invalid comparison: nodes cannot be used in an inequality.");
+        throw new SemanticErrorException("Invalid comparison: nodes cannot be used in an inequality.");
     }
 
     public GqlIdentifier getStartNodeId() {

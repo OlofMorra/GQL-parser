@@ -1,5 +1,6 @@
 package gql.expressions.references;
 
+import exceptions.SemanticErrorException;
 import gql.expressions.Expression;
 import gql.expressions.values.GqlIdentifier;
 import gql.expressions.values.Value;
@@ -17,9 +18,9 @@ public class NameExpression extends Expression {
     }
 
     public GqlGraphElement getGraphElementFrom(Record record) {
-        if (!ArrayUtils.contains(record.getColumnNames(), name.getId())) throw new IllegalArgumentException("Variable " + name.toString() + " is not defined in executed query.");
+        if (!ArrayUtils.contains(record.getColumnNames(), name.getId())) throw new SemanticErrorException("Variable " + name.toString() + " is not defined in executed query.");
         Value reference = record.getValueFromColumn(name.getId());
-        if (!(reference instanceof GqlIdentifier)) throw new IllegalArgumentException("Field does not contain a reference.");;
+        if (!(reference instanceof GqlIdentifier)) throw new SemanticErrorException("Field does not contain a reference.");;
         return getReferent((GqlIdentifier) reference);
     }
 

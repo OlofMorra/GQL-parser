@@ -1,5 +1,6 @@
 package gql.expressions.values;
 
+import exceptions.SemanticErrorException;
 import gql.enums.TruthValueEnum;
 
 import java.util.Objects;
@@ -43,7 +44,7 @@ public class TruthValue extends Value {
             return new TruthValue(truthValue == ((TruthValue) valueToCompareTo).truthValue);
         }
 
-        throw new IllegalArgumentException("Cannot compare TruthValue to type " + valueToCompareTo.getClass() + ".");
+        throw new SemanticErrorException("Cannot compare TruthValue to type " + valueToCompareTo.getClass() + ".");
     }
 
     @Override
@@ -57,7 +58,7 @@ public class TruthValue extends Value {
             return new TruthValue(false);
         }
 
-        throw new IllegalArgumentException("Cannot compare TruthValue to type " + valueToCompareTo.getClass() + ".");
+        throw new SemanticErrorException("Cannot compare TruthValue to type " + valueToCompareTo.getClass() + ".");
     }
 
     @Override

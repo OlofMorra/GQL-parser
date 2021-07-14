@@ -1,5 +1,6 @@
 package gql.expressions.values;
 
+import exceptions.SemanticErrorException;
 import gql.expressions.Expression;
 
 public abstract class Value extends Expression {
@@ -44,7 +45,7 @@ public abstract class Value extends Expression {
         if (obj instanceof Value) {
             try {
                 return isEqualTo((Value) obj).isTrue();
-            } catch (IllegalArgumentException exception) {
+            } catch (SemanticErrorException exception) {
                 return false;
             }
         }

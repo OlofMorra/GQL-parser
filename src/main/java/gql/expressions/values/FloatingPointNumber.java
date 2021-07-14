@@ -1,5 +1,7 @@
 package gql.expressions.values;
 
+import exceptions.SemanticErrorException;
+
 import java.util.Objects;
 
 public class FloatingPointNumber extends Value {
@@ -17,7 +19,7 @@ public class FloatingPointNumber extends Value {
             return new TruthValue(floatingPointNumber == ((FloatingPointNumber) valueToCompareTo).floatingPointNumber);
         }
 
-        throw new IllegalArgumentException("Cannot compare type FloatingPoint to type " + valueToCompareTo.getClass() + ".");
+        throw new SemanticErrorException("Cannot compare type FloatingPoint to type " + valueToCompareTo.getClass() + ".");
     }
 
     @Override
@@ -28,7 +30,7 @@ public class FloatingPointNumber extends Value {
             return new TruthValue(floatingPointNumber < ((FloatingPointNumber) valueToCompareTo).floatingPointNumber);
         }
 
-        throw new IllegalArgumentException("Cannot compare type FloatingPoint to type " + valueToCompareTo.getClass() + ".");
+        throw new SemanticErrorException("Cannot compare type FloatingPoint to type " + valueToCompareTo.getClass() + ".");
     }
 
     @Override

@@ -1,5 +1,6 @@
 package gql.expressions.values;
 
+import exceptions.SemanticErrorException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -33,7 +34,7 @@ public class GqlStringTest {
         assertEquals(first.isEqualTo(second), FALSE);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testGqlStringToNumberComparison() {
         GqlString gqlString = new GqlString("test");
         FixedPointNumber fixedPointNumber = new FixedPointNumber("85");
@@ -41,14 +42,14 @@ public class GqlStringTest {
         gqlString.isEqualTo(fixedPointNumber);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testGqlStringToTrueComparison() {
         GqlString gqlString = new GqlString("test");
 
         gqlString.isEqualTo(TRUE);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testGqlStringToFalseComparison() {
         GqlString gqlString = new GqlString("test");
 

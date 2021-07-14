@@ -1,5 +1,6 @@
 package gql.returns;
 
+import exceptions.SemanticErrorException;
 import gql.enums.SetQuantifier;
 import gql.expressions.values.GqlIdentifier;
 import gql.expressions.values.Value;
@@ -16,9 +17,9 @@ public class ReturnStatement {
 
     public ReturnStatement(SetQuantifier setQuantifier,
                            ArrayList<ReturnItem> returnItemList) {
-        if (returnItemList.size() < 1) throw new IllegalArgumentException("There must be at least one expression that must be returned.");
+        if (returnItemList.size() < 1) throw new SemanticErrorException("There must be at least one expression that must be returned.");
         if (returnItemList.size() == 1 && returnItemList.get(0) instanceof Asterisk) this.returnAll = true;
-        if (returnItemList.contains(new Asterisk())) throw new IllegalArgumentException("If an asterisk is in the return statement, no other return items may be present.");
+        if (returnItemList.contains(new Asterisk())) throw new SemanticErrorException("If an asterisk is in the return statement, no other return items may be present.");
 
         this.setQuantifier = setQuantifier;
         this.returnItemList = returnItemList;

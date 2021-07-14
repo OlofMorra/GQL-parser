@@ -1,6 +1,7 @@
 package gql.tables;
 
 import com.google.common.collect.HashMultiset;
+import exceptions.SemanticErrorException;
 import gql.expressions.Expression;
 import gql.expressions.filters.ComparisonExpression;
 import gql.expressions.references.PropertyReference;
@@ -40,7 +41,7 @@ public class BindingTable {
     }
 
     public void isMandatory() {
-        if (this.records.size() < 1) throw new IllegalStateException("There is no record matching to the mandatory path pattern list.");
+        if (this.records.size() < 1) throw new IllegalStateException("Illegal state: There is no record matching to the mandatory path pattern list.");
     }
 
     public void makeDistinct() {
@@ -70,7 +71,7 @@ public class BindingTable {
             return;
         }
 
-        throw new IllegalArgumentException("Expression is not valid");
+        throw new SemanticErrorException("Expression is not valid");
     }
 
     private void filterWithTruthValue(TruthValue expression) {
@@ -173,9 +174,9 @@ public class BindingTable {
 
     public void addRecord(Record record) {
         if (record.values.length != columnNames.length) {
-            throw new IllegalArgumentException("Record does not have the same amount of values as there are column names.");
+            throw new SemanticErrorException("Record does not have the same amount of values as there are column names.");
         } else if (!Arrays.equals(record.columnNames, this.columnNames)) {
-            throw new IllegalArgumentException("Record does not have the same column names as the the binding table.");
+            throw new SemanticErrorException("Record does not have the same column names as the the binding table.");
         }
 
         this.records.add(record);

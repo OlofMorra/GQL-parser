@@ -1,5 +1,7 @@
 package gql.patterns;
 
+import exceptions.SemanticErrorException;
+
 import java.util.ArrayList;
 
 public class PathSequence {
@@ -7,7 +9,7 @@ public class PathSequence {
 
     public PathSequence(ArrayList<ElementPattern> pathSequence) {
         if (pathSequence.size() % 2 == 0) {
-            throw new IllegalArgumentException("A path is an alternating sequence between nodes and edges, and must " +
+            throw new SemanticErrorException("A path is an alternating sequence between nodes and edges, and must " +
                     "start and end with a node, hence, there must be an uneven number of element patterns in the list.");
         }
 
@@ -28,9 +30,9 @@ public class PathSequence {
 
     private void checkPatternTypeAtCorrectPosition(ElementPattern current, int position) {
         if (current instanceof NodePattern && !nodeIndex(position)) {
-            throw new IllegalArgumentException("The path does not alternate between nodes and edges.");
+            throw new SemanticErrorException("The path does not alternate between nodes and edges.");
         } else if (current instanceof EdgePattern && !edgeIndex(position)) {
-            throw new IllegalArgumentException("The path does not alternate between nodes and edges.");
+            throw new SemanticErrorException("The path does not alternate between nodes and edges.");
         }
     }
 

@@ -1,6 +1,7 @@
 package gql.tables;
 
 import com.google.common.collect.HashMultiset;
+import exceptions.SemanticErrorException;
 import gql.expressions.values.Value;
 import org.apache.commons.lang.ArrayUtils;
 
@@ -15,7 +16,7 @@ public class BindingTableConjuctor {
     }
 
     public BindingTable unionAll(BindingTable left, BindingTable right) {
-        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new IllegalArgumentException("It is not possible to conjunct two tables with different sets of columnnames.");
+        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new SemanticErrorException("It is not possible to conjunct two tables with different sets of columnnames.");
 
         BindingTable output = left.clone();
         output.addRecords(right.getRecords());
@@ -24,7 +25,7 @@ public class BindingTableConjuctor {
     }
 
     public BindingTable unionMax(BindingTable left, BindingTable right) {
-        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new IllegalArgumentException("It is not possible to conjunct two tables with different sets of columnnames.");
+        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new SemanticErrorException("It is not possible to conjunct two tables with different sets of columnnames.");
 
         BindingTable unionAll = unionAll(left, right);
         BindingTable intersectAll = intersectAll(left, right);
@@ -33,7 +34,7 @@ public class BindingTableConjuctor {
     }
 
     public BindingTable exceptDistinct(BindingTable left, BindingTable right) {
-        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new IllegalArgumentException("It is not possible to conjunct two tables with different sets of columnnames.");
+        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new SemanticErrorException("It is not possible to conjunct two tables with different sets of columnnames.");
 
         BindingTable output = left.clone();
         output.makeDistinct();
@@ -41,7 +42,7 @@ public class BindingTableConjuctor {
     }
 
     public BindingTable exceptAll(BindingTable left, BindingTable right) {
-        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new IllegalArgumentException("It is not possible to conjunct two tables with different sets of columnnames.");
+        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new SemanticErrorException("It is not possible to conjunct two tables with different sets of columnnames.");
 
         return bagDifference(left, right);
     }
@@ -53,7 +54,7 @@ public class BindingTableConjuctor {
     }
 
     public BindingTable intersectAll(BindingTable left, BindingTable right) {
-        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new IllegalArgumentException("It is not possible to conjunct two tables with different sets of columnnames.");
+        if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new SemanticErrorException("It is not possible to conjunct two tables with different sets of columnnames.");
 
         BindingTable conjunction = new BindingTable(false, true, left.getColumnNames());
         HashMultiset<Record> newRecords = HashMultiset.create();

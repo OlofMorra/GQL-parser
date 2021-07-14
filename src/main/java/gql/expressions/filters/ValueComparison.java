@@ -1,5 +1,6 @@
 package gql.expressions.filters;
 
+import exceptions.SemanticErrorException;
 import gql.enums.ValueComparator;
 import gql.expressions.Expression;
 import gql.expressions.references.NameExpression;
@@ -24,7 +25,7 @@ public class ValueComparison extends ComparisonExpression {
         Value rightEvaluation = getValueFromExpression(right, record);
 
         if (leftEvaluation.equals(new TruthValue(null)) || rightEvaluation.equals(new TruthValue(null))) return new TruthValue(null);
-        if (leftEvaluation.getClass() != rightEvaluation.getClass()) throw new IllegalArgumentException("Invalid comparison: values in expression " + this.toString() + " are not of the same data type.");
+        if (leftEvaluation.getClass() != rightEvaluation.getClass() && isNotIdentifierComparison(leftEvaluation, rightEvaluation)) throw new SemanticErrorException("Invalid comparison: values in expression " + this.toString() + " are not of the same data type.");
 
         switch(comparator) {
             case EQ: return evaluateEq(leftEvaluation, rightEvaluation);
@@ -37,6 +38,10 @@ public class ValueComparison extends ComparisonExpression {
         }
     }
 
+    private boolean isNotIdentifierComparison(Value left, Value right) {
+        return !((left instanceof GqlIdentifier && right instanceof GqlString) || (left instanceof GqlString && right instanceof GqlIdentifier));
+    }
+
     private Value getValueFromExpression(Expression expression, Record record) {
         if (isComparisonExpression(expression)) return ((ComparisonExpression) expression).evaluateOn(record);
         if (isNameExpression(expression)) return ((NameExpression) expression).getGraphElementFrom(record);
@@ -46,7 +51,7 @@ public class ValueComparison extends ComparisonExpression {
         if (isFloatingPointNumber(expression)) return (FloatingPointNumber) expression;
         if (isGqlString(expression)) return (GqlString) expression;
 
-        throw new IllegalArgumentException("Expression " + this.toString() + " does not evaluate to a valid data type.");
+        throw new SemanticErrorException("Expression " + this.toString() + " does not evaluate to a valid data type.");
     }
 
     private TruthValue evaluateEq(Value leftEvaluation, Value rightEvaluation) {

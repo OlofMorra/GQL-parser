@@ -2,6 +2,7 @@ package gql.graphs;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
+import exceptions.SemanticErrorException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,9 +22,9 @@ public abstract class Graph {
     protected abstract void initializeNodes(String graphName) throws FileNotFoundException, InvalidNodeFormatException;
     protected abstract void intializeEdges(String graphName) throws FileNotFoundException, InvalidEdgeFormatException;
 
-    public void setLocalGraph(String graphName) throws IllegalArgumentException, FileNotFoundException, InvalidNodeFormatException, InvalidEdgeFormatException {
+    public void setLocalGraph(String graphName) throws FileNotFoundException, InvalidNodeFormatException, InvalidEdgeFormatException {
         if (graphNotExists(graphName)) {
-            throw new IllegalArgumentException("There is no graph directory \"" + graphName + "\".");
+            throw new SemanticErrorException("There is no graph directory \"" + graphName + "\".");
         } else if (graphNotComplete(graphName)) {
             throw new FileNotFoundException("Directory database/" + graphName + " needs to have a node.json and edgePattern.json file.");
         } else if (graphName.equals(currentGraphName)) {

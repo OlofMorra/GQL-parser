@@ -2,6 +2,7 @@ package gql.graphs;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
+import exceptions.SemanticErrorException;
 import gql.expressions.values.GqlIdentifier;
 import json.workinggraph.JsonGraphEvaluator;
 
@@ -40,7 +41,7 @@ public class WorkingGraph extends Graph {
             return instance.edges.get(identifier);
         }
 
-        throw new IllegalArgumentException("There is no graph element with id " + identifier.getId() + ".");
+        throw new SemanticErrorException("There is no graph element with id " + identifier.getId() + ".");
     }
 
     public static String getCurrentGraphName() {

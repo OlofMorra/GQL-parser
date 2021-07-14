@@ -1,5 +1,6 @@
 package gql.patterns;
 
+import exceptions.SemanticErrorException;
 import gql.enums.Direction;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class PathSequenceTest {
         pathSequenceList = new ArrayList<>();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testEmptyPathSequence() {
         PathSequence pathSequence = new PathSequence(pathSequenceList);
         assertTrue(pathSequence.pathSequence.isEmpty());
@@ -105,13 +106,13 @@ public class PathSequenceTest {
         assertEquals(expectedPathSequenceList, pathSequence.pathSequence);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testPathSequenceStartingWithEdge() {
         pathSequenceList.add(getEmptyUndirectedEdgePattern());
         PathSequence pathSequence = new PathSequence(pathSequenceList);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testPathSequenceEndingWithEdge() {
         pathSequenceList.add(getEmptyNodePattern());
         pathSequenceList.add(getEmptyLeftToRightEdgePattern());
@@ -120,7 +121,7 @@ public class PathSequenceTest {
         PathSequence pathSequence = new PathSequence(pathSequenceList);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testPathSequenceWithOnlyNodes() {
         pathSequenceList.add(getEmptyNodePattern());
         pathSequenceList.add(getEmptyNodePattern());

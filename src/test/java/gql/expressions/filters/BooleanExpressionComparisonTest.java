@@ -2,6 +2,7 @@ package gql.expressions.filters;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
+import exceptions.SemanticErrorException;
 import gql.enums.BooleanComparator;
 import gql.expressions.references.NameExpression;
 import gql.expressions.references.PropertyReference;
@@ -113,12 +114,12 @@ public class BooleanExpressionComparisonTest {
         assertEquals(FALSE, unknownIsNotUnknown.evaluateOn(new Record(new String[]{}, new Value[]{})));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testLeftSideNotBooleanExpression() {
         new BooleanExpressionComparison(new GqlString("test"), OR, TRUE);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testRightSideNotBooleanExpression() {
         new BooleanExpressionComparison(TRUE, OR, new GqlString("test"));
     }
@@ -155,7 +156,7 @@ public class BooleanExpressionComparisonTest {
         assertEquals(TRUE, booleanExpressionComparison.evaluateOn(record));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testWithPropertyReferenceToNonExistingId() {
         try {
             WorkingGraph.getInstance().setToTestDirectory();
@@ -187,7 +188,7 @@ public class BooleanExpressionComparisonTest {
         assertEquals(UNKNOWN, booleanExpressionComparison.evaluateOn(record));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testWithNameExpressions() {
         try {
             WorkingGraph.getInstance().setToTestDirectory();

@@ -1,5 +1,7 @@
 package gql.expressions.values;
 
+import exceptions.SemanticErrorException;
+
 import java.text.Normalizer;
 import java.util.Objects;
 
@@ -7,7 +9,7 @@ public class GqlIdentifier extends Value{
     private GqlString id;
 
     public GqlIdentifier(String id) {
-        if (id.equals("")) throw new IllegalArgumentException("Id must be of size at least one.");
+        if (id.equals("")) throw new SemanticErrorException("Id must be of size at least one.");
         this.id = new GqlString(Normalizer.normalize(id, Normalizer.Form.NFKC));
     }
 
@@ -30,6 +32,10 @@ public class GqlIdentifier extends Value{
 
     @Override
     public TruthValue isEqualTo(Value valueToCompareTo) {
+        if (valueToCompareTo instanceof GqlString) {
+            return valueToCompareTo.isEqualTo(id);
+        }
+
         return new TruthValue(this.equals(valueToCompareTo));
     }
 

@@ -2,6 +2,7 @@ package gql.tables;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
+import exceptions.SemanticErrorException;
 import gql.enums.BooleanComparator;
 import gql.enums.EvaluationMode;
 import gql.enums.ValueComparator;
@@ -225,7 +226,7 @@ public class BindingTableTest implements BindingTableComparator {
         assertEquals(1, bindingTable.getRecords().size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testAddRecordWithMoreColumnsThenTable() {
         String[] columnNames = new String[]{"col1", "col2"};
         bindingTable = new BindingTable(false, false, columnNames);
@@ -233,7 +234,7 @@ public class BindingTableTest implements BindingTableComparator {
         bindingTable.addRecord(record);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = SemanticErrorException.class)
     public void testAddRecordWithLessColumnsThenTable() {
         String[] columnNames = new String[]{"col1"};
         Value[] values = new Value[]{new GqlString("Tries")};

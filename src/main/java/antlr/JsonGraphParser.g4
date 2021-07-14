@@ -58,13 +58,13 @@ isDirected
     ;
 
 labels
-    :   WORD COLON '[' quotedId (',' quotedId)* ']'
-    |   WORD COLON '[' ']'
+    : WORD COLON '[' quotedId (',' quotedId)* ']'
+    | WORD COLON '[' ']'
     ;
 
 properties
-    :   WORD COLON '{' pair (',' pair)* '}'
-    |   WORD COLON '{' '}'
+    : WORD COLON '{' pair (',' pair)* '}'
+    | WORD COLON '{' '}'
     ;
 
 pair

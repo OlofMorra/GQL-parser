@@ -1,7 +1,10 @@
+package gql;
+
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
 import exceptions.SemanticErrorException;
 import exceptions.SyntaxErrorException;
+import gql.GqlFileQueryEvaluator;
 import gql.expressions.values.*;
 import gql.graphs.GqlEdge;
 import gql.graphs.GqlNode;
@@ -20,7 +23,7 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
-public class GqlQueryEvaluatorTest implements BindingTableComparator {
+public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     private final String queryTestsFolder = "src/test/resources/queries/gql/tests";
 
     /**
@@ -53,7 +56,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_op.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_op.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -64,7 +67,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         String[] expectedColumnNames = new String[]{"x"};
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_op_on_nulls.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_op_on_nulls.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -76,7 +79,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_or_larger_than_op.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_or_larger_than_op.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -88,7 +91,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_or_smaller_than_op.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_or_smaller_than_op.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -100,7 +103,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/comparison_operators/larger_than_op.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/larger_than_op.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -112,7 +115,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/comparison_operators/smaller_than_op.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/smaller_than_op.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -131,7 +134,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN5FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/complex/union_all_twice.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/complex/union_all_twice.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g3", WorkingGraph.getCurrentGraphName());
@@ -148,7 +151,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN29FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/conjunctions/except_all.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/conjunctions/except_all.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g3", WorkingGraph.getCurrentGraphName());
@@ -160,7 +163,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, false, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/conjunctions/except_distinct.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/conjunctions/except_distinct.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g3", WorkingGraph.getCurrentGraphName());
@@ -173,7 +176,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/conjunctions/intersect_all.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/conjunctions/intersect_all.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g3", WorkingGraph.getCurrentGraphName());
@@ -185,7 +188,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, false, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/conjunctions/intersect_distinct.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/conjunctions/intersect_distinct.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g3", WorkingGraph.getCurrentGraphName());
@@ -197,7 +200,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN5FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/conjunctions/otherwise.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/conjunctions/otherwise.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g3", WorkingGraph.getCurrentGraphName());
@@ -212,7 +215,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN29FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/conjunctions/union_all.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/conjunctions/union_all.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g3", WorkingGraph.getCurrentGraphName());
@@ -226,7 +229,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN29FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/conjunctions/union_distinct.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/conjunctions/union_distinct.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g3", WorkingGraph.getCurrentGraphName());
@@ -241,7 +244,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/conjunctions/union_max.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/conjunctions/union_max.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g3", WorkingGraph.getCurrentGraphName());
@@ -257,7 +260,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getE21FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getE21FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/label_expressions/label_wildcard.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/label_expressions/label_wildcard.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g3", WorkingGraph.getCurrentGraphName());
@@ -271,7 +274,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN29FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/label_expressions/parenthesized_labels.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/label_expressions/parenthesized_labels.gql");
         queryEvaluator.getEvaluationResult();
     }
 
@@ -284,7 +287,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/logic/AND.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/logic/AND.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -295,7 +298,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         String[] expectedColumnNames = new String[]{"x"};
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/logic/NOT.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/logic/NOT.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -307,7 +310,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/logic/OR.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/logic/OR.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -319,7 +322,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/logic/XOR.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/logic/XOR.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -334,7 +337,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3(), new GqlString("Olof Morra"), getN5FromG3()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/path_patterns/filled_path_pattern.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/path_patterns/filled_path_pattern.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g3", WorkingGraph.getCurrentGraphName());
@@ -353,7 +356,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN2FromG(), getN1FromG(), getN3FromG(), getN2FromG(), getN1FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN2FromG(), getN1FromG(), getN3FromG(), getN3FromG(), getN2FromG()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/path_patterns/multiple_path_patterns_different_variable_names.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/path_patterns/multiple_path_patterns_different_variable_names.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g", WorkingGraph.getCurrentGraphName());
@@ -366,7 +369,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN3FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN2FromG(), getN1FromG()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/path_patterns/multiple_path_patterns_same_variable_names.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/path_patterns/multiple_path_patterns_same_variable_names.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g", WorkingGraph.getCurrentGraphName());
@@ -379,7 +382,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN3FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN2FromG(), getN1FromG()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/path_patterns/path_acyclic.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/path_patterns/path_acyclic.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g", WorkingGraph.getCurrentGraphName());
@@ -394,7 +397,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN2FromG(), getN1FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN3FromG(), getN2FromG()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/path_patterns/path_trail.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/path_patterns/path_trail.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g", WorkingGraph.getCurrentGraphName());
@@ -411,7 +414,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN2FromG(), getN1FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN2FromG(), getN3FromG()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/path_patterns/path_simple.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/path_patterns/path_simple.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g", WorkingGraph.getCurrentGraphName());
@@ -431,7 +434,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN3FromG(), getN2FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN3FromG(), getN3FromG()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/path_patterns/path_walk.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/path_patterns/path_walk.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g", WorkingGraph.getCurrentGraphName());
@@ -451,7 +454,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN2FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN3FromG()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/path_patterns/path_quantifier.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/path_patterns/path_quantifier.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("g", WorkingGraph.getCurrentGraphName());
@@ -465,7 +468,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         String[] expectedColumnNames = new String[]{"x"};
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_FALSE.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_FALSE.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -479,7 +482,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_NOT_FALSE.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_NOT_FALSE.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -492,7 +495,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_NOT_TRUE.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_NOT_TRUE.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -504,7 +507,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_NOT_UNKNOWN.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_NOT_UNKNOWN.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -516,7 +519,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_TRUE.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_TRUE.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -529,7 +532,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromSyntheticGraph()}));
 
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_UNKNOWN.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_UNKNOWN.gql");
 
         checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
         assertEquals("syntheticGraph", WorkingGraph.getCurrentGraphName());
@@ -541,7 +544,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testSyntaxErrorAnd() {
         exception.expect(SyntaxErrorException.class);
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/syntax_errors/AND.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/syntax_errors/AND.gql");
         queryEvaluator.getEvaluationResult();
     }
 
@@ -550,7 +553,7 @@ public class GqlQueryEvaluatorTest implements BindingTableComparator {
      */
     @Test(expected = SemanticErrorException.class)
     public void testSemanticErrorAnd() {
-        GqlQueryEvaluator queryEvaluator = new GqlQueryEvaluator(queryTestsFolder + "/semantic_errors/AND.gql");
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/semantic_errors/AND.gql");
         queryEvaluator.getEvaluationResult();
     }
 
