@@ -4,7 +4,6 @@ import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
 import exceptions.SemanticErrorException;
 import exceptions.SyntaxErrorException;
-import gql.GqlFileQueryEvaluator;
 import gql.expressions.values.*;
 import gql.graphs.GqlEdge;
 import gql.graphs.GqlNode;
@@ -53,7 +52,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testEqualsOperator() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_op.gql");
@@ -65,7 +64,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testEqualsOperatorOnNulls() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_op_on_nulls.gql");
 
@@ -76,7 +75,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testEqualsOrLargerThanOperator() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_or_larger_than_op.gql");
@@ -88,7 +87,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testEqualsOrSmallerThanOperator() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_or_smaller_than_op.gql");
@@ -100,7 +99,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testLargerThanOperator() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/larger_than_op.gql");
@@ -112,7 +111,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testSmallerThanOperator() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/smaller_than_op.gql");
@@ -127,7 +126,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testUnionAllTwice() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN29FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
@@ -146,7 +145,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testExceptAll() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN5FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN29FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
@@ -160,7 +159,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testExceptDistinct() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, false, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(false, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/conjunctions/except_distinct.gql");
@@ -172,7 +171,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testIntersectAll() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
 
@@ -185,7 +184,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testIntersectDistinct() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, false, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(false, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/conjunctions/intersect_distinct.gql");
@@ -197,7 +196,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testOtherwise() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN5FromG3()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/conjunctions/otherwise.gql");
@@ -209,7 +208,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testUnionAll() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN29FromG3()}));
@@ -224,7 +223,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testUnionDistinct() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, false, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(false, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN29FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
@@ -238,7 +237,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testUnionMax() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
@@ -256,7 +255,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testLabelWildcard() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getE21FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getE21FromG3()}));
 
@@ -269,7 +268,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test(expected = SemanticErrorException.class)
     public void testParenthesizedLabels() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN19FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN29FromG3()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3()}));
@@ -284,7 +283,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testAnd() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromSyntheticGraph()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/logic/AND.gql");
@@ -296,7 +295,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testNot() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/logic/NOT.gql");
 
@@ -307,7 +306,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testOr() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromSyntheticGraph()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/logic/OR.gql");
@@ -319,7 +318,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testXor() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromSyntheticGraph()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/logic/XOR.gql");
@@ -334,7 +333,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testFilledPathPattern() {
         String[] expectedColumnNames = new String[]{"x", "name", "y"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN85FromG3(), new GqlString("Olof Morra"), getN5FromG3()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/path_patterns/filled_path_pattern.gql");
@@ -346,7 +345,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testMultiplePathPatternsDifferentVariableNames() {
         String[] expectedColumnNames = new String[]{"a", "b", "c", "x", "y", "z"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN3FromG(), getN1FromG(), getN2FromG(), getN3FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN3FromG(), getN2FromG(), getN3FromG(), getN3FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN3FromG(), getN3FromG(), getN2FromG(), getN1FromG()}));
@@ -365,7 +364,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testMultiplePathPatternsSameVariableNames() {
         String[] expectedColumnNames = new String[]{"x", "y", "z"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN3FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN2FromG(), getN1FromG()}));
 
@@ -378,7 +377,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testPathAcyclic() {
         String[] expectedColumnNames = new String[]{"x", "y", "z"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN3FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN2FromG(), getN1FromG()}));
 
@@ -391,7 +390,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testPathTrail() {
         String[] expectedColumnNames = new String[]{"x", "y", "z"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN3FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromG(), getN3FromG(), getN3FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getN2FromG(), getN1FromG()}));
@@ -406,7 +405,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testPathSimple() {
         String[] expectedColumnNames = new String[]{"x", "y", "z"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN1FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN3FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromG(), getN1FromG(), getN2FromG()}));
@@ -423,7 +422,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testPathWalk() {
         String[] expectedColumnNames = new String[]{"x", "y", "z"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN1FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN2FromG(), getN3FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromG(), getN1FromG(), getN2FromG()}));
@@ -443,7 +442,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testPathQuantifier() {
         String[] expectedColumnNames = new String[]{"x", "y"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN1FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getN3FromG()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromG(), getN2FromG()}));
@@ -466,7 +465,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testIsFalse() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_FALSE.gql");
 
@@ -477,7 +476,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testIsNotFalse() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromSyntheticGraph()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromSyntheticGraph()}));
@@ -491,7 +490,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testIsNotTrue() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromSyntheticGraph()}));
 
@@ -504,7 +503,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testIsNotUnknown() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromSyntheticGraph()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_NOT_UNKNOWN.gql");
@@ -516,7 +515,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testIsTrue() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromSyntheticGraph()}));
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/value_comparisons/IS_TRUE.gql");
@@ -528,7 +527,7 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     @Test
     public void testIsUnknown() {
         String[] expectedColumnNames = new String[]{"x"};
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromSyntheticGraph()}));
         expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromSyntheticGraph()}));
 

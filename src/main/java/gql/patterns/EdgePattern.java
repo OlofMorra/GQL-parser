@@ -34,7 +34,7 @@ public class EdgePattern extends ElementPattern {
 
     @Override
     public BindingTable match() {
-        BindingTable result = new BindingTable(false, true, new String[]{String.valueOf(this.patternIndex)});
+        BindingTable result = new BindingTable(true, new String[]{String.valueOf(this.patternIndex)});
         HashMap<GqlIdentifier, GqlEdge> possibleMatches = WorkingGraph.getInstance().edges;
 
         evaluateMatchAndAddTo(result, possibleMatches);

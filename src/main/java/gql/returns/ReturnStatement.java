@@ -29,7 +29,7 @@ public class ReturnStatement {
         if (setQuantifier.equals(SetQuantifier.DISTINCT)) input.makeDistinct();
 
         String[] columnNames = (returnAll) ? input.getColumnNames() : getNewDomain();
-        BindingTable output = new BindingTable(input.isOrdered(), input.hasDuplicates(), columnNames);
+        BindingTable output = new BindingTable(input.hasDuplicates(), columnNames);
 
         for (Record record: input.getRecords()) {
             output.addRecord(new Record(columnNames, getNewValues(record)));

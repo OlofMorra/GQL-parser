@@ -14,20 +14,18 @@ import org.apache.commons.lang.StringUtils;
 import java.util.*;
 
 public class BindingTable {
-    private boolean isOrdered;
     private boolean hasDuplicates;
     private String[] columnNames;
     private HashMultiset<Record> records;
 
-    public BindingTable(boolean isOrdered, boolean hasDuplicates, String[] columnNames) {
-        this.isOrdered = isOrdered;
+    public BindingTable(boolean hasDuplicates, String[] columnNames) {
         this.hasDuplicates = hasDuplicates;
         this.columnNames = columnNames;
         this.records = HashMultiset.create();
     }
 
     public BindingTable clone() {
-        BindingTable clone = new BindingTable(isOrdered, hasDuplicates, columnNames);
+        BindingTable clone = new BindingTable(hasDuplicates, columnNames);
         clone.setRecords(getRecords());
         return clone;
     }
@@ -150,10 +148,6 @@ public class BindingTable {
 
     public HashMultiset<Record> getRecords() {
         return HashMultiset.create(records);
-    }
-
-    public boolean isOrdered() {
-        return isOrdered;
     }
 
     public boolean hasDuplicates() {
@@ -281,13 +275,13 @@ public class BindingTable {
         Object[] thisRecords = records.toArray();
         Object[] thatRecords = records.toArray();
 
-        return isOrdered == that.isOrdered && hasDuplicates == that.hasDuplicates && Arrays.equals(columnNames, that.columnNames)
+        return hasDuplicates == that.hasDuplicates && Arrays.equals(columnNames, that.columnNames)
                 && Arrays.equals(thisRecords, thatRecords);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(isOrdered, hasDuplicates, records);
+        int result = Objects.hash(hasDuplicates, records);
         result = 31 * result + Arrays.hashCode(columnNames);
         return result;
     }

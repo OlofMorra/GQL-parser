@@ -58,10 +58,10 @@ public class ReturnStatementTest implements BindingTableComparator {
 
     @Test
     public void testObtainResultFromReturnItemContainsValue() {
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"literal"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"literal"});
         expectedResult.addRecordMultipleTimes(new Record(new String[]{"literal"}, new Value[]{new GqlString("This is a literal in the return statement.")}), 3);
 
-        BindingTable table = new BindingTable(false, true, new String[]{"x"});
+        BindingTable table = new BindingTable(true, new String[]{"x"});
         table.addRecordMultipleTimes(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n1")}), 3);
 
         ArrayList<ReturnItem> returnItemList = new ArrayList<>();
@@ -73,12 +73,12 @@ public class ReturnStatementTest implements BindingTableComparator {
 
     @Test
     public void testObtainResultFromReturnItemContainsPropertyReference() {
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"name"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"name"});
         expectedResult.addRecord(new Record(new String[]{"name"}, new Value[]{new TruthValue(null)}));
         expectedResult.addRecord(new Record(new String[]{"name"}, new Value[]{new GqlString("Olof Morra")}));
         expectedResult.addRecord(new Record(new String[]{"name"}, new Value[]{new TruthValue(null)}));
 
-        BindingTable table = new BindingTable(false, true, new String[]{"x"});
+        BindingTable table = new BindingTable(true, new String[]{"x"});
         table.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n1")}));
         table.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n2")}));
         table.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n3")}));
@@ -92,12 +92,12 @@ public class ReturnStatementTest implements BindingTableComparator {
 
     @Test
     public void testObtainResultFromReturnItemContainsNodeName() {
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"x"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"x"});
         expectedResult.addRecord(new Record(new String[]{"x"}, new Value[]{n1}));
         expectedResult.addRecord(new Record(new String[]{"x"}, new Value[]{n2}));
         expectedResult.addRecord(new Record(new String[]{"x"}, new Value[]{n3}));
 
-        BindingTable table = new BindingTable(false, true, new String[]{"x"});
+        BindingTable table = new BindingTable(true, new String[]{"x"});
         table.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n1")}));
         table.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n2")}));
         table.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n3")}));
@@ -111,11 +111,11 @@ public class ReturnStatementTest implements BindingTableComparator {
 
     @Test
     public void testObtainResultFromReturnItemContainsEdgeName() {
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"y"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"y"});
         expectedResult.addRecord(new Record(new String[]{"y"}, new Value[]{e1}));
         expectedResult.addRecord(new Record(new String[]{"y"}, new Value[]{e2}));
 
-        BindingTable table = new BindingTable(false, true, new String[]{"y"});
+        BindingTable table = new BindingTable(true, new String[]{"y"});
         table.addRecord(new Record(new String[]{"y"}, new Value[]{new GqlIdentifier("e1")}));
         table.addRecord(new Record(new String[]{"y"}, new Value[]{new GqlIdentifier("e2")}));
 
@@ -128,10 +128,10 @@ public class ReturnStatementTest implements BindingTableComparator {
 
     @Test
     public void testObtainResultFromReturnItemContainsNegatedExpression() {
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"Negated expression"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"Negated expression"});
         expectedResult.addRecord(new Record(new String[]{"Negated expression"}, new Value[]{new TruthValue(true)}));
 
-        BindingTable table = new BindingTable(false, true, new String[]{"x"});
+        BindingTable table = new BindingTable(true, new String[]{"x"});
         table.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n1")}));
 
         ArrayList<ReturnItem> returnItemList = new ArrayList<>();
@@ -143,10 +143,10 @@ public class ReturnStatementTest implements BindingTableComparator {
 
     @Test
     public void testObtainResultFromReturnItemContainsBooleanExpressionComparison() {
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"Boolean"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"Boolean"});
         expectedResult.addRecord(new Record(new String[]{"Boolean"}, new Value[]{new TruthValue(false)}));
 
-        BindingTable table = new BindingTable(false, true, new String[]{"x"});
+        BindingTable table = new BindingTable(true, new String[]{"x"});
         table.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n1")}));
 
         ArrayList<ReturnItem> returnItemList = new ArrayList<>();
@@ -158,10 +158,10 @@ public class ReturnStatementTest implements BindingTableComparator {
 
     @Test
     public void testObtainResultFromReturnItemContainsValueComparison() {
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"Value comparison"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"Value comparison"});
         expectedResult.addRecord(new Record(new String[]{"Value comparison"}, new Value[]{new TruthValue(true)}));
 
-        BindingTable table = new BindingTable(false, true, new String[]{"x"});
+        BindingTable table = new BindingTable(true, new String[]{"x"});
         table.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n1")}));
 
         ArrayList<ReturnItem> returnItemList = new ArrayList<>();
@@ -173,12 +173,12 @@ public class ReturnStatementTest implements BindingTableComparator {
 
     @Test
     public void testObtainResultFromReturnStatementDistinct() {
-        BindingTable expectedResult = new BindingTable(false, false, new String[]{"x"});
+        BindingTable expectedResult = new BindingTable(false, new String[]{"x"});
         expectedResult.addRecord(new Record(new String[]{"x"}, new Value[]{n1}));
         expectedResult.addRecord(new Record(new String[]{"x"}, new Value[]{n2}));
         expectedResult.addRecord(new Record(new String[]{"x"}, new Value[]{n3}));
 
-        BindingTable table = new BindingTable(false, true, new String[]{"x"});
+        BindingTable table = new BindingTable(true, new String[]{"x"});
         table.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n1")}));
         table.addRecordMultipleTimes(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n2")}), 2);
         table.addRecordMultipleTimes(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n3")}), 3);
@@ -192,11 +192,11 @@ public class ReturnStatementTest implements BindingTableComparator {
 
     @Test
     public void testObtainResultFromWithAlias() {
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"edges"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"edges"});
         expectedResult.addRecord(new Record(new String[]{"edges"}, new Value[]{e1}));
         expectedResult.addRecord(new Record(new String[]{"edges"}, new Value[]{e2}));
 
-        BindingTable table = new BindingTable(false, true, new String[]{"y"});
+        BindingTable table = new BindingTable(true, new String[]{"y"});
         table.addRecord(new Record(new String[]{"y"}, new Value[]{new GqlIdentifier("e1")}));
         table.addRecord(new Record(new String[]{"y"}, new Value[]{new GqlIdentifier("e2")}));
 
@@ -209,12 +209,12 @@ public class ReturnStatementTest implements BindingTableComparator {
 
     @Test
     public void testObtainResultFromReturnAsterisk() {
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"y"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"y"});
         expectedResult.addRecord(new Record(new String[]{"y"}, new Value[]{e1}));
         expectedResult.addRecord(new Record(new String[]{"y"}, new Value[]{e2}));
         expectedResult.addRecord(new Record(new String[]{"y"}, new Value[]{e3}));
 
-        BindingTable table = new BindingTable(false, true, new String[]{"y"});
+        BindingTable table = new BindingTable(true, new String[]{"y"});
         table.addRecord(new Record(new String[]{"y"}, new Value[]{new GqlIdentifier("e1")}));
         table.addRecord(new Record(new String[]{"y"}, new Value[]{new GqlIdentifier("e2")}));
         table.addRecord(new Record(new String[]{"y"}, new Value[]{new GqlIdentifier("e3")}));
@@ -228,12 +228,12 @@ public class ReturnStatementTest implements BindingTableComparator {
 
     @Test
     public void testObtainResultFromWithMultipleReturnItems() {
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"nodes", "edges"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"nodes", "edges"});
         expectedResult.addRecord(new Record(new String[]{"nodes", "edges"}, new Value[]{n1, e1}));
         expectedResult.addRecord(new Record(new String[]{"nodes", "edges"}, new Value[]{n2, e2}));
         expectedResult.addRecord(new Record(new String[]{"nodes", "edges"}, new Value[]{n3, e3}));
 
-        BindingTable table = new BindingTable(false, true, new String[]{"x", "y"});
+        BindingTable table = new BindingTable(true, new String[]{"x", "y"});
         table.addRecord(new Record(new String[]{"x", "y"}, new Value[]{new GqlIdentifier("n1"), new GqlIdentifier("e1")}));
         table.addRecord(new Record(new String[]{"x", "y"}, new Value[]{new GqlIdentifier("n2"), new GqlIdentifier("e2")}));
         table.addRecord(new Record(new String[]{"x", "y"}, new Value[]{new GqlIdentifier("n3"), new GqlIdentifier("e3")}));

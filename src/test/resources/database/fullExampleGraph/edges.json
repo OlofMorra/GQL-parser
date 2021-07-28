@@ -1,0 +1,50 @@
+{
+  "e": {
+    "identity": "basicEdge",
+    "start": "nodeWithOnlyIdentifier",
+    "end": "nodeWithProperties"
+  },
+  "e": {
+    "identity": "basicUndirectedEdge",
+    "start": "nodeWithOnlyIdentifier",
+    "end": "nodeWithProperties",
+    "isDirected": 0
+  },
+  "e": {
+    "identity": "directedEdgeWithProperties",
+    "start": "nodeWithOnlyIdentifier",
+    "end": "nodeWithProperties",
+    "isDirected": 1,
+    "properties": {
+      "gqlstring": "Olof Morra",
+      "integer": 25,
+      "fixedpointDecimal" : 25.5,
+      "floatingPoint": 25E-1,
+      "truthValue": "TRUE"
+    }
+  },
+  "e": {
+    "identity": "directedEdgeWithLabels",
+    "start": "nodeWithOnlyIdentifier",
+    "end": "nodeWithProperties",
+    "isDirected": 1,
+    "labels": ["label1", "label2"]
+  },
+  "e": {
+    "identity": "directedEdgeFull",
+    "start": "nodeWithOnlyIdentifier",
+    "end": "nodeWithProperties",
+    "isDirected": 1,
+    "labels": [
+      "label1",
+      "label2"
+    ],
+    "properties": {
+      "gqlstring": "Olof Morra",
+      "integer": 25,
+      "fixedpointDecimal": 25.5,
+      "floatingPoint": 25E-1,
+      "truthValue": "TRUE"
+    }
+  }
+}

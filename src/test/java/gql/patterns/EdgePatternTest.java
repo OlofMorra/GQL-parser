@@ -51,7 +51,7 @@ public class EdgePatternTest implements BindingTableComparator {
     public void testMatchEmptyEdgePatternUndirected() {
         EdgePattern edgePattern = new EdgePattern(null, null, null, Direction.UNDIRECTED, 1);
         BindingTable actualResult = edgePattern.match();
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"1"});
 
         expectedResult.addRecord(records[3]);
 
@@ -62,7 +62,7 @@ public class EdgePatternTest implements BindingTableComparator {
     public void testMatchEmptyEdgePattern() {
         EdgePattern edgePattern = new EdgePattern(null, null, null, Direction.LEFT_TO_RIGHT, 1);
         BindingTable actualResult = edgePattern.match();
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"1"});
 
         expectedResult.addRecord(records[0]);
         expectedResult.addRecord(records[1]);
@@ -77,7 +77,7 @@ public class EdgePatternTest implements BindingTableComparator {
         EdgePattern edgePattern = new EdgePattern(new VariableName("x"), null, null, Direction.LEFT_TO_RIGHT, 1);
 
         BindingTable actualResult = edgePattern.match();
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"1"});
 
         expectedResult.addRecord(records[0]);
         expectedResult.addRecord(records[1]);
@@ -94,7 +94,7 @@ public class EdgePatternTest implements BindingTableComparator {
         EdgePattern edgePattern = new EdgePattern(null, label, null, Direction.LEFT_TO_RIGHT, 1);
 
         BindingTable actualResult = edgePattern.match();
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"1"});
 
         expectedResult.addRecord(records[0]);
 
@@ -108,7 +108,7 @@ public class EdgePatternTest implements BindingTableComparator {
         EdgePattern edgePattern = new EdgePattern(null, labelSetList, null, Direction.LEFT_TO_RIGHT, 1);
 
         BindingTable actualResult = edgePattern.match();
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"1"});
 
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
@@ -121,7 +121,7 @@ public class EdgePatternTest implements BindingTableComparator {
         EdgePattern edgePattern = new EdgePattern(null, labelSetList, null, Direction.LEFT_TO_RIGHT, 1);
 
         BindingTable actualResult = edgePattern.match();
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"1"});
 
         expectedResult.addRecord(records[0]);
         expectedResult.addRecord(records[4]);
@@ -136,7 +136,7 @@ public class EdgePatternTest implements BindingTableComparator {
         EdgePattern edgePattern = new EdgePattern(null, null, properties, Direction.LEFT_TO_RIGHT, 1);
 
         BindingTable actualResult = edgePattern.match();
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"1"});
 
         expectedResult.addRecord(records[0]);
 
@@ -151,7 +151,7 @@ public class EdgePatternTest implements BindingTableComparator {
         EdgePattern edgePattern = new EdgePattern(null, null, properties, Direction.LEFT_TO_RIGHT, 1);
 
         BindingTable actualResult = edgePattern.match();
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"1"});
 
         System.out.println(edgePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
@@ -169,7 +169,7 @@ public class EdgePatternTest implements BindingTableComparator {
         EdgePattern edgePattern = new EdgePattern(new VariableName("x"), labelSetList, properties, Direction.LEFT_TO_RIGHT, 1);
 
         BindingTable actualResult = edgePattern.match();
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"1"});
 
         expectedResult.addRecord(records[0]);
 
@@ -183,7 +183,7 @@ public class EdgePatternTest implements BindingTableComparator {
         EdgePattern edgePattern = new EdgePattern(null, null, properties, Direction.LEFT_TO_RIGHT, 1);
 
         BindingTable actualResult = edgePattern.match();
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"1"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"1"});
 
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }

@@ -115,7 +115,7 @@ public class BindingTableConjuctorTest implements BindingTableComparator {
         BindingTable left = getAcyclicOutput(columnNamesLeft);
         BindingTable right = getTrailOutput(columnNamesRight);
 
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(getFourNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n3"));
         expectedResult.addRecord(getFourNodeIdentifiersRecord(expectedColumnNames, "n3", "n2", "n1", "n1"));
 
@@ -133,7 +133,7 @@ public class BindingTableConjuctorTest implements BindingTableComparator {
         BindingTable left = getAcyclicOutput(columnNamesLeft);
         BindingTable right = getTrailOutput(columnNamesRight);
 
-        BindingTable expectedResult = new BindingTable(false, true, expectedColumnNames);
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
         expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n1", "n2", "n3"));
         expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n2", "n3", "n3"));
         expectedResult.addRecord(getSixNodeIdentifiersRecord(expectedColumnNames, "n1", "n2", "n3", "n3", "n2", "n1"));
@@ -294,7 +294,7 @@ public class BindingTableConjuctorTest implements BindingTableComparator {
         }
 
         String[] columnNames = new String[]{"firstColumn"};
-        BindingTable bindingTable = new BindingTable(false, hasDuplicates, columnNames);
+        BindingTable bindingTable = new BindingTable(hasDuplicates, columnNames);
 
         addRecordsToBindingTable(bindingTable, columnNames, numberOfSecondRecord, numberOfThirdRecord, numberOfFirstRecord);
 
@@ -303,7 +303,7 @@ public class BindingTableConjuctorTest implements BindingTableComparator {
 
     // Table 3c in report
     private BindingTable getAcyclicOutput(String[] columnNames) {
-        BindingTable output = new BindingTable(false, true, columnNames);
+        BindingTable output = new BindingTable(true, columnNames);
 
         output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n1", "n2", "n3"));
         output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n3", "n2", "n1"));
@@ -313,7 +313,7 @@ public class BindingTableConjuctorTest implements BindingTableComparator {
 
     // Table 3d in report
     private BindingTable getTrailOutput(String[] columnNames) {
-        BindingTable output = new BindingTable(false, true, columnNames);
+        BindingTable output = new BindingTable(true, columnNames);
 
         output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n1", "n2", "n3"));
         output.addRecord(getThreeNodeIdentifiersRecord(columnNames,"n2", "n3", "n3"));

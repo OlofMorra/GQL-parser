@@ -17,8 +17,6 @@ import org.junit.Test;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
-
 public class PathPatternTest implements BindingTableComparator {
     WorkingGraph graph = WorkingGraph.getInstance();
     ArrayList<ElementPattern> pathSequence = new ArrayList<>();
@@ -309,7 +307,7 @@ public class PathPatternTest implements BindingTableComparator {
     }
 
     private BindingTable getBindingTable(String[] columnNames) {
-        return new BindingTable(false, true, columnNames);
+        return new BindingTable(true, columnNames);
     }
 
     private void addRecordToExpectedResult(Record record) {

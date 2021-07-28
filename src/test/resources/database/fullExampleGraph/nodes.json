@@ -1,0 +1,30 @@
+{
+  "n": {
+    "identity": "nodeWithOnlyIdentifier"
+  },
+  "n": {
+    "identity": "nodeWithProperties",
+    "properties": {
+      "gqlstring": "Olof Morra",
+      "integer": 25,
+      "fixedpointDecimal" : 25.5,
+      "floatingPoint": 25E-1,
+      "truthValue": "TRUE"
+    }
+  },
+  "n": {
+    "identity": "nodeWithLabels",
+    "labels": ["label1", "label2"]
+  },
+  "n": {
+    "identity": "nodeComplete",
+    "labels": ["label1", "label2"],
+    "properties": {
+      "gqlstring": "Olof Morra",
+      "integer": 25,
+      "fixedpointDecimal" : 25.5,
+      "floatingPoint": 25E-1,
+      "truthValue": "TRUE"
+    }
+  }
+}

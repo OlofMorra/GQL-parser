@@ -23,7 +23,7 @@ public class GqlVisitor extends GqlParserBaseVisitor<BindingTable> {
 
     @Override
     public BindingTable visitQuery(QueryContext ctx) {
-        BindingTable output = new BindingTable(false, false, new String[]{});
+        BindingTable output = new BindingTable(false, new String[]{});
         semanticErrors = new ArrayList<>();
 
         for (int i = 0; i < ctx.getChildCount() - 1; i++) {
@@ -41,7 +41,7 @@ public class GqlVisitor extends GqlParserBaseVisitor<BindingTable> {
 
     @Override
     public BindingTable visitQueryExpression(QueryExpressionContext ctx) {
-        BindingTable output = new BindingTable(true, true, new String[]{});
+        BindingTable output = new BindingTable(true, new String[]{});
 
         if (ctx.getChild(0) instanceof FocusedQueryExpressionContext) {
             output = visitFocusedQueryExpression(ctx.focusedQueryExpression());
@@ -127,18 +127,18 @@ public class GqlVisitor extends GqlParserBaseVisitor<BindingTable> {
 
     private QueryConjunctor getUnionConjunctor(UnionOperatorContext union) {
         if (union.MAX() != null) return QueryConjunctor.UNION_MAX;
-        if (union.setQuantifier().DISTINCT() != null) return QueryConjunctor.UNION_DISTINCT;
-        return QueryConjunctor.UNION_ALL;
+        if (union.setQuantifier().ALL() != null) return QueryConjunctor.UNION_ALL;
+        return QueryConjunctor.UNION_DISTINCT;
     }
 
     private QueryConjunctor getExceptConjunctor(OtherSetOperatorContext except) {
-        if (except.setQuantifier() != null && except.setQuantifier().DISTINCT() != null) return QueryConjunctor.EXCEPT_DISTINCT;
-        return QueryConjunctor.EXCEPT_ALL;
+        if (except.setQuantifier() != null && except.setQuantifier().ALL() != null) return QueryConjunctor.EXCEPT_ALL;
+        return QueryConjunctor.EXCEPT_DISTINCT;
     }
 
     private QueryConjunctor getIntersectConjunctor(OtherSetOperatorContext intersect) {
-        if (intersect.setQuantifier() != null && intersect.setQuantifier().DISTINCT() != null) return QueryConjunctor.INTERSECT_DISTINCT;
-        return QueryConjunctor.INTERSECT_ALL;
+        if (intersect.setQuantifier() != null && intersect.setQuantifier().ALL() != null) return QueryConjunctor.INTERSECT_ALL;
+        return QueryConjunctor.INTERSECT_DISTINCT;
     }
 
     private void setWorkingGraphTo(String graphName) {

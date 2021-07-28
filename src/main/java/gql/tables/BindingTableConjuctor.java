@@ -56,7 +56,7 @@ public class BindingTableConjuctor {
     public BindingTable intersectAll(BindingTable left, BindingTable right) {
         if (!haveEqualColumnNames(left.getColumnNames(), right.getColumnNames())) throw new SemanticErrorException("It is not possible to conjunct two tables with different sets of columnnames.");
 
-        BindingTable conjunction = new BindingTable(false, true, left.getColumnNames());
+        BindingTable conjunction = new BindingTable(true, left.getColumnNames());
         HashMultiset<Record> newRecords = HashMultiset.create();
         HashMultiset<Record> rightRecords = right.getRecords();
 
@@ -82,7 +82,7 @@ public class BindingTableConjuctor {
         String[] intersectingColumnNames = getIntersectingColumnNames(left.getColumnNames(), right.getColumnNames());
         String[] distinctColumnNames = getDistinctColumnNames(left.getColumnNames(), right.getColumnNames());
         String[] resultColumnNames = (String[]) ArrayUtils.addAll(intersectingColumnNames, distinctColumnNames);
-        BindingTable crossProduct = new BindingTable(false, true, resultColumnNames);
+        BindingTable crossProduct = new BindingTable(true, resultColumnNames);
 
         for (Record leftRecord: left.getRecords()) {
             for (Record rightRecord: right.getRecords()) {
@@ -103,7 +103,7 @@ public class BindingTableConjuctor {
     }
 
     private BindingTable bagDifference(BindingTable left, BindingTable right) {
-        BindingTable bagDifference = new BindingTable(false, left.hasDuplicates(), left.getColumnNames());
+        BindingTable bagDifference = new BindingTable(left.hasDuplicates(), left.getColumnNames());
         HashMultiset<Record> newRecords = HashMultiset.create();
         HashMultiset<Record> rightRecords = right.getRecords();
 

@@ -20,7 +20,7 @@ public class NodePattern extends ElementPattern {
 
     @Override
     public BindingTable match() {
-        BindingTable result = new BindingTable(false, true, new String[]{String.valueOf(this.patternIndex)});
+        BindingTable result = new BindingTable(true, new String[]{String.valueOf(this.patternIndex)});
         HashMap<GqlIdentifier, GqlNode> possibleMatches = WorkingGraph.getInstance().nodes;
 
         if (isEmptyNodePattern()) {

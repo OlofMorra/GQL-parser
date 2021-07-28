@@ -25,7 +25,7 @@ public class PathPattern {
     public BindingTable match(EvaluationMode evaluationMode) {
         this.evaluationMode = evaluationMode;
 
-        BindingTable result = new BindingTable(false, true, new String[]{});
+        BindingTable result = new BindingTable(true, new String[]{});
 
         if (pathSequence.size() == 0) {
             return result;
@@ -42,10 +42,6 @@ public class PathPattern {
         BindingTable result = pathSequence.get(0).match();
 
         for (int i = 1; i < pathSequence.size(); i += 2) {
-            if (!result.hasRecords()) {
-                result = getEmptyResultTable(pathSequence.size());
-                break; // If only one of the intermediate results is empty, the full result will be empty.
-            }
             EdgePattern edgePattern = (EdgePattern) pathSequence.get(i);
             NodePattern nodePattern = (NodePattern) pathSequence.get(i+1);
             result = join(result, edgePattern.match(), nodePattern.match(), edgePattern.getDirection());
@@ -142,11 +138,11 @@ public class PathPattern {
             columnNames[i] = String.valueOf(i);
         }
 
-        return new BindingTable(false, true, columnNames);
+        return new BindingTable(true, columnNames);
     }
 
     private BindingTable getResultTable(String[] columnNames) {
-        return new BindingTable(false, true, columnNames);
+        return new BindingTable(true, columnNames);
     }
 
     private String[] getConcatenatedColumnNames(String[] leftColumnNames, String[] rightColumnNames) {

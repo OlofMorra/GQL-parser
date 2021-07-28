@@ -64,12 +64,12 @@ pathPatternPrefix
     ;
 
 pathPatternExpression
-    : pathTerm (VERTICAL_BAR pathTerm)*
+    : pathTerm //(VERTICAL_BAR pathTerm)*
     ;
 
 pathTerm
     : path
-    | LEFT_PAREN pathPattern whereClause? RIGHT_PAREN len?
+//    | LEFT_PAREN pathPattern whereClause? RIGHT_PAREN len?
     ;
 
 path
@@ -96,6 +96,7 @@ fullEdgePointingRight
     : MINUS_LEFT_BRACKET elementPatternFiller BRACKET_RIGHT_ARROW
     ;
 
+// TODO: change to syntax in report
 elementPatternFiller
     : elementVariable? isLabelExpr? (LEFT_BRACE propertyList RIGHT_BRACE)?
     ;
@@ -173,7 +174,7 @@ labelNegation
 labelPrimary
     : label
     | labelWildcard
-    | parenthesizedLabelExpression // TODO: Probably just remove for simplicity
+    | parenthesizedLabelExpression
     ;
 
 label

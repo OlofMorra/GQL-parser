@@ -33,7 +33,7 @@ public class BindingTableTest implements BindingTableComparator {
 
     @Before
     public void setUp() {
-        bindingTable = new BindingTable(false, true, columnNames);
+        bindingTable = new BindingTable(true, columnNames);
 
         Value[] values = new Value[]{new GqlString("Tries"), new FixedPointNumber("1"), new TruthValue(true)};
         record = new Record(columnNames, values);
@@ -43,7 +43,7 @@ public class BindingTableTest implements BindingTableComparator {
 
     @Test
     public void testIsOptionalWithEmptyTable() {
-        BindingTable expectedResult = new BindingTable(false, true, columnNames);
+        BindingTable expectedResult = new BindingTable(true, columnNames);
         expectedResult.addRecord(new Record(columnNames, new Value[]{new TruthValue(null), new TruthValue(null), new TruthValue(null)}));
 
         bindingTable.isOptional();
@@ -53,7 +53,7 @@ public class BindingTableTest implements BindingTableComparator {
 
     @Test
     public void testIsOptionalWithTableWithRecords() {
-        BindingTable expectedResult = new BindingTable(false, true, columnNames);
+        BindingTable expectedResult = new BindingTable(true, columnNames);
         expectedResult.addRecord(record);
 
         bindingTable.addRecord(record);
@@ -69,7 +69,7 @@ public class BindingTableTest implements BindingTableComparator {
 
     @Test
     public void testIsMandatoryWithTableWithRecords() {
-        BindingTable expectedResult = new BindingTable(false, true, columnNames);
+        BindingTable expectedResult = new BindingTable(true, columnNames);
         expectedResult.addRecord(record);
 
         bindingTable.addRecord(record);
@@ -80,7 +80,7 @@ public class BindingTableTest implements BindingTableComparator {
 
     @Test
     public void testMakeDistinctWithoutDuplicates() {
-        BindingTable expectedResult = new BindingTable(false, false, columnNames);
+        BindingTable expectedResult = new BindingTable(false, columnNames);
         expectedResult.addRecord(record);
         expectedResult.addRecord(secondRecord);
 
@@ -93,7 +93,7 @@ public class BindingTableTest implements BindingTableComparator {
 
     @Test
     public void testMakeDistinctWithDuplicates() {
-        BindingTable expectedResult = new BindingTable(false, false, columnNames);
+        BindingTable expectedResult = new BindingTable(false, columnNames);
         expectedResult.addRecord(record);
         expectedResult.addRecord(secondRecord);
 
@@ -156,7 +156,7 @@ public class BindingTableTest implements BindingTableComparator {
     public void testFilterWithComparisonExpression() {
         setWorkingGraphToSyntheticGraph();
 
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"x"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"x"});
         expectedResult.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n1")}));
         expectedResult.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n2")}));
         expectedResult.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n3")}));
@@ -177,7 +177,7 @@ public class BindingTableTest implements BindingTableComparator {
     public void testFilterWithPropertyReference() {
         setWorkingGraphToSyntheticGraph();
 
-        BindingTable expectedResult = new BindingTable(false, true, new String[]{"x"});
+        BindingTable expectedResult = new BindingTable(true, new String[]{"x"});
         expectedResult.addRecord(new Record(new String[]{"x"}, new Value[]{new GqlIdentifier("n2")}));
 
         NodePattern node = new NodePattern(new VariableName("x"), null, null);
@@ -229,7 +229,7 @@ public class BindingTableTest implements BindingTableComparator {
     @Test(expected = SemanticErrorException.class)
     public void testAddRecordWithMoreColumnsThenTable() {
         String[] columnNames = new String[]{"col1", "col2"};
-        bindingTable = new BindingTable(false, false, columnNames);
+        bindingTable = new BindingTable(false, columnNames);
 
         bindingTable.addRecord(record);
     }
