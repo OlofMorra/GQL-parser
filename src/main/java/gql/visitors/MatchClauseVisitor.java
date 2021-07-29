@@ -19,8 +19,6 @@ public class MatchClauseVisitor extends GqlParserBaseVisitor<BindingTable> {
     private final WhereClauseVisitior whereClauseVisitior = new WhereClauseVisitior();
     private final PathPatternExpressionVisitor pathPatternExpressionVisitor = new PathPatternExpressionVisitor();
 
-
-
     @Override
     public BindingTable visitMatchClause(MatchClauseContext ctx) {
         BindingTable matches = visitPathPatternList(ctx.pathPatternList());
