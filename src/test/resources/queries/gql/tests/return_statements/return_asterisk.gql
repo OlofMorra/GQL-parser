@@ -1,0 +1,3 @@
+FROM g
+MATCH (x)
+RETURN *
