@@ -55,7 +55,7 @@ public class ReturnStatement {
     }
 
     private Value[] getReferredGraphElements(Record record) {
-        Value[] values = new Value[returnItemList.size()];
+        Value[] values = new Value[record.getColumnNames().length];
 
         for (int i = 0; i < record.getColumnNames().length; i++) {
             GqlIdentifier identifier = (GqlIdentifier) record.getValueFromColumn(record.getColumnNames()[i]);

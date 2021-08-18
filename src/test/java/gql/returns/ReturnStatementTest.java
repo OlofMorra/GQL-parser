@@ -246,6 +246,25 @@ public class ReturnStatementTest implements BindingTableComparator {
         checkIfBindingTablesAreEqual(expectedResult, returnStatement.obtainResultFrom(table));
     }
 
+    @Test
+    public void testObtainResultFromWithMultipleReturnItemsUsingAsterisk() {
+        BindingTable expectedResult = new BindingTable(true, new String[]{"x", "y"});
+        expectedResult.addRecord(new Record(new String[]{"x", "y"}, new Value[]{n1, e1}));
+        expectedResult.addRecord(new Record(new String[]{"x", "y"}, new Value[]{n2, e2}));
+        expectedResult.addRecord(new Record(new String[]{"x", "y"}, new Value[]{n3, e3}));
+
+        BindingTable table = new BindingTable(true, new String[]{"x", "y"});
+        table.addRecord(new Record(new String[]{"x", "y"}, new Value[]{new GqlIdentifier("n1"), new GqlIdentifier("e1")}));
+        table.addRecord(new Record(new String[]{"x", "y"}, new Value[]{new GqlIdentifier("n2"), new GqlIdentifier("e2")}));
+        table.addRecord(new Record(new String[]{"x", "y"}, new Value[]{new GqlIdentifier("n3"), new GqlIdentifier("e3")}));
+
+        ArrayList<ReturnItem> returnItemList = new ArrayList<>();
+        returnItemList.add(new Asterisk());
+        ReturnStatement returnStatement = new ReturnStatement(ALL, returnItemList);
+
+        checkIfBindingTablesAreEqual(expectedResult, returnStatement.obtainResultFrom(table));
+    }
+
     private void setWorkingGraphToSyntheticGraph() {
         try {
             WorkingGraph.getInstance().setToTestDirectory();

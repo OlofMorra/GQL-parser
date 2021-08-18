@@ -9,14 +9,13 @@ public interface BindingTableComparator {
         }
 
         if (!expectedResult.equals(actualResult)) {
-            assertEquals(expectedResult, actualResult);
             System.err.println("Expected:");
             System.err.println("Has duplicates: " + expectedResult.hasDuplicates());
             expectedResult.printToConsole();
             System.err.println("Actual:");
             System.err.println("Has duplicates: " + actualResult.hasDuplicates());
             actualResult.printToConsole();
+            assertEquals(expectedResult, actualResult);
         }
-
     }
 }

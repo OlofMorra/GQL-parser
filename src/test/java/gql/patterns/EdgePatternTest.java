@@ -153,7 +153,6 @@ public class EdgePatternTest implements BindingTableComparator {
         BindingTable actualResult = edgePattern.match();
         BindingTable expectedResult = new BindingTable(true, new String[]{"1"});
 
-        System.out.println(edgePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 

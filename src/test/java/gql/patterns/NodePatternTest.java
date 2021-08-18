@@ -41,7 +41,6 @@ public class NodePatternTest implements BindingTableComparator {
 
         expectedResult.addRecords(records);
 
-        System.out.println(nodePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -54,7 +53,6 @@ public class NodePatternTest implements BindingTableComparator {
 
         expectedResult.addRecords(records);
 
-        System.out.println(nodePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -71,7 +69,6 @@ public class NodePatternTest implements BindingTableComparator {
         expectedResult.addRecord(records.get(2));
         expectedResult.addRecord(records.get(3));
 
-        System.out.println(nodePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -86,7 +83,6 @@ public class NodePatternTest implements BindingTableComparator {
 
         expectedResult.addRecord(records.get(1));
 
-        System.out.println(nodePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -103,7 +99,6 @@ public class NodePatternTest implements BindingTableComparator {
         expectedResult.addRecord(records.get(1));
         expectedResult.addRecord(records.get(0));
 
-        System.out.println(nodePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -121,7 +116,6 @@ public class NodePatternTest implements BindingTableComparator {
         expectedResult.addRecord(records.get(2));
         expectedResult.addRecord(records.get(3));
 
-        System.out.println(nodePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -136,7 +130,6 @@ public class NodePatternTest implements BindingTableComparator {
 
         expectedResult.addRecord(records.get(3));
 
-        System.out.println(nodePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -152,7 +145,6 @@ public class NodePatternTest implements BindingTableComparator {
 
         expectedResult.addRecord(records.get(3));
 
-        System.out.println(nodePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -173,7 +165,6 @@ public class NodePatternTest implements BindingTableComparator {
 
         expectedResult.addRecord(records.get(3));
 
-        System.out.println(nodePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 
@@ -186,7 +177,6 @@ public class NodePatternTest implements BindingTableComparator {
         BindingTable actualResult = nodePattern.match();
         BindingTable expectedResult = new BindingTable(true, new String[]{"0"});
 
-        System.out.println(nodePattern);
         checkIfBindingTablesAreEqual(expectedResult, actualResult);
     }
 

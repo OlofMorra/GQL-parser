@@ -538,6 +538,95 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
     }
 
     /**
+     * Return statements
+     */
+    @Test
+    public void testReturnAsteriskMultipleVariables() {
+        String[] expectedColumnNames = new String[]{"x", "y", "z"};
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getE1FromG(), getN2FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromG(), getE1FromG(), getN1FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromG(), getE2FromG(), getN3FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getE2FromG(), getN2FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getE3FromG(), getN3FromG()}));
+
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/return_statements/return_asterisk_multiple_variables.gql");
+
+        checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
+        assertEquals("g", WorkingGraph.getCurrentGraphName());
+    }
+
+    @Test
+    public void testReturnAsteriskSingleVariable() {
+        String[] expectedColumnNames = new String[]{"x"};
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG()}));
+
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/return_statements/return_asterisk_single_variable.gql");
+
+        checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
+        assertEquals("g", WorkingGraph.getCurrentGraphName());
+    }
+
+    @Test
+    public void testReturnId() {
+        String[] expectedColumnNames = new String[]{"x_id"};
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{new GqlIdentifier("n1")}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{new GqlIdentifier("n2")}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{new GqlIdentifier("n3")}));
+
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/return_statements/return_id.gql");
+
+        checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
+        assertEquals("g", WorkingGraph.getCurrentGraphName());
+    }
+
+    @Test
+    public void testReturnPropertyReference() {
+        String[] expectedColumnNames = new String[]{"name"};
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{new GqlString("George Fletcher")}));
+
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/return_statements/return_property_reference.gql");
+
+        checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
+        assertEquals("g3", WorkingGraph.getCurrentGraphName());
+    }
+
+    @Test
+    public void testReturnVariableName() {
+        String[] expectedColumnNames = new String[]{"x"};
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG()}));
+
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/return_statements/return_variable_name.gql");
+
+        checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
+        assertEquals("g", WorkingGraph.getCurrentGraphName());
+    }
+
+    @Test
+    public void testReturnVariableNames() {
+        String[] expectedColumnNames = new String[]{"x", "y", "z"};
+        BindingTable expectedResult = new BindingTable(true, expectedColumnNames);
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN1FromG(), getE1FromG(), getN2FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromG(), getE1FromG(), getN1FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN2FromG(), getE2FromG(), getN3FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getE2FromG(), getN2FromG()}));
+        expectedResult.addRecord(new Record(expectedColumnNames, new Value[]{getN3FromG(), getE3FromG(), getN3FromG()}));
+
+        GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/return_statements/return_variable_names.gql");
+
+        checkIfBindingTablesAreEqual(expectedResult, queryEvaluator.getEvaluationResult());
+        assertEquals("g", WorkingGraph.getCurrentGraphName());
+    }
+
+    /**
      * Syntax error
      */
     @Test
@@ -673,5 +762,28 @@ public class GqlFileQueryEvaluatorTest implements BindingTableComparator {
         HashMap<GqlIdentifier, Value> properties = new HashMap<>();
 
         return new GqlNode(identifier, labels, properties);
+    }
+
+    private GqlEdge getE1FromG() {
+        return getEdgeFromG("e1", "n1", "n2");
+    }
+
+    private GqlEdge getE2FromG() {
+        return getEdgeFromG("e2", "n2", "n3");
+    }
+
+    private GqlEdge getE3FromG() {
+        return getEdgeFromG("e3", "n3", "n3");
+    }
+
+    private GqlEdge getEdgeFromG(String id, String startNode, String endNode) {
+        GqlIdentifier identifier = new GqlIdentifier(id);
+        GqlIdentifier startNodeId = new GqlIdentifier(startNode);
+        GqlIdentifier endNodeId = new GqlIdentifier(endNode);
+        boolean isDirected = false;
+        ArrayList<Label> labels = new ArrayList<>();
+        HashMap<GqlIdentifier, Value> properties = new HashMap<>();
+
+        return new GqlEdge(identifier, startNodeId, endNodeId, isDirected, labels, properties);
     }
 }
