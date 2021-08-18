@@ -72,7 +72,7 @@ public class PathPattern {
         }
 
         if (isEmptyBindingTable(startNodeIds, edgeIds, endNodeIds)) {
-            return getEmptyResultTable(0);
+            return getEmptyResultTable(startNodeIds.width() + edgeIds.width() + endNodeIds.width());
         }
 
         return joinBindingTables(startNodeIds, edgeIds, endNodeIds, edgeDirection);

@@ -202,6 +202,10 @@ public class BindingTable {
         }
     }
 
+    public int width() {
+        return columnNames.length;
+    }
+
     private void printBindingTable() {
         int[] columnWidths = getMaxColumnWidths();
         String stringFormat = getStringFormat(columnWidths);

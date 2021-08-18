@@ -4,13 +4,14 @@ A GQL parser build with ANTLR v4.
 ---
 ## Executing queries
 Open the project in your favorite IDE (I use IntelliJ) and make sure you have Maven installed.
-Build the project from the command line by going to the [GQL-parser]() folder. Run `mvn clean install`.
+Build the project from the command line by going to the [GQL-parser]() folder. Run `mvn clean install`. 
+If test cases fail (I have seen some cross platform errors), you can try `mvn clean install -Dmaven.test.skip=true`.
 Now there are two ways to execute the program, the first allows you to run queries from the 
 [src/test/resources/queries](src/test/resources/queries) folder, the second allows you to type 
 the query in your terminal (Mac) or Command Prompt (Windows).
 
 * `mvn exec:java -Dexec.mainClass="GqlApp" -e -Dexec.args="/gql/tests/comparison_operators/equals_op.gql"` 
-  * Executes the query found in the [equals_op.gql](src/test/resources/queries/gql/test/comparison_operators/equals_op.gql)
+  * Executes the query found in the [union_all.gql](src/test/resources/queries/gql/test/conjunctions/union_all.gql)
     file
 * `mvn exec:java -Dexec.mainClass="GqlApp" -e -Dexec.args="-q"`
   * Asks the user for a query and executes it when `execute` is entered. This process is continued until
