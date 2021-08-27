@@ -44,6 +44,7 @@ public class GqlApp
             GqlQueryEvaluator gqlQueryEvaluator = getGqlUserInputQueryEvaluator();
             if (OUTPUT_ALGEBRA) handleOutputAlgebra(gqlQueryEvaluator);
 
+            System.out.println("\nExecuting the query.");
             BindingTable result = gqlQueryEvaluator.getEvaluationResult();
             result.printToConsole();
         } catch (IllegalStateException exception) {
@@ -99,7 +100,6 @@ public class GqlApp
 
             if (isExecuteStatement(line.split("\\s"))) {
                 scanner.reset();
-                System.out.println("\nExecuting the query.");
                 return query;
             } else {
                 query = query.concat(line + "\n");

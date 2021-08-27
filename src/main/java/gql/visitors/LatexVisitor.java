@@ -199,14 +199,14 @@ public class LatexVisitor extends GqlParserBaseVisitor {
             latex.append(returnItem.toLatex()).append(", ");
         }
         removeComma();
-        latex.append("}(M_").append(matchCounter-1).append(") = ");
+        latex.append("}(M_{").append(matchCounter-1).append("}) = ");
 
         if (returnStatement.isDistinct()) latex.append("\\delta(");
 
         if (ctx.ASTERISK() != null) {
-            latex.append("M_").append(matchCounter-1);
+            latex.append("M_{").append(matchCounter-1).append("}");
         } else {
-            latex.append("\\biguplus_{u \\in M_").append(matchCounter-1).append("} \\{(");
+            latex.append("\\biguplus_{u \\in M_{").append(matchCounter-1).append("}} \\{(");
             appendReturnItems(returnStatement.getReturnItems());
             removeComma();
             latex.append(")\\}");
@@ -274,11 +274,11 @@ public class LatexVisitor extends GqlParserBaseVisitor {
             if (elementPattern instanceof EdgePattern) appendEdgePattern((EdgePattern) elementPattern);
         }
 
-        latex.append("\\pi_").append(pathCounter).append(" &= ");
+        latex.append("\\pi_{").append(pathCounter).append("} &= ");
 
         for (int i = nodeStartIdx; i < nodeCounter; i++) {
-            latex.append("\\chi_").append(i).append(" ");
-            if (edgeStartIdx != edgeCounter) latex.append("\\rho_").append(edgeStartIdx);
+            latex.append("\\chi_{").append(i).append("} ");
+            if (edgeStartIdx != edgeCounter) latex.append("\\rho_{").append(edgeStartIdx).append("}");
             edgeStartIdx++;
         }
 
@@ -286,18 +286,18 @@ public class LatexVisitor extends GqlParserBaseVisitor {
     }
 
     private void appendNodePattern(NodePattern nodePattern) {
-        latex.append("\\chi_")
+        latex.append("\\chi_{")
                 .append(nodeCounter)
-                .append(" &= ")
+                .append("} &= ")
                 .append(nodePattern.toLatex())
                 .append(NEW_LINE);
         nodeCounter++;
     }
 
     private void appendEdgePattern(EdgePattern edgePattern) {
-        latex.append("\\rho_")
+        latex.append("\\rho_{")
                 .append(edgeCounter)
-                .append(" &= ")
+                .append("} &= ")
                 .append(edgePattern.toLatex())
                 .append(NEW_LINE);
         edgeCounter++;

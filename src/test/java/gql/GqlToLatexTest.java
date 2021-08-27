@@ -46,15 +46,15 @@ public class GqlToLatexTest {
     public void testEqualsOperator() {
         String expectedResult = "\\begin{align*}\n" +
                 "    G &= syntheticGraph \\\\\n" +
-                "    \\chi_1 &= (x, \\emptyset, \\emptyset) \\\\\n" +
-                "    \\pi_1 &= \\chi_1 \\\\\n" +
+                "    \\chi_{1} &= (x, \\emptyset, \\emptyset) \\\\\n" +
+                "    \\pi_{1} &= \\chi_{1} \\\\\n" +
                 "    \\rel{1} &= \\rel{W} \\\\\n" +
                 "    \\Bar{\\pi} &= (\\pi_{1}) \\\\\n" +
                 "    \\rel &= (\\rel{1}) \\\\\n" +
                 "    T &= \\{()\\} \\\\\n" +
                 "    M_{1} &= \\sem{\\mathblue{MATCH } \\Bar{\\pi}}(T) = \\biguplus_{u \\in T} \\{u \\times u' \\mid u' \\in \\textsf{match}(\\Bar{\\pi}, G, u, \\rel{})\\} \\\\\n" +
                 "    M_{2} &= \\sem{\\mathblue{WHERE } \\texttt{x.age = 25}}(M_{1}) = \\{u \\in M_{1} \\mid \\semex{x.age = 25} = \\mathblue{true}\\} \\\\\n" +
-                "    Q_1 &= \\sem{\\mathblue{RETURN ALL } *}(M_2) = M_2 \\\\\n" +
+                "    Q_1 &= \\sem{\\mathblue{RETURN ALL } *}(M_{2}) = M_{2} \\\\\n" +
                 "\\end{align*}";
 
         GqlFileQueryEvaluator queryEvaluator = new GqlFileQueryEvaluator(queryTestsFolder + "/comparison_operators/equals_op.gql");
@@ -70,23 +70,23 @@ public class GqlToLatexTest {
     public void testExceptAll() {
         String expectedResult = "\\begin{align*}\n" +
                 "    G &= g3 \\\\\n" +
-                "    \\chi_1 &= (x, \\emptyset, \\emptyset) \\\\\n" +
-                "    \\pi_1 &= \\chi_1 \\\\\n" +
+                "    \\chi_{1} &= (x, \\emptyset, \\emptyset) \\\\\n" +
+                "    \\pi_{1} &= \\chi_{1} \\\\\n" +
                 "    \\rel{1} &= \\rel{W} \\\\\n" +
                 "    \\Bar{\\pi} &= (\\pi_{1}) \\\\\n" +
                 "    \\rel &= (\\rel{1}) \\\\\n" +
                 "    T &= \\{()\\} \\\\\n" +
                 "    M_{1} &= \\sem{\\mathblue{MATCH } \\Bar{\\pi}}(T) = \\biguplus_{u \\in T} \\{u \\times u' \\mid u' \\in \\textsf{match}(\\Bar{\\pi}, G, u, \\rel{})\\} \\\\\n" +
-                "    Q_1 &= \\sem{\\mathblue{RETURN ALL } x}(M_1) = \\biguplus_{u \\in M_1} \\{(x: \\semex{x})\\} \\\\\n" +
+                "    Q_1 &= \\sem{\\mathblue{RETURN ALL } x}(M_{1}) = \\biguplus_{u \\in M_{1}} \\{(x: \\semex{x})\\} \\\\\n" +
                 "    G &= g3 \\\\\n" +
-                "    \\chi_2 &= (x, \\{\\{Professor\\}\\}, \\emptyset) \\\\\n" +
-                "    \\pi_2 &= \\chi_2 \\\\\n" +
+                "    \\chi_{2} &= (x, \\{\\{Professor\\}\\}, \\emptyset) \\\\\n" +
+                "    \\pi_{2} &= \\chi_{2} \\\\\n" +
                 "    \\rel{2} &= \\rel{W} \\\\\n" +
                 "    \\Bar{\\pi} &= (\\pi_{2}) \\\\\n" +
                 "    \\rel &= (\\rel{2}) \\\\\n" +
                 "    T &= \\{()\\} \\\\\n" +
                 "    M_{1} &= \\sem{\\mathblue{MATCH } \\Bar{\\pi}}(T) = \\biguplus_{u \\in T} \\{u \\times u' \\mid u' \\in \\textsf{match}(\\Bar{\\pi}, G, u, \\rel{})\\} \\\\\n" +
-                "    Q_2 &= \\sem{\\mathblue{RETURN ALL } *}(M_1) = M_1 \\\\\n" +
+                "    Q_2 &= \\sem{\\mathblue{RETURN ALL } *}(M_{1}) = M_{1} \\\\\n" +
                 "    Q_{1, 2} &= \\sem{Q_{1} \\mathblue{ EXCEPT ALL }Q_2}(T) = Q_{1} - Q_2 \\\\\n" +
                 "\\end{align*}";
 
@@ -103,8 +103,8 @@ public class GqlToLatexTest {
     public void testLargeAlgebra() {
         String expectedResult = "\\begin{align*}\n" +
                 "    G &= g \\\\\n" +
-                "    \\chi_1 &= (x, \\{\\{test\\}\\}, \\{(normal: \"test\"), (test: 1)\\}) \\\\\n" +
-                "    \\pi_1 &= \\chi_1 \\\\\n" +
+                "    \\chi_{1} &= (x, \\{\\{test\\}\\}, \\{(normal: \"test\"), (test: 1)\\}) \\\\\n" +
+                "    \\pi_{1} &= \\chi_{1} \\\\\n" +
                 "    \\rel{1} &= \\rel{S} \\\\\n" +
                 "    \\Bar{\\pi} &= (\\pi_{1}) \\\\\n" +
                 "    \\rel &= (\\rel{1}) \\\\\n" +
@@ -117,10 +117,10 @@ public class GqlToLatexTest {
                 "        \\text{Not valid} & \\text{otherwise}\n" +
                 "    \\end{cases} \\\\\n" +
                 "    G &= g \\\\\n" +
-                "    \\chi_2 &= (y, \\{\\{test, \\%\\}\\}, \\emptyset) \\\\\n" +
-                "    \\rho_1 &= (-, e, \\emptyset, \\emptyset, (1, 1)) \\\\\n" +
-                "    \\chi_3 &= (z, \\emptyset, \\emptyset) \\\\\n" +
-                "    \\pi_2 &= \\chi_2 \\rho_1\\chi_3 \\\\\n" +
+                "    \\chi_{2} &= (y, \\{\\{test, \\%\\}\\}, \\emptyset) \\\\\n" +
+                "    \\rho_{1} &= (-, e, \\emptyset, \\emptyset, (1, 1)) \\\\\n" +
+                "    \\chi_{3} &= (z, \\emptyset, \\emptyset) \\\\\n" +
+                "    \\pi_{2} &= \\chi_{2} \\rho_{1}\\chi_{3} \\\\\n" +
                 "    \\rel{2} &= \\rel{T} \\\\\n" +
                 "    \\Bar{\\pi} &= (\\pi_{2}) \\\\\n" +
                 "    \\rel &= (\\rel{2}) \\\\\n" +
@@ -131,18 +131,18 @@ public class GqlToLatexTest {
                 "        \\sem{\\mathblue{MATCH } \\Bar{\\pi}\\mathblue{ WHERE } \\texttt{y = 1\\mathblue{ OR }y = 1}}(M_{5}) & \\text{if } \\sem{\\mathblue{MATCH } \\Bar{\\pi}\\mathblue{ WHERE } \\texttt{y = 1\\mathblue{ OR }y = 1}}(M_{5}) \\neq \\emptyset \\\\\n" +
                 "        \\underset{u \\in T}{\\biguplus} (u, (\\textsf{free}(u, \\Bar{\\pi}): \\mathblue{null})) & \\text{otherwise}\n" +
                 "    \\end{cases} \\\\\n" +
-                "    Q_1 &= \\sem{\\mathblue{RETURN ALL } x, y}(M_6) = \\biguplus_{u \\in M_6} \\{(x: \\semex{x}, y: \\semex{y})\\} \\\\\n" +
-                "    \\chi_4 &= (x, \\emptyset, \\emptyset) \\\\\n" +
-                "    \\pi_3 &= \\chi_4 \\\\\n" +
+                "    Q_1 &= \\sem{\\mathblue{RETURN ALL } x, y}(M_{6}) = \\biguplus_{u \\in M_{6}} \\{(x: \\semex{x}, y: \\semex{y})\\} \\\\\n" +
+                "    \\chi_{4} &= (x, \\emptyset, \\emptyset) \\\\\n" +
+                "    \\pi_{3} &= \\chi_{4} \\\\\n" +
                 "    \\rel{3} &= \\rel{W} \\\\\n" +
-                "    \\chi_5 &= (y, \\emptyset, \\emptyset) \\\\\n" +
-                "    \\pi_4 &= \\chi_5 \\\\\n" +
+                "    \\chi_{5} &= (y, \\emptyset, \\emptyset) \\\\\n" +
+                "    \\pi_{4} &= \\chi_{5} \\\\\n" +
                 "    \\rel{4} &= \\rel{W} \\\\\n" +
                 "    \\Bar{\\pi} &= (\\pi_{3}, \\pi_{4}) \\\\\n" +
                 "    \\rel &= (\\rel{3}, \\rel{4}) \\\\\n" +
                 "    T &= \\{()\\} \\\\\n" +
                 "    M_{1} &= \\sem{\\mathblue{MATCH } \\Bar{\\pi}}(T) = \\biguplus_{u \\in T} \\{u \\times u' \\mid u' \\in \\textsf{match}(\\Bar{\\pi}, G, u, \\rel{})\\} \\\\\n" +
-                "    Q_2 &= \\sem{\\mathblue{RETURN ALL } *}(M_1) = M_1 \\\\\n" +
+                "    Q_2 &= \\sem{\\mathblue{RETURN ALL } *}(M_{1}) = M_{1} \\\\\n" +
                 "    Q_{1, 2} &= \\sem{Q_{1} \\mathblue{ UNION ALL }Q_2}(T) = Q_{1} \\biguplus Q_2 \\\\\n" +
                 "\\end{align*}";
 
