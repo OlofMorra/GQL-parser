@@ -52,4 +52,9 @@ public abstract class Value extends Expression {
 
         return false;
     }
+
+    @Override
+    public String toLatex() {
+        return toString();
+    }
 }

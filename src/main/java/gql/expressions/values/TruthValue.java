@@ -78,4 +78,9 @@ public class TruthValue extends Value {
     public String toString() {
         return truthValue.name();
     }
+
+    @Override
+    public String toLatex() {
+        return "\\mathblue{" + this + "}";
+    }
 }

@@ -23,6 +23,30 @@ In the folder [src/test/resources/queries/gql](src/test/resources/queries/gql) y
 from the report and test queries which show the syntax of GQL in some detail.
 
 ---
+## Algebra output
+Besides the normal query output, it is also possible to obtain a algebraic formalization of the given query. 
+This algebra is formalized by me and can be found in 
+[A Semantics of GQL; a New Query Language forProperty Graphs Formalized](src/main/resources/report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf).
+
+For both execution methods you must add the flag `-a` to `-Dexec.args` at the end. The algebra output can be
+found in the console. In order to see the formalization, copy the printed output (starting with "\begin{align*}" 
+and ending with "\end{align*}") to [Algebra template.tex](src/main/resources/Latex/Algebra%20template.tex) in the 
+document section. Additionally, you must use a Latex compiler (such as [Overleaf](https://www.overleaf.com)) to 
+render a PDF with the algebra.
+
+An example output with algebra can be obtained with the following command:
+* `mvn exec:java -Dexec.mainClass="GqlApp" -e -Dexec.args="/gql/tests/conjunctions/union_all.gql" -a`
+  * Executes the query found in the [union_all.gql](src/test/resources/queries/gql/test/conjunctions/union_all.gql)
+    file
+  * Output the formal algebra of the query found in the [union_all.gql](src/test/resources/queries/gql/test/conjunctions/union_all.gql)
+    file
+
+Generating the formalization of each query that is given by the user can be done by the following command:
+* `mvn exec:java -Dexec.mainClass="GqlApp" -e -Dexec.args="-q -a"`
+  * Asks the user for a query and executes the query and outputs the algebra when `execute` is entered. 
+    This process is continued until `Ctrl+c` is entered.
+
+---
 ## Data
 Queries are executed on property graphs. In this project multiple property graphs are given via .json files. All graphs in
 [src/main/resources/database](src/main/resources/database) come from my report and contain valid data.

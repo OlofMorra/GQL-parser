@@ -18,5 +18,18 @@ public enum Direction {
         public String toString() {
             return "-";
         }
+    };
+
+    public String toLatex() {
+        switch (this) {
+            case LEFT_TO_RIGHT:
+                return "\\rightarrow";
+            case RIGHT_TO_LEFT:
+                return "\\leftarrow";
+            case UNDIRECTED:
+                return "-";
+            default:
+                return "";
+        }
     }
 }

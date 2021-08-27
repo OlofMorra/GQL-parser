@@ -88,4 +88,16 @@ public class NodePattern extends ElementPattern {
 
         return true;
     }
+
+    @Override
+    public String toLatex() {
+        String id = getIdLatex();
+        String labels = getLabelLatex();
+        String properties = getPropertyLatex();
+
+        if (labels.equals("\\{\\}")) labels = "\\emptyset";
+        if (properties.equals("\\{\\}")) properties = "\\emptyset";
+
+        return "(" + id + ", " + labels + ", " + properties + ")";
+    }
 }

@@ -11,6 +11,11 @@ public class WildcardLabel extends Label {
     }
 
     @Override
+    public String toLatex() {
+        return "\\%";
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;

@@ -1,0 +1,54 @@
+\documentclass[fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{listings}
+\usepackage{semantic}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{fancyvrb}
+\usepackage{textcomp}
+\usepackage{adjustbox}
+\usepackage{stmaryrd}
+
+\renewcommand{\arraystretch}{1.2}
+
+\newcommand{\rel}[1]{ \vDash_{#1}}
+
+\newcommand{\sem}[1]{\llbracket #1 \rrbracket_{D,G}}
+\newcommand{\semex}[1]{\llbracket #1 \rrbracket_{D,G,u}}
+\newcommand{\til}{\raisebox{0.6ex}{\textcolor{black}{\textbf{\texttildelow}}}}
+
+% colors
+\definecolor{GQLBlue}{RGB}{4,0,127}
+
+\newcommand\bluetext[1]{{\allowbreak\bluetextcolor{#1}}}
+\newcommand{\mathblue}[1]{\textsf{\bluetext{#1}}}
+
+\newcommand\bluetextcolor[1]{{\textcolor{GQLBlue}{%
+    \large\ttfamily\bfseries{\detokenize{#1}}}}}
+\def\mystrut{\rule[\dimexpr-\dp\strutbox+\fboxsep]{0pt}{%
+    \dimexpr\normalbaselineskip-2\fboxsep}}
+\def\grayspace{\hspace{0pt minus \fboxsep}}
+
+
+\lstdefinestyle{customc}{
+    belowcaptionskip=1\baselineskip,
+    breaklines=true,
+    frame=none,
+    basicstyle=\normalsize\ttfamily\color[RGB]{50,50,50},
+    keywordstyle=\color[RGB]{4,0,127},
+    commentstyle=\itshape\color{green!40!black},
+    mathescape=true,
+    extendedchars=true,
+    columns=fullflexible,
+    escapeinside=''
+}
+
+\lstset{style=customc}
+
+\begin{document}
+    %%%%%%%%%%%%%%%%%%%%%
+    %% COPY QUERY HERE %%
+    %%%%%%%%%%%%%%%%%%%%%
+\end{document}

@@ -1,5 +1,3 @@
-import exceptions.SemanticErrorException;
-import exceptions.SyntaxErrorException;
 import gql.GqlFileQueryEvaluator;
 import gql.GqlQueryEvaluator;
 import gql.GqlUserInputQueryEvaluator;
@@ -8,17 +6,22 @@ import gql.tables.BindingTable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class GqlApp
 {
+    private static boolean OUTPUT_ALGEBRA = false;
+
     public static void main(String[] args) throws Exception {
         try {
             String testQueryFolder = "/src/test/resources/queries/";
 
-            checkForSingleInputArgument(args, testQueryFolder);
+            OUTPUT_ALGEBRA = containsAlgebraOutputFlag(args);
 
-            if (isInputFlag(args)) {
+            if (containsCustomInputFlag(args)) {
                 handleUserInputQueries();
             } else {
                 handleFileInputQuery(args, testQueryFolder);
@@ -39,6 +42,7 @@ public class GqlApp
     private static void handleUserInputQuery() {
         try {
             GqlQueryEvaluator gqlQueryEvaluator = getGqlUserInputQueryEvaluator();
+            if (OUTPUT_ALGEBRA) handleOutputAlgebra(gqlQueryEvaluator);
 
             BindingTable result = gqlQueryEvaluator.getEvaluationResult();
             result.printToConsole();
@@ -49,13 +53,24 @@ public class GqlApp
 
     private static void handleFileInputQuery(String[] args, String testQueryFolder) {
         GqlQueryEvaluator gqlQueryEvaluator = getGqlFileQueryEvaluator(args, testQueryFolder);
+        if (OUTPUT_ALGEBRA) handleOutputAlgebra(gqlQueryEvaluator);
 
         BindingTable result = gqlQueryEvaluator.getEvaluationResult();
         result.printToConsole();
+
     }
 
-    private static boolean isInputFlag(String[] args) {
-        return args[0].equals("-q");
+    private static void handleOutputAlgebra(GqlQueryEvaluator gqlQueryEvaluator) {
+        System.out.println("Algebra of given query, add it to the Latex file and compile with Latex compiler.");
+        System.out.println(gqlQueryEvaluator.getLatexResult());
+    }
+
+    private static boolean containsCustomInputFlag(String[] args) {
+        return Arrays.asList(args).contains("-q");
+    }
+
+    private static boolean containsAlgebraOutputFlag(String[] args) {
+        return Arrays.asList(args).contains("-a");
     }
 
     private static GqlUserInputQueryEvaluator getGqlUserInputQueryEvaluator() {
@@ -116,12 +131,6 @@ public class GqlApp
         checkIfFileExists(args[0], testQueryFolder);
 
         return testQueryFolder + args[0];
-    }
-
-    private static void checkForSingleInputArgument(String[] args, String testQueryFolder) throws IllegalArgumentException {
-        if (args.length != 1) {
-            throw new IllegalArgumentException("Usage: file path including file name from " +  testQueryFolder + " folder or the flag -q.");
-        }
     }
 
     private static void checkIfFileExists(String arg, String testQueryFolder) throws FileNotFoundException {

@@ -26,4 +26,9 @@ public class NegatedExpression extends ComparisonExpression {
     public String toString() {
         return "NOT " + expression.toString();
     }
+
+    @Override
+    public String toLatex() {
+        return "\\mathblue{NOT }" + expression.toLatex();
+    }
 }

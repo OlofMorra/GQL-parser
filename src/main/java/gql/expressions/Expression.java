@@ -9,8 +9,8 @@ import gql.expressions.values.GqlString;
 import gql.expressions.values.TruthValue;
 
 public abstract class Expression {
-    @Override
     public abstract String toString();
+    public abstract String toLatex();
 
     protected boolean isNotBooleanExpression(Expression expression) {
         return !isComparisonExpression(expression) && !isTruthValue(expression) && !isPropertyReference(expression);

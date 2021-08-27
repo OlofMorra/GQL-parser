@@ -22,13 +22,12 @@ public class PathPatternExpressionVisitor extends GqlParserBaseVisitor {
 
     @Override
     public PathPattern visitPathPatternExpression(PathPatternExpressionContext ctx) {
-        // TODO: implement path conjunction correctly
-        return visitPathTerm(ctx.pathTerm(0));
+        return visitPathTerm(ctx.pathTerm());
     }
 
     @Override
     public PathPattern visitPathTerm(PathTermContext ctx) {
-        if (ctx.path() == null) throw new NotImplementedException("A parenthesized path pattern expression should be rewritten");
+        if (ctx.path() == null) throw new NotImplementedException("A parenthesized path pattern expression should be rewritten.");
 
         return visitPath(ctx.path());
     }

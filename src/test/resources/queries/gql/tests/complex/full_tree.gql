@@ -1,3 +1,4 @@
+// Cannot be evaluated or converted to algebra
 FROM g
 MANDATORY MATCH p = SIMPLE (x :test {test:1, normal:"test"}) | (x:test {test:2})
 WHERE x = 1

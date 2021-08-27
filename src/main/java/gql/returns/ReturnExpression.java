@@ -30,6 +30,10 @@ public class ReturnExpression extends ReturnItem {
         return name;
     }
 
+    public Expression getExpression() {
+        return expression;
+    }
+
     public Value getValueFrom(Record record) {
         if (expression instanceof ComparisonExpression) return ((ComparisonExpression) expression).evaluateOn(record);
         if (expression instanceof PropertyReference) return ((PropertyReference) expression).getValueFrom(record);
@@ -43,5 +47,11 @@ public class ReturnExpression extends ReturnItem {
     public String toString() {
         if (name == null) return expression.toString();
         return expression.toString() + " AS " + name;
+    }
+
+    @Override
+    public String toLatex() {
+        if (name == null) return expression.toLatex();
+        return expression.toLatex() + "\\mathblue{ AS }" + name;
     }
 }

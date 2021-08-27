@@ -54,17 +54,9 @@ public class EdgePattern extends ElementPattern {
         boolean labelsMatch = true;
         boolean propertiesMatch = true;
 
-        if (this.isDirected() != edge.isDirected()) {
-            return false;
-        }
-
-        if (hasLabels()) {
-            labelsMatch = matchLabels(edge.getLabels());
-        }
-
-        if (hasProperties()) {
-            propertiesMatch = matchProperties(edge.getProperties());
-        }
+        if (this.isDirected() != edge.isDirected()) return false;
+        if (hasLabels()) labelsMatch = matchLabels(edge.getLabels());
+        if (hasProperties()) propertiesMatch = matchProperties(edge.getProperties());
 
         return labelsMatch && propertiesMatch;
     }
@@ -75,7 +67,7 @@ public class EdgePattern extends ElementPattern {
 
     @Override
     public String toString() {
-        String direction = getDirectionString();
+        String direction = this.direction.toString();
         String id = getIdString();
         String labels = getLabelString();
         String properties = getPropertyString();
@@ -84,17 +76,18 @@ public class EdgePattern extends ElementPattern {
         return "(" + direction + ", " + id + ", " + labels + ", " + properties + ", " + quantifier + ")";
     }
 
-    private String getDirectionString() {
-        switch (this.direction) {
-            case UNDIRECTED:
-                return "-";
-            case LEFT_TO_RIGHT:
-                return "->";
-            case RIGHT_TO_LEFT:
-                return "<-";
-            default:
-                return "";
-        }
+    @Override
+    public String toLatex() {
+        String direction = this.direction.toLatex();
+        String id = getIdLatex();
+        String labels = getLabelLatex();
+        String properties = getPropertyLatex();
+        String quantifier = getQuantifierString();
+
+        if (labels.equals("\\{\\}")) labels = "\\emptyset";
+        if (properties.equals("\\{\\}")) properties = "\\emptyset";
+
+        return "(" + direction + ", " + id + ", " + labels + ", " + properties + ", " + quantifier + ")";
     }
 
     private String getQuantifierString() {

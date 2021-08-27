@@ -28,4 +28,8 @@ public class Label {
     public String toString() {
         return this.label.toString();
     }
+
+    public String toLatex() {
+        return this.label.toString();
+    }
 }

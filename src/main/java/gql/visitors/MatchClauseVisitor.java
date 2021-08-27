@@ -57,7 +57,7 @@ public class MatchClauseVisitor extends GqlParserBaseVisitor<BindingTable> {
         return pathPattern.match(getEvaluationMode(ctx.pathPatternPrefix()));
     }
 
-    private EvaluationMode getEvaluationMode(PathPatternPrefixContext ctx) {
+    public EvaluationMode getEvaluationMode(PathPatternPrefixContext ctx) {
         if (ctx == null) return EvaluationMode.WALK;
 
         if (ctx.ACYCLIC() != null) {

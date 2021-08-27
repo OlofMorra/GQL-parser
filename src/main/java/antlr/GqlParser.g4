@@ -25,7 +25,7 @@ queryExpression
     ;
 
 focusedQueryExpression
-    : (focusedMatchClause)+ returnStatement
+    : focusedMatchClause+ returnStatement
     ;
 
 ambientQueryExpression
@@ -144,10 +144,10 @@ expr
     : value                                 # ValueExpression
     | name                                  # NameExpression
     | name PERIOD key                       # PropertyReference
-    | expr comparator expr                  # ExpressionComparison
     | NOT expr                              # NegatedExpression
     | expr booleanComparator TRUTH_VALUE    # BooleanComparison
     | expr compOp expr                      # ValueComparison
+    | expr comparator expr                  # ExpressionComparison
     ;
 
 isLabelExpr

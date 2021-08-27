@@ -1,0 +1,11 @@
+// Cannot be evaluated
+FROM g
+MANDATORY MATCH SIMPLE (x :test {test:1, normal:"test"})
+WHERE x = 1
+FROM g
+OPTIONAL MATCH TRAIL (y :test & %)~[e]~{1}(z)
+WHERE y = 1 OR y = 1
+RETURN x, y
+UNION ALL
+MATCH (x), (y)
+RETURN *

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class ReturnStatement {
     private SetQuantifier setQuantifier;
-    private ArrayList<ReturnItem> returnItemList;
+    private ArrayList<ReturnItem> returnItems;
     private boolean returnAll = false;
 
     public ReturnStatement(SetQuantifier setQuantifier,
@@ -22,7 +22,7 @@ public class ReturnStatement {
         if (returnItemList.contains(new Asterisk())) throw new SemanticErrorException("If an asterisk is in the return statement, no other return items may be present.");
 
         this.setQuantifier = setQuantifier;
-        this.returnItemList = returnItemList;
+        this.returnItems = returnItemList;
     }
 
     public BindingTable obtainResultFrom(BindingTable input) {
@@ -39,10 +39,10 @@ public class ReturnStatement {
     }
 
     private String[] getNewDomain() {
-        String[] columnNames = new String[returnItemList.size()];
+        String[] columnNames = new String[returnItems.size()];
 
-        for (int i = 0; i < returnItemList.size(); i++) {
-            columnNames[i] = ((ReturnExpression) returnItemList.get(i)).getName().toString();
+        for (int i = 0; i < returnItems.size(); i++) {
+            columnNames[i] = ((ReturnExpression) returnItems.get(i)).getName().toString();
         }
 
         return columnNames;
@@ -66,18 +66,30 @@ public class ReturnStatement {
     }
 
     private Value[] getReferredValues(Record record) {
-        Value[] values = new Value[returnItemList.size()];
+        Value[] values = new Value[returnItems.size()];
 
-        for (int i = 0; i < returnItemList.size(); i++) {
-            ReturnExpression returnExpression = (ReturnExpression) returnItemList.get(i);
+        for (int i = 0; i < returnItems.size(); i++) {
+            ReturnExpression returnExpression = (ReturnExpression) returnItems.get(i);
             values[i] = returnExpression.getValueFrom(record);
         }
 
         return values;
     }
 
+    public SetQuantifier getSetQuantifier() {
+        return setQuantifier;
+    }
+
+    public boolean isDistinct() {
+        return setQuantifier == SetQuantifier.DISTINCT;
+    }
+
+    public ArrayList<ReturnItem> getReturnItems() {
+        return returnItems;
+    }
+
     @Override
     public String toString() {
-        return " RETURN " + setQuantifier.toString() + " " + returnItemList.toString();
+        return " RETURN " + setQuantifier.toString() + " " + returnItems.toString();
     }
 }

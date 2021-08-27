@@ -107,7 +107,7 @@ public class GqlVisitor extends GqlParserBaseVisitor<BindingTable> {
         throw new SemanticErrorException("Conjunction method " + conjunctionMethod + " does not exist.");
     }
 
-    private QueryConjunctor getQueryConjunctor(QueryConjunctionContext ctx) {
+    public QueryConjunctor getQueryConjunctor(QueryConjunctionContext ctx) {
         if (ctx.OTHERWISE() != null) return QueryConjunctor.OTHERWISE;
 
         if (ctx.setOperator().unionOperator() != null) {

@@ -82,4 +82,9 @@ public class ValueComparison extends ComparisonExpression {
     public String toString() {
         return left.toString() + " " + comparator.toString() + " " + right.toString();
     }
+
+    @Override
+    public String toLatex() {
+        return left.toLatex() + " " + comparator.toString() + " " + right.toLatex();
+    }
 }

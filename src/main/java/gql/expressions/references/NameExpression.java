@@ -36,4 +36,9 @@ public class NameExpression extends Expression {
     public String toString() {
         return name.toString();
     }
+
+    @Override
+    public String toLatex() {
+        return toString();
+    }
 }

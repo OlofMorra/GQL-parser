@@ -32,4 +32,9 @@ public class PropertyReference extends Expression {
     public String toString() {
         return name.toString() + "." + key.toString();
     }
+
+    @Override
+    public String toLatex() {
+        return toString();
+    }
 }

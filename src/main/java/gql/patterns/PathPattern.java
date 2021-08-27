@@ -149,6 +149,10 @@ public class PathPattern {
         return (String[]) ArrayUtils.addAll(leftColumnNames, rightColumnNames);
     }
 
+    public ArrayList<ElementPattern> getPathSequence() {
+        return pathSequence.getPathSequence();
+    }
+
     @Override
     public String toString() {
         return pathSequence.toString();

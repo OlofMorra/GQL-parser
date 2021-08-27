@@ -16,6 +16,7 @@ public abstract class ElementPattern {
     int patternIndex = 0;
 
     public abstract BindingTable match();
+    public abstract String toLatex();
 
     public void setVariableName(VariableName variableName) {
         this.variableName = variableName;
@@ -84,52 +85,80 @@ public abstract class ElementPattern {
         return this.variableName.toString();
     }
 
+    protected String getIdLatex() {
+        return getIdString();
+    }
+
     protected String getLabelString() {
-        String labelString = "{}";
+        if (this.labels == null || this.labels.isEmpty()) return "{}";
 
-        if (this.labels == null || this.labels.isEmpty()) {
-            return labelString;
-        }
+        String labelString = "{";
 
-        labelString = "{";
         for (ArrayList<Label> labelSet: this.labels) {
             labelString = labelString.concat(getLabelSetString(labelSet) + ", ");
         }
-        labelString = labelString.substring(0, labelString.length() - 2).concat("}");
 
-        return labelString;
+        return labelString.substring(0, labelString.length() - 2).concat("}");
+    }
+
+    protected String getLabelLatex() {
+        if (this.labels == null || this.labels.isEmpty()) return "\\{\\}";
+
+        String labelString = "\\{";
+
+        for (ArrayList<Label> labelSet: this.labels) {
+            labelString = labelString.concat(getLabelSetLatex(labelSet) + ", ");
+        }
+
+        return labelString.substring(0, labelString.length() - 2).concat("\\}");
     }
 
     protected String getLabelSetString(ArrayList<Label> labelSet) {
-        String labelSetString = "{}";
+        if (labelSet == null || labelSet.isEmpty()) return "{}";
 
-        if (labelSet == null || labelSet.isEmpty()) {
-            return labelSetString;
-        }
+        String labelSetString = "{";
 
-        labelSetString = "{";
         for (Label label: labelSet) {
             labelSetString = labelSetString.concat(label + ", ");
         }
-        labelSetString = labelSetString.substring(0, labelSetString.length() - 2).concat("}");
 
-        return labelSetString;
+        return labelSetString.substring(0, labelSetString.length() - 2).concat("}");
+    }
+
+    protected String getLabelSetLatex(ArrayList<Label> labelSet) {
+        if (labelSet == null || labelSet.isEmpty()) return "\\{\\}";
+
+        String labelSetString = "\\{";
+
+        for (Label label: labelSet) {
+            labelSetString = labelSetString.concat(label.toLatex() + ", ");
+        }
+
+        return labelSetString.substring(0, labelSetString.length() - 2).concat("\\}");
     }
 
     protected String getPropertyString() {
-        String propertyString = "{}";
+        if (this.properties == null || this.properties.isEmpty()) return "{}";
 
-        if (this.properties == null || this.properties.isEmpty()) {
-            return propertyString;
-        }
+        String propertyString = "{";
 
-        propertyString = "{";
         for (GqlIdentifier key: this.properties.keySet()) {
             propertyString = propertyString.concat("(" + key + ": " + this.properties.get(key).toString() + "), ");
         }
-        propertyString = propertyString.substring(0, propertyString.length() - 2).concat("}");
 
-        return propertyString;
+        return propertyString.substring(0, propertyString.length() - 2).concat("}");
+    }
+
+    protected String getPropertyLatex() {
+        if (this.properties == null || this.properties.isEmpty()) return "\\{\\}";
+
+        String propertyString = "\\{";
+
+        for (GqlIdentifier key: this.properties.keySet()) {
+            propertyString = propertyString.concat("(" + key.toLatex() + ": " + this.properties.get(key).toLatex() + "), ");
+        }
+
+        return propertyString.substring(0, propertyString.length() - 2).concat("\\}");
     }
 
     public void setPatternIndex(int newPatternIndex) {

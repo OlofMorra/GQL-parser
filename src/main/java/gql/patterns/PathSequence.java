@@ -65,4 +65,8 @@ public class PathSequence {
     public int size() {
         return this.pathSequence.size();
     }
+
+    public ArrayList<ElementPattern> getPathSequence() {
+        return pathSequence;
+    }
 }
