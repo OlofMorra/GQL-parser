@@ -53,12 +53,16 @@ public class GqlApp
     }
 
     private static void handleFileInputQuery(String[] args, String testQueryFolder) {
-        GqlQueryEvaluator gqlQueryEvaluator = getGqlFileQueryEvaluator(args, testQueryFolder);
-        if (OUTPUT_ALGEBRA) handleOutputAlgebra(gqlQueryEvaluator);
+        try {
+            GqlQueryEvaluator gqlQueryEvaluator = getGqlFileQueryEvaluator(args, testQueryFolder);
+            if (OUTPUT_ALGEBRA) handleOutputAlgebra(gqlQueryEvaluator);
 
-        BindingTable result = gqlQueryEvaluator.getEvaluationResult();
-        result.printToConsole();
-
+            System.out.println("\nExecuting the query.");
+            BindingTable result = gqlQueryEvaluator.getEvaluationResult();
+            result.printToConsole();
+        } catch (IllegalStateException exception) {
+            System.err.println(exception.getMessage());
+        }
     }
 
     private static void handleOutputAlgebra(GqlQueryEvaluator gqlQueryEvaluator) {
