@@ -1,0 +1,7 @@
+FROM g3
+MANDATORY MATCH TRAIL (x)-[]->(),
+ACYCLIC (y IS Person)<-[]-{1}(),
+SIMPLE (x {name:"George Fletcher"}),
+WALK (x:%)~[z]~()~[]~()
+WHERE x.name = y.name AND FALSE IS NOT TRUE
+RETURN DISTINCT x.name AS name, y.employer AS employed_by
