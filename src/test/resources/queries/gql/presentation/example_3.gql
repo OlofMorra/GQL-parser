@@ -1,0 +1,5 @@
+// FROM clause not on slides, but needed to execute the query on the correct graph
+FROM g3
+MATCH WALK (x)-[IS Does]->(:Internship)
+WHERE x.name = "Olof Morra" AND x.id = "n85"
+RETURN *

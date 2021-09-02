@@ -1,0 +1,6 @@
+FROM g3
+MATCH (x)
+RETURN *
+EXCEPT ALL
+MATCH (y:Person)
+RETURN y AS x

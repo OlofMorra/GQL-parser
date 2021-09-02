@@ -1,0 +1,4 @@
+FROM g3
+MATCH ACYCLIC (a)<-[b {in_semester: 2}]-(c)
+WHERE c.name <> "George Fletcher"
+RETURN b

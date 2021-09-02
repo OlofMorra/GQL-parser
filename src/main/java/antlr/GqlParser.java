@@ -2118,11 +2118,11 @@ public class GqlParser extends Parser {
 						_localctx = new ValueComparisonContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(288);
-						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(289);
 						compOp();
 						setState(290);
-						expr(3);
+						expr(4);
 						}
 						break;
 					case 2:
@@ -2142,7 +2142,7 @@ public class GqlParser extends Parser {
 						_localctx = new BooleanComparisonContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(296);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 						setState(297);
 						booleanComparator();
 						setState(298);
@@ -2999,11 +2999,11 @@ public class GqlParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 2);
+			return precpred(_ctx, 3);
 		case 1:
 			return precpred(_ctx, 1);
 		case 2:
-			return precpred(_ctx, 3);
+			return precpred(_ctx, 2);
 		}
 		return true;
 	}
@@ -3108,9 +3108,9 @@ public class GqlParser extends Parser {
 		"\5\\/\2\u0119\u0121\5Z.\2\u011a\u011b\5Z.\2\u011b\u011c\7\u013c\2\2\u011c"+
 		"\u011d\5b\62\2\u011d\u0121\3\2\2\2\u011e\u011f\7\u0090\2\2\u011f\u0121"+
 		"\5> \6\u0120\u0117\3\2\2\2\u0120\u0119\3\2\2\2\u0120\u011a\3\2\2\2\u0120"+
-		"\u011e\3\2\2\2\u0121\u0130\3\2\2\2\u0122\u0123\f\4\2\2\u0123\u0124\5V"+
-		",\2\u0124\u0125\5> \5\u0125\u012f\3\2\2\2\u0126\u0127\f\3\2\2\u0127\u0128"+
-		"\5R*\2\u0128\u0129\5> \4\u0129\u012f\3\2\2\2\u012a\u012b\f\5\2\2\u012b"+
+		"\u011e\3\2\2\2\u0121\u0130\3\2\2\2\u0122\u0123\f\5\2\2\u0123\u0124\5V"+
+		",\2\u0124\u0125\5> \6\u0125\u012f\3\2\2\2\u0126\u0127\f\3\2\2\u0127\u0128"+
+		"\5R*\2\u0128\u0129\5> \4\u0129\u012f\3\2\2\2\u012a\u012b\f\4\2\2\u012b"+
 		"\u012c\5T+\2\u012c\u012d\7\f\2\2\u012d\u012f\3\2\2\2\u012e\u0122\3\2\2"+
 		"\2\u012e\u0126\3\2\2\2\u012e\u012a\3\2\2\2\u012f\u0132\3\2\2\2\u0130\u012e"+
 		"\3\2\2\2\u0130\u0131\3\2\2\2\u0131?\3\2\2\2\u0132\u0130\3\2\2\2\u0133"+

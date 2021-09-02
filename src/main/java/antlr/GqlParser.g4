@@ -145,8 +145,8 @@ expr
     | name                                  # NameExpression
     | name PERIOD key                       # PropertyReference
     | NOT expr                              # NegatedExpression
-    | expr booleanComparator TRUTH_VALUE    # BooleanComparison
     | expr compOp expr                      # ValueComparison
+    | expr booleanComparator TRUTH_VALUE    # BooleanComparison
     | expr comparator expr                  # ExpressionComparison
     ;
 
