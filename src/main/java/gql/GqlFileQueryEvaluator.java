@@ -20,8 +20,6 @@
 package gql;
 
 import antlr.GqlLexer;
-import antlr.GqlParser;
-import gql.tables.BindingTable;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 

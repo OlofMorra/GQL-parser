@@ -33,7 +33,7 @@ import org.junit.Test;
 
 import java.io.FileNotFoundException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class NegatedExpressionTest {
     TruthValue TRUE = new TruthValue(true);

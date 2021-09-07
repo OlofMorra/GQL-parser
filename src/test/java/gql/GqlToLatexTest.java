@@ -21,10 +21,7 @@ package gql;
 
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
-import gql.expressions.values.Value;
 import gql.graphs.WorkingGraph;
-import gql.tables.BindingTable;
-import gql.tables.Record;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

@@ -21,7 +21,6 @@ package gql.visitors;
 
 import antlr.GqlParser.*;
 import antlr.GqlParserBaseVisitor;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import gql.enums.QueryConjunctor;
 import gql.expressions.Expression;
 import gql.expressions.values.TruthValue;

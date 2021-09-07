@@ -35,7 +35,7 @@ import org.junit.rules.ExpectedException;
 import java.io.FileNotFoundException;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ValueComparisonTest {
     ValueComparator EQ = ValueComparator.EQ;

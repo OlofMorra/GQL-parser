@@ -20,19 +20,7 @@
 package gql.visitors;
 
 import antlr.GqlParser;
-import antlr.GqlParser.ExprContext;
-import antlr.GqlParser.ValueExpressionContext;
-import antlr.GqlParser.NameExpressionContext;
-import antlr.GqlParser.PropertyReferenceContext;
-import antlr.GqlParser.ExpressionComparisonContext;
-import antlr.GqlParser.NegatedExpressionContext;
-import antlr.GqlParser.BooleanComparisonContext;
-import antlr.GqlParser.ValueComparisonContext;
-import antlr.GqlParser.ValueContext;
-import antlr.GqlParser.ComparatorContext;
-import antlr.GqlParser.BooleanComparatorContext;
-import antlr.GqlParser.CompOpContext;
-
+import antlr.GqlParser.*;
 import antlr.GqlParserBaseVisitor;
 import exceptions.SemanticErrorException;
 import gql.enums.BooleanComparator;

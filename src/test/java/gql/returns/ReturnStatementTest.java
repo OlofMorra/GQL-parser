@@ -43,8 +43,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static org.junit.Assert.assertEquals;
-
 public class ReturnStatementTest implements BindingTableComparator {
     private final SetQuantifier ALL = SetQuantifier.ALL;
     private final SetQuantifier DISTINCT = SetQuantifier.DISTINCT;

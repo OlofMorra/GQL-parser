@@ -20,8 +20,8 @@
 package gql.tables;
 
 import exceptions.SemanticErrorException;
-import gql.expressions.values.GqlString;
 import gql.expressions.values.FixedPointNumber;
+import gql.expressions.values.GqlString;
 import gql.expressions.values.Value;
 import org.junit.Test;
 

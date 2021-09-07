@@ -19,9 +19,9 @@
 
 package json.workinggraph;
 
-import antlr.JsonGraphParserBaseVisitor;
 import antlr.JsonGraphParser;
 import antlr.JsonGraphParser.*;
+import antlr.JsonGraphParserBaseVisitor;
 import exceptions.InvalidEdgeFormatException;
 import exceptions.InvalidNodeFormatException;
 import gql.expressions.values.*;

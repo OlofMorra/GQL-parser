@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class GqlNodeTest {
     ArrayList<Label> labels = new ArrayList<Label>(Arrays.asList(
