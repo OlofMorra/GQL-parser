@@ -1,3 +1,4 @@
+// Slide 14
 FROM g3
 MANDATORY MATCH (x)
 RETURN DISTINCT x.name AS name

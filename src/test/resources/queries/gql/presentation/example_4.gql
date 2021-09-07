@@ -1,4 +1,6 @@
+// Slide 14
 // FROM clause not on slides, but needed to execute the query on the correct graph
 FROM g3
-OPTIONAL MATCH TRAIL (x)~[]~()
-RETURN ALL x.name = "Michael Schmidt" AS is_michael
+MATCH WALK (x)-[]->()
+WHERE x.name = "Olof Morra" AND x.id = "n85"
+RETURN *

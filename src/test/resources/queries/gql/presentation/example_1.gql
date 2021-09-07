@@ -1,3 +1,4 @@
+// Slide 13
 FROM g3
 MATCH (x:Person)
 RETURN *

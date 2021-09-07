@@ -1,6 +1,4 @@
+// Slide 14
 FROM g3
-MATCH (x)
-RETURN *
-EXCEPT ALL
-MATCH (y:Person)
-RETURN y AS x
+MATCH ACYCLIC ()<-[b {in_semester, 2}]-()
+RETURN b

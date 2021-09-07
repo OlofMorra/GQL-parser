@@ -1,3 +1,4 @@
+// Slide 14
 FROM g3
 MATCH SIMPLE ()-[:%]->{2}(a)
 RETURN a

@@ -1,0 +1,4 @@
+// Slide 22
+FROM g // Not on slide
+MATCH WALK (x)~[]~(y)~[]~(z)
+RETURN * // Not on slide

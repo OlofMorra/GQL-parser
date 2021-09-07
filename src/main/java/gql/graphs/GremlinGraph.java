@@ -20,6 +20,10 @@ import java.util.Map;
 
 import static org.apache.tinkerpop.gremlin.process.traversal.AnonymousTraversalSource.traversal;
 
+/**
+ * CURRENTLY NOT IN USE
+ */
+
 public class GremlinGraph extends gql.graphs.Graph {
     private static GremlinGraph instance;
     public GraphTraversalSource currentGraph;
