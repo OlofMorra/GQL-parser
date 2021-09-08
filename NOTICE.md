@@ -1,4 +1,4 @@
-Apache GQL parser
+GQL Parser
 
 Copyright 02-12-2020 The Apache Software Foundation
 

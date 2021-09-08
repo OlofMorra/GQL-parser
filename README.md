@@ -2,7 +2,7 @@
 A GQL parser build with ANTLR v4. This parser is build to support my internship research
 at University of Technology Eindhoven (TU/e). If you are interested in the report as well,
 you can find it 
-[here](src/main/resources/report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf).
+[here](src/main/resources/Report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf).
 
 ---
 ## Executing queries
@@ -29,7 +29,8 @@ from the report and test queries which show the syntax of GQL in some detail.
 ## Algebra output
 Besides the normal query output, it is also possible to obtain a algebraic formalization of the given query. 
 This algebra is formalized by me and can be found in 
-[A Semantics of GQL; a New Query Language forProperty Graphs Formalized](src/main/resources/report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf).
+[A Semantics of GQL; a New Query Language forProperty Graphs Formalized](src/main/resources/Report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf)
+and a example can be found in [the final presentation of my internship](src/main/resources/Presentation/Final_presentation_GQL.pdf).
 
 For both execution methods you must add the flag `-a` to `-Dexec.args` at the end. The algebra output can be
 found in the console. In order to see the formalization, copy the printed output (starting with "\begin{align*}" 
@@ -39,7 +40,7 @@ render a PDF with the algebra.
 
 An example output with algebra can be obtained with the following command:
 * `mvn exec:java -Dexec.mainClass="GqlApp" -e -Dexec.args="/gql/tests/conjunctions/union_all.gql" -a`
-  * Executes the query found in the [union_all.gql](src/test/resources/queries/gql/test/conjunctions/union_all.gql)
+  * Executes the query found in the [union_all.gql](src/test/resources/queries/gql/tests/conjunctions/union_all.gql)
     file
   * Output the formal algebra of the query found in the [union_all.gql](src/test/resources/queries/gql/test/conjunctions/union_all.gql)
     file
@@ -97,3 +98,15 @@ Below I describe how certain data types are parsed and what rules you must follo
 * Edges can have labels and/or properties
 * Edges can have a field *isDirected* which can be set to 0 (undirected) or 1 (directed),
   by default an edge is directed
+
+---
+## Writings
+For a more in depth review of the proposed semantics, one can read 
+[my internship report](src/main/resources/Report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf)
+or look at [my final presentation](src/main/resources/Presentation/Final_presentation_GQL.pdf).
+
+---
+## Contact
+If you have any feedback, questions or extensions to my work, you can contact me via the 
+following mail address:
+[o.h.morra@student.tue.nl](mailto:o.h.morra@student.tue.nl?subject=[GitHub]%20GQL%20Parser)
