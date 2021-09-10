@@ -1,5 +1,5 @@
 # GQL parser
-A GQL parser build with ANTLR v4. This parser is build to support my internship research
+A GQL parser built with ANTLR v4. This parser is built to support my internship research
 at University of Technology Eindhoven (TU/e). If you are interested in the report as well,
 you can find it 
 [here](src/main/resources/Report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf).
