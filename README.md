@@ -14,7 +14,7 @@ Now there are two ways to execute the program, the first allows you to run queri
 the query in your terminal (Mac) or Command Prompt (Windows).
 
 * `mvn exec:java -Dexec.mainClass="GqlApp" -e -Dexec.args="/gql/tests/conjunctions/union_all.gql"` 
-  * Executes the query found in the [union_all.gql](src/test/resources/queries/gql/test/conjunctions/union_all.gql)
+  * Executes the query found in the [union_all.gql](src/test/resources/queries/gql/tests/conjunctions/union_all.gql)
     file
 * `mvn exec:java -Dexec.mainClass="GqlApp" -e -Dexec.args="-q"`
   * Asks the user for a query and executes it when `execute` is entered. This process is continued until
@@ -29,7 +29,7 @@ from the report and test queries which show the syntax of GQL in some detail.
 ## Algebra output
 Besides the normal query output, it is also possible to obtain a algebraic formalization of the given query. 
 This algebra is formalized by me and can be found in 
-[A Semantics of GQL; a New Query Language forProperty Graphs Formalized](src/main/resources/Report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf)
+[A Semantics of GQL; a New Query Language for Property Graphs Formalized](src/main/resources/Report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf)
 and a example can be found in [the final presentation of my internship](src/main/resources/Presentation/Final_presentation_GQL.pdf).
 
 For both execution methods you must add the flag `-a` to `-Dexec.args` at the end. The algebra output can be
@@ -42,7 +42,7 @@ An example output with algebra can be obtained with the following command:
 * `mvn exec:java -Dexec.mainClass="GqlApp" -e -Dexec.args="/gql/tests/conjunctions/union_all.gql" -a`
   * Executes the query found in the [union_all.gql](src/test/resources/queries/gql/tests/conjunctions/union_all.gql)
     file
-  * Output the formal algebra of the query found in the [union_all.gql](src/test/resources/queries/gql/test/conjunctions/union_all.gql)
+  * Output the formal algebra of the query found in the [union_all.gql](src/test/resources/queries/gql/tests/conjunctions/union_all.gql)
     file
 
 Generating the formalization of each query that is given by the user can be done by the following command:
