@@ -2,7 +2,7 @@
 A GQL parser built with ANTLR v4. This parser is built to support my internship research
 at University of Technology Eindhoven (TU/e). If you are interested in the report as well,
 you can find it 
-[here](src/main/resources/Report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf).
+[here](src/main/resources/report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf).
 
 ---
 ## Executing queries
@@ -29,7 +29,7 @@ from the report and test queries which show the syntax of GQL in some detail.
 ## Algebra output
 Besides the normal query output, it is also possible to obtain a algebraic formalization of the given query. 
 This algebra is formalized by me and can be found in 
-[A Semantics of GQL; a New Query Language for Property Graphs Formalized](src/main/resources/Report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf)
+[A Semantics of GQL; a New Query Language for Property Graphs Formalized](src/main/resources/report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf)
 and a example can be found in [the final presentation of my internship](src/main/resources/Presentation/Final_presentation_GQL.pdf).
 
 For both execution methods you must add the flag `-a` to `-Dexec.args` at the end. The algebra output can be
@@ -102,7 +102,7 @@ Below I describe how certain data types are parsed and what rules you must follo
 ---
 ## Writings
 For a more in depth review of the proposed semantics, one can read 
-[my internship report](src/main/resources/Report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf)
+[my internship report](src/main/resources/report/A%20Semantics%20of%20GQL;%20a%20New%20Query%20Language%20forProperty%20Graphs%20Formalized.pdf)
 or look at [my final presentation](src/main/resources/Presentation/Final_presentation_GQL.pdf).
 
 ---
